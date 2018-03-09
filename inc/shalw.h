@@ -3,6 +3,7 @@ extern double *hFil, *uFil, *vFil, *hPhy, *uPhy, *vPhy;
 extern int size_x, size_y, nb_steps;
 extern double dx, dy, dt, pcor, grav, dissip, hmoy, alpha, height, epsilon;
 extern bool file_export;
+extern int my_rank,NP/*Nombre de processeur*/;
 extern std::string export_path;
 
 #define HFIL(t, i, j) hFil[ (j) +			\

@@ -1,6 +1,6 @@
-CXX=g++ -Wall -O3
+CXX=mpic++ -Wall -O3
 
-CPPFLAGS=-Iinc
+CPPFLAGS=-Iinc -g
 
 LDFLAGS=-lboost_program_options -lm
 

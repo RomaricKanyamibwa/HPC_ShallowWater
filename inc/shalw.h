@@ -1,9 +1,12 @@
 #include <string>
+#include <mpi.h>
+
 extern double *hFil, *uFil, *vFil, *hPhy, *uPhy, *vPhy;
-extern int size_x, size_y, nb_steps;
+extern int size_x, size_y, nb_steps,local_size_x;
+extern double *hFil_local, *uFil_local, *vFil_local, *hPhy_local, *uPhy_local, *vPhy_local;
 extern double dx, dy, dt, pcor, grav, dissip, hmoy, alpha, height, epsilon;
 extern bool file_export;
-extern int my_rank,NP/*Nombre de processeur*/;
+extern int my_rank,NP/*Nombre de processeur*/,root;
 extern std::string export_path;
 
 #define HFIL(t, i, j) hFil[ (j) +			\
@@ -22,5 +25,25 @@ extern std::string export_path;
 			    (i) * size_y +		\
 			    ((t)%2) * size_x * size_y ]
 #define VPHY(t, i, j) vPhy[ (j) +			\
+			    (i) * size_y +		\
+			    ((t)%2) * size_x * size_y ]
+//Macro Local
+
+#define HFIL_LOCAL(t, i, j) hFil_local[ (j) +			\
+			    (i) * size_y +		\
+			    ((t)%2) * size_x * size_y ]
+#define UFIL_LOCAL(t, i, j) uFil_local[ (j) +			\
+			    (i) * size_y +		\
+			    ((t)%2) * size_x * size_y ]
+#define VFIL_LOCAL(t, i, j) vFil_local[ (j) +			\
+			    (i) * size_y +		\
+			    ((t)%2) * size_x * size_y ]
+#define HPHY_LOCAL(t, i, j) hPhy_local[ (j) +			\
+			    (i) * size_y +		\
+			    ((t)%2) * size_x * size_y ]
+#define UPHY_LOCAL(t, i, j) uPhy_local[ (j) +			\
+			    (i) * size_y +		\
+			    ((t)%2) * size_x * size_y ]
+#define VPHY_LOCAL(t, i, j) vPhy_local[ (j) +			\
 			    (i) * size_y +		\
 			    ((t)%2) * size_x * size_y ]

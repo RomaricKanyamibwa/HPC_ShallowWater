@@ -3,6 +3,12 @@
 #include <shalw.h>
 #include <export.h>
 
+#define TAG_MESSAGE
+#ifdef TAG_MESSAGE
+#define TAG_LAST 0
+#define TAG_FIRST 1
+#endif /* #ifdef TAG_MESSAGE */
+
 double hFil_forward(int t, int i, int j) {
   //Phase d'initialisation du filtre
   //HPHY(t - 1, i, j) est encore nul
@@ -32,7 +38,7 @@ double vFil_forward(int t, int i, int j) {
 
 double hPhy_forward(int t, int i, int j) {
   double c, d;
-  
+
   c = 0.;
   if (i > 0)
     c = UPHY(t - 1, i - 1, j);
@@ -48,7 +54,7 @@ double hPhy_forward(int t, int i, int j) {
 
 double uPhy_forward(int t, int i, int j) {
   double b, e, f, g;
-  
+
   if (i == size_x - 1)
     return 0.;
 
@@ -105,13 +111,15 @@ double vPhy_forward(int t, int i, int j) {
 void forward(void) {
   FILE *file = NULL;
   double svdt = 0.;
-  int t = 0;
-  
+  int t = 0,k;
+  MPI_Status status;
+  int mpi_ret_type;
+
   if (file_export) {
     file = create_file();
     export_step(file, t);
   }
-    
+
   for (t = 1; t < nb_steps; t++) {
     if (t == 1) {
       svdt = dt;
@@ -120,22 +128,37 @@ void forward(void) {
     if (t == 2){
       dt = svdt / 2.;
     }
+     *uFil_local, *vFil_local, *hPhy_local, *uPhy_local, *vPhy_local;
+
+    for(k=-1;k<1;k++)
+    {
+        if(my_rank!=0)
+        {
+            mpi_ret_type = MPI_Sendrecv(&HPHY_LOCAL(t + k,1, 0),size_y, MPI_DOUBLE, my_rank-1,TAG_LAST
+            ,&HPHY_LOCAL(t + k,0, 0),size_y, MPI_DOUBLE,my_rank-1,TAG_FIRST, MPI_Comm_WORLD,&status);
+        }
+        if(my_rank!=NP-1)
+        {
+            mpi_ret_type = MPI_Sendrecv(&HPHY_LOCAL(t + k,local_size_x-2, 0),size_y, MPI_DOUBLE, my_rank+1,TAG_LAST
+            ,&HPHY_LOCAL(t + k,local_size_x-1, 0),size_y, MPI_DOUBLE,my_rank+1,TAG_FIRST, MPI_Comm_WORLD,&status);
+        }
+    }
 
     for (int j = 0; j < size_y; j++) {
       for (int i = 0; i < size_x; i++) {
-	HPHY(t, i, j) = hPhy_forward(t, i, j);
-	UPHY(t, i, j) = uPhy_forward(t, i, j);
-	VPHY(t, i, j) = vPhy_forward(t, i, j);
-	HFIL(t, i, j) = hFil_forward(t, i, j);
-	UFIL(t, i, j) = uFil_forward(t, i, j);
-	VFIL(t, i, j) = vFil_forward(t, i, j);
+        HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
+        UPHY_LOCAL(t, i, j) = uPhy_forward(t, i, j);
+        VPHY_LOCAL(t, i, j) = vPhy_forward(t, i, j);
+        HFIL_LOCAL(t, i, j) = hFil_forward(t, i, j);
+        UFIL_LOCAL(t, i, j) = uFil_forward(t, i, j);
+        VFIL_LOCAL(t, i, j) = vFil_forward(t, i, j);
       }
     }
 
     if (file_export) {
       export_step(file, t);
     }
-    
+
     if (t == 2) {
       dt = svdt;
     }

@@ -128,19 +128,43 @@ void forward(void) {
     if (t == 2){
       dt = svdt / 2.;
     }
-     *uFil_local, *vFil_local, *hPhy_local, *uPhy_local, *vPhy_local;
+    //double  *uFil_local, *vFil_local, *hPhy_local, *uPhy_local, *vPhy_local;
 
     for(k=-1;k<1;k++)
     {
         if(my_rank!=0)
         {
             mpi_ret_type = MPI_Sendrecv(&HPHY_LOCAL(t + k,1, 0),size_y, MPI_DOUBLE, my_rank-1,TAG_LAST
-            ,&HPHY_LOCAL(t + k,0, 0),size_y, MPI_DOUBLE,my_rank-1,TAG_FIRST, MPI_Comm_WORLD,&status);
+            ,&HPHY_LOCAL(t + k,0, 0),size_y, MPI_DOUBLE,my_rank-1,TAG_FIRST, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&UPHY_LOCAL(t + k,1, 0),size_y, MPI_DOUBLE, my_rank-1,TAG_LAST
+            ,&UPHY_LOCAL(t + k,0, 0),size_y, MPI_DOUBLE,my_rank-1,TAG_FIRST, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&VPHY_LOCAL(t + k,1, 0),size_y, MPI_DOUBLE, my_rank-1,TAG_LAST
+            ,&VPHY_LOCAL(t + k,0, 0),size_y, MPI_DOUBLE,my_rank-1,TAG_FIRST, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&UFIL_LOCAL(t + k,1, 0),size_y, MPI_DOUBLE, my_rank-1,TAG_LAST
+            ,&UFIL_LOCAL(t + k,0, 0),size_y, MPI_DOUBLE,my_rank-1,TAG_FIRST, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&VFIL_LOCAL(t + k,1, 0),size_y, MPI_DOUBLE, my_rank-1,TAG_LAST
+            ,&VFIL_LOCAL(t + k,0, 0),size_y, MPI_DOUBLE,my_rank-1,TAG_FIRST, MPI_COMM_WORLD,&status);
         }
         if(my_rank!=NP-1)
         {
             mpi_ret_type = MPI_Sendrecv(&HPHY_LOCAL(t + k,local_size_x-2, 0),size_y, MPI_DOUBLE, my_rank+1,TAG_LAST
-            ,&HPHY_LOCAL(t + k,local_size_x-1, 0),size_y, MPI_DOUBLE,my_rank+1,TAG_FIRST, MPI_Comm_WORLD,&status);
+            ,&HPHY_LOCAL(t + k,local_size_x-1, 0),size_y, MPI_DOUBLE,my_rank+1,TAG_FIRST, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&UPHY_LOCAL(t + k,local_size_x-2, 0),size_y, MPI_DOUBLE, my_rank+1,TAG_LAST
+            ,&UPHY_LOCAL(t + k,local_size_x-1, 0),size_y, MPI_DOUBLE,my_rank+1,TAG_FIRST, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&VPHY_LOCAL(t + k,local_size_x-2, 0),size_y, MPI_DOUBLE, my_rank+1,TAG_LAST
+            ,&VPHY_LOCAL(t + k,local_size_x-1, 0),size_y, MPI_DOUBLE,my_rank+1,TAG_FIRST, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&UFIL_LOCAL(t + k,local_size_x-2, 0),size_y, MPI_DOUBLE, my_rank+1,TAG_LAST
+            ,&UFIL_LOCAL(t + k,local_size_x-1, 0),size_y, MPI_DOUBLE,my_rank+1,TAG_FIRST, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&VFIL_LOCAL(t + k,local_size_x-2, 0),size_y, MPI_DOUBLE, my_rank+1,TAG_LAST
+            ,&VFIL_LOCAL(t + k,local_size_x-1, 0),size_y, MPI_DOUBLE,my_rank+1,TAG_FIRST, MPI_COMM_WORLD,&status);
         }
     }
 

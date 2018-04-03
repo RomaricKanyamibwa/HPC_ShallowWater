@@ -27,4 +27,12 @@ void dealloc(void) {
   free(hPhy);
   free(uPhy);
   free(vPhy);
+//   printf("LOCAL free\n");
+//   free(hFil_local);
+//   printf("LOCAL free2\n");
+//   free(uFil_local);
+//   free(vFil_local);
+//   free(hPhy_local);
+//   free(uPhy_local);
+//   free(vPhy_local);
 }

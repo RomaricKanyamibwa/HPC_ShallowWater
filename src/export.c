@@ -11,11 +11,20 @@ FILE *create_file(void) {
 
   return f;
 }
-
+int i=0;
 void export_step(FILE *f, int t) {
-  fwrite((void *)&HFIL(t, 0, 0), sizeof(double), size_x * size_y, f);
+	printf("k1,my_rank %d \n",i++);
+	printf("t=%d \n",t );
+  	fwrite((void *)&HFIL(t, 0, 0), sizeof(double), size_x * size_y, f);
+	printf("k2\n");
 }
 
 void finalize_export(FILE *f) {
+	printf("CLOSE\n");
+	if(f==NULL)
+		printf("tes trop nul\n");
+	if(my_rank==0)
   fclose(f);
+  	printf("CLOSE1\n");
+
 }

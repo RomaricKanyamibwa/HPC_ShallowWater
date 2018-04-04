@@ -15,6 +15,8 @@
 #define TAG_LAST_U_F 300
 #define TAG_FIRST_V_F 401
 #define TAG_LAST_V_F 400
+#define TAG_FIRST_H_F 501
+#define TAG_LAST_H_F 500
 #endif /* #ifdef TAG_MESSAGE */
 
 double hFil_forward(int t, int i, int j) {
@@ -63,11 +65,11 @@ double hPhy_forward(int t, int i, int j) {
 double uPhy_forward(int t, int i, int j) {
   double b, e, f, g;
 
-  if (i == size_x - 1)
+  if (i == local_size_x - 1)
     return 0.;
 
   b = 0.;
-  if (i < size_x - 1)
+  if (i < local_size_x - 1)
     b = HPHY_LOCAL(t - 1, i + 1, j);
 
   e = 0.;
@@ -75,11 +77,11 @@ double uPhy_forward(int t, int i, int j) {
     e = VPHY_LOCAL(t - 1, i, j + 1);
 
   f = 0.;
-  if (i < size_x - 1)
+  if (i < local_size_x - 1)
     f = VPHY_LOCAL(t - 1, i + 1, j);
 
   g = 0.;
-  if (i < size_x - 1 && j < size_y - 1)
+  if (i < local_size_x - 1 && j < size_y - 1)
     g = VPHY_LOCAL(t - 1, i + 1, j + 1);
 
   return UFIL_LOCAL(t - 1, i, j) +
@@ -150,7 +152,7 @@ void forward(void) {
         {
             mpi_ret_type = MPI_Sendrecv(&HPHY_LOCAL(t + k,1, 0),size_y, MPI_DOUBLE, my_rank-1,TAG_LAST_H_P
             ,&HPHY_LOCAL(t + k,0, 0),size_y, MPI_DOUBLE,my_rank-1,TAG_FIRST_H_P, MPI_COMM_WORLD,&status);
-            printf("mpirettype%d\n", mpi_ret_type );
+
             mpi_ret_type = MPI_Sendrecv(&UPHY_LOCAL(t + k,1, 0),size_y, MPI_DOUBLE, my_rank-1,TAG_LAST_U_P
             ,&UPHY_LOCAL(t + k,0, 0),size_y, MPI_DOUBLE,my_rank-1,TAG_FIRST_U_P, MPI_COMM_WORLD,&status);
 
@@ -162,6 +164,12 @@ void forward(void) {
 
             mpi_ret_type = MPI_Sendrecv(&VFIL_LOCAL(t + k,1, 0),size_y, MPI_DOUBLE, my_rank-1,TAG_LAST_V_F
             ,&VFIL_LOCAL(t + k,0, 0),size_y, MPI_DOUBLE,my_rank-1,TAG_FIRST_V_F, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&HFIL_LOCAL(t + k,1, 0),size_y, MPI_DOUBLE, my_rank-1,TAG_LAST_H_F
+            ,&HFIL_LOCAL(t + k,0, 0),size_y, MPI_DOUBLE,my_rank-1,TAG_FIRST_H_F, MPI_COMM_WORLD,&status);
+
+            printf("P#%d:mpirettype_1%d\n",my_rank, mpi_ret_type);
+
         }
         if(my_rank!=NP-1)
         {
@@ -179,35 +187,66 @@ void forward(void) {
 
             mpi_ret_type = MPI_Sendrecv(&VFIL_LOCAL(t + k,local_size_x-2, 0),size_y, MPI_DOUBLE, my_rank+1,TAG_FIRST_V_F
             ,&VFIL_LOCAL(t + k,local_size_x-1, 0),size_y, MPI_DOUBLE,my_rank+1,TAG_LAST_V_F, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&HFIL_LOCAL(t + k,local_size_x-2, 0),size_y, MPI_DOUBLE, my_rank+1,TAG_FIRST_H_F
+            ,&HFIL_LOCAL(t + k,local_size_x-1, 0),size_y, MPI_DOUBLE,my_rank+1,TAG_LAST_H_F, MPI_COMM_WORLD,&status);
+
+            printf("P#%d:mpirettype_2%d\n",my_rank, mpi_ret_type);
         }
     }
 
     mpi_ret_type++;
+    printf("P#%d:line%d\n",my_rank,189);
     for (int j = 0; j < size_y; j++) {
-      for (int i = 0; i < size_x; i++) {
-        HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
-        UPHY_LOCAL(t, i, j) = uPhy_forward(t, i, j);
-        VPHY_LOCAL(t, i, j) = vPhy_forward(t, i, j);
-        HFIL_LOCAL(t, i, j) = hFil_forward(t, i, j);
-        UFIL_LOCAL(t, i, j) = uFil_forward(t, i, j);
-        VFIL_LOCAL(t, i, j) = vFil_forward(t, i, j);
+      for (int i = 0; i < local_size_x; i++) {
+          if(my_rank==0||my_rank==(NP-1))
+          {
+            HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
+            UPHY_LOCAL(t, i, j) = uPhy_forward(t, i, j);
+            VPHY_LOCAL(t, i, j) = vPhy_forward(t, i, j);
+            HFIL_LOCAL(t, i, j) = hFil_forward(t, i, j);
+            UFIL_LOCAL(t, i, j) = uFil_forward(t, i, j);
+            VFIL_LOCAL(t, i, j) = vFil_forward(t, i, j);
+          }
+          else
+          {
+            HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
+            UPHY_LOCAL(t, i, j) = uPhy_forward(t, i, j);
+            VPHY_LOCAL(t, i, j) = vPhy_forward(t, i, j);
+            HFIL_LOCAL(t, i, j) = hFil_forward(t, i, j);
+            UFIL_LOCAL(t, i, j) = uFil_forward(t, i, j);
+            VFIL_LOCAL(t, i, j) = vFil_forward(t, i, j);
+          }
       }
     }
+    printf("P#%d:line%d\n",my_rank,212);
+    printf("size hfil=>%d \t size hfilocal => %d\n",size_y*local_size_x,size_y*size_x);
+//    MPI_Gather(&HFIL_LOCAL(t, 0, 0)+size_y*(my_rank!=0),size_y*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))
+//    ,MPI_DOUBLE,&HFIL(t, 0, 0),size_y*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1)),MPI_DOUBLE,0,MPI_COMM_WORLD);
+    printf("P#%d:line%d\n",my_rank,214);
+    hFil[(0)+(0)*size_y +((t)%2) * size_x * size_y ] = hFil_local[(0)+(0)*size_y +((t)%2) *size_x * size_y];
+    uFil[(0)+(0)*size_y +((t)%2) * size_x * size_y ] = uFil_local[(0)+(0)*size_y +((t)%2) *size_x * size_y];
+    vFil[(0)+(0)*size_y +((t)%2) * size_x * size_y ] = vFil_local[(0)+(0)*size_y +((t)%2) *size_x * size_y];
+    uPhy[(0)+(0)*size_y +((t)%2) * size_x * size_y ] = uPhy_local[(0)+(0)*size_y +((t)%2) *size_x * size_y];
+    vPhy[(0)+(0)*size_y +((t)%2) * size_x * size_y ] = vPhy_local[(0)+(0)*size_y +((t)%2) *size_x * size_y];
+    hPhy[(0)+(0)*size_y +((t)%2) * size_x * size_y ] = hPhy_local[(0)+(0)*size_y +((t)%2) *size_x * size_y];
+    printf("P#%d:line%d\n",my_rank,233);
 	if(my_rank==0)
 	{
 	    if (file_export) {
 	      export_step(file, t);
 	    }
-	    printf("k2bis\n");
+	    printf("export_step\n");
 	}
-
     if (t == 2) {
       dt = svdt;
     }
   }
-  printf("k3\n");
-  if (file_export && my_rank==0) {
-  	printf("k4\n");
+  printf("P#%d:line%d\n",my_rank,226);
+  if(my_rank==0)
+  if (file_export) {
+  	printf("finalize_export\n");
     finalize_export(file);
   }
+  printf("line%d\n",232);
 }

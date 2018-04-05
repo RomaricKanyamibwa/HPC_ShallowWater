@@ -210,12 +210,12 @@ void forward(void) {
           }
           else
           {
-            HPHY_LOCAL(t, i+1, j) = hPhy_forward(t, size_x/NP*my_rank+i+1, j);
-            UPHY_LOCAL(t, i+1, j) = uPhy_forward(t, size_x/NP*my_rank+i+1, j);
-            VPHY_LOCAL(t, i+1, j) = vPhy_forward(t, size_x/NP*my_rank+i+1, j);
-            HFIL_LOCAL(t, i+1, j) = hFil_forward(t, size_x/NP*my_rank+i+1, j);
-            UFIL_LOCAL(t, i+1, j) = uFil_forward(t, size_x/NP*my_rank+i+1, j);
-            VFIL_LOCAL(t, i+1, j) = vFil_forward(t, size_x/NP*my_rank+i+1, j);
+            HPHY_LOCAL(t, i+1, j) = hPhy_forward(t, i+1, j);
+            UPHY_LOCAL(t, i+1, j) = uPhy_forward(t, i+1, j);
+            VPHY_LOCAL(t, i+1, j) = vPhy_forward(t, i+1, j);
+            HFIL_LOCAL(t, i+1, j) = hFil_forward(t, i+1, j);
+            UFIL_LOCAL(t, i+1, j) = uFil_forward(t, i+1, j);
+            VFIL_LOCAL(t, i+1, j) = vFil_forward(t, i+1, j);
           }
       }
     }

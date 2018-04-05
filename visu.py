@@ -7,7 +7,7 @@ import matplotlib.animation as animation
 import sys                
 
 def displayFile(fname):
-    searchObj = re.search( r'(.*)_(.*)x(.*)_T(.*).sav', fname, 0)
+    searchObj = re.search( r'(.*)_(.*)x(.*)_T(.*)_NP(.*).sav', fname, 0)
     name = searchObj.group(1) 
     M = int(searchObj.group(2))
     N = int(searchObj.group(3))

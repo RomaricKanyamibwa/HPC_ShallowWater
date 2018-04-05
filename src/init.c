@@ -16,7 +16,7 @@ void gauss_init(void) {
 	(exp(- pow((j * dy - gmy) / gsy, 2) / 2.)) ;
 	//ATTENTION OPTI LOCAL_SIZEX
 	HFIL_LOCAL(0, i, j) = height *
-	(exp(- pow((i * dx - gmx) / gsx, 2) / 2.)) *
+	(exp(- pow((i+(i<local_size_x)*(size_x/NP*my_rank) * dx - gmx) / gsx, 2) / 2.)) *
 	(exp(- pow((j * dy - gmy) / gsy, 2) / 2.)) ;
     }
   }

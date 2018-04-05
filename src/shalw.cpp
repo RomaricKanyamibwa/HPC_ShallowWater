@@ -39,12 +39,11 @@ int main(int argc, char **argv) {
   MPI_Init(&argc,&argv);
   MPI_Comm_size(MPI_COMM_WORLD,&NP);
   MPI_Comm_rank(MPI_COMM_WORLD,&my_rank);
-  gauss_init();
-
   //if(NP>1)
     local_size_x = (my_rank==0||my_rank==(NP-1))?(size_x/NP+1):(size_x/NP+2);
   //else
     //local_size_x=size_x;
+  gauss_init();
   printf("P#%d:local size x:%d , y:%d\n",my_rank,local_size_x,size_y);
   printf("P#%d:size x:%d , y:%d\n",my_rank,size_x,size_y);
 

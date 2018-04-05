@@ -3,7 +3,7 @@
 
 void gauss_init(void) {
   double gmx, gmy, gsx, gsy;
-  double tmp=0.0;
+  //double tmp=0.0;
 
   gmx = size_x * dx / 2 ;
   gmy = size_y * dy / 2 ;

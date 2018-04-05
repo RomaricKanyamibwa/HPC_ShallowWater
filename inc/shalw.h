@@ -2,7 +2,7 @@
 #include <mpi.h>
 
 extern double *hFil, *uFil, *vFil, *hPhy, *uPhy, *vPhy;
-extern int size_x, size_y, nb_steps,local_size_x;
+extern int size_x/**Numero de lignes**/, size_y, nb_steps,local_size_x;
 extern double *hFil_local, *uFil_local, *vFil_local, *hPhy_local, *uPhy_local, *vPhy_local;
 extern double dx, dy, dt, pcor, grav, dissip, hmoy, alpha, height, epsilon;
 extern bool file_export;
@@ -28,7 +28,7 @@ extern std::string export_path;
 			    (i) * size_y +		\
 			    ((t)%2) * size_x * size_y ]
 //Macro Local
-
+//ATTENTION OPTI LOCAL_SIZEX
 #define HFIL_LOCAL(t, i, j) hFil_local[ (j) +			\
 			    (i) * size_y +		\
 			    ((t)%2) * size_x * size_y ]

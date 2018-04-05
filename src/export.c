@@ -5,7 +5,8 @@ FILE *create_file(void) {
   FILE *f;
   char fname[256];
 
-  sprintf(fname, "%s/shalw_%dx%d_T%d.sav", export_path.c_str(), size_x, size_y, nb_steps);
+  sprintf(fname, "%s/shalw_%dx%d_T%d_NP%d.sav", export_path.c_str(), size_x, size_y, nb_steps,NP);
+  printf("Fname:%s \n",fname);
 
   f = fopen(fname, "w+b");
 

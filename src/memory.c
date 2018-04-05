@@ -11,12 +11,13 @@ void alloc(void) {
     uPhy = (double *) calloc(2*size_x*size_y, sizeof(double));
     vPhy = (double *) calloc(2*size_x*size_y, sizeof(double));
   }
-    hFil_local = (double *) calloc(2*size_y*local_size_x, sizeof(double));
-    uFil_local = (double *) calloc(2*size_y*local_size_x, sizeof(double));
-    vFil_local = (double *) calloc(2*size_y*local_size_x, sizeof(double));
-    hPhy_local = (double *) calloc(2*size_y*local_size_x, sizeof(double));
-    uPhy_local = (double *) calloc(2*size_y*local_size_x, sizeof(double));
-    vPhy_local = (double *) calloc(2*size_y*local_size_x, sizeof(double));
+  //ATTENTION OPTI LOCAL_SIZEX
+    hFil_local = (double *) calloc(2*size_y*size_x, sizeof(double));
+    uFil_local = (double *) calloc(2*size_y*size_x, sizeof(double));
+    vFil_local = (double *) calloc(2*size_y*size_x, sizeof(double));
+    hPhy_local = (double *) calloc(2*size_y*size_x, sizeof(double));
+    uPhy_local = (double *) calloc(2*size_y*size_x, sizeof(double));
+    vPhy_local = (double *) calloc(2*size_y*size_x, sizeof(double));
 
 }
 

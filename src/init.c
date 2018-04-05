@@ -14,6 +14,10 @@ void gauss_init(void) {
       HFIL(0, i, j) = height *
 	(exp(- pow((i * dx - gmx) / gsx, 2) / 2.)) *
 	(exp(- pow((j * dy - gmy) / gsy, 2) / 2.)) ;
+	//ATTENTION OPTI LOCAL_SIZEX
+	HFIL_LOCAL(0, i, j) = height *
+	(exp(- pow((i * dx - gmx) / gsx, 2) / 2.)) *
+	(exp(- pow((j * dy - gmy) / gsy, 2) / 2.)) ;
     }
   }
 }

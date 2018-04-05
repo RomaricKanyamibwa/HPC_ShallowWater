@@ -35,12 +35,11 @@ int main(int argc, char **argv) {
 
   alloc();
   printf("Memory allocated\n");
-
-  gauss_init();
   printf("State initialised\n");
   MPI_Init(&argc,&argv);
   MPI_Comm_size(MPI_COMM_WORLD,&NP);
   MPI_Comm_rank(MPI_COMM_WORLD,&my_rank);
+  gauss_init();
 
   //if(NP>1)
     local_size_x = (my_rank==0||my_rank==(NP-1))?(size_x/NP+1):(size_x/NP+2);

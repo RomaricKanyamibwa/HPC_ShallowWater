@@ -118,6 +118,184 @@ double vPhy_forward(int t, int i, int j) {
 	  (dissip * VFIL_LOCAL(t - 1, i, j)));
 }
 
+void forward_bloc(void) {
+  FILE *file = NULL;
+  double svdt = 0.;
+  int t = 0,k,i;
+  MPI_Status status;
+  int mpi_ret_type;
+
+  if(my_rank==0)
+  {
+	  if (file_export) {
+	    printf("1\n");
+	    file = create_file();
+	    printf("2\n");
+	    export_step(file, t);
+	    printf("3\n");
+	  }
+  }
+
+  for (t = 1; t < nb_steps; t++) {
+
+    if (t == 1) {
+      svdt = dt;
+      dt = 0;
+    }
+    if (t == 2){
+      dt = svdt / 2.;
+    }
+    //double  *uFil_local, *vFil_local, *hPhy_local, *uPhy_local, *vPhy_local;
+
+    for(k=0;k<2;k++)
+    {	
+    	/* au dessus en dessous */
+        if(my_rank!=0)
+        {
+            mpi_ret_type = MPI_Sendrecv(&HPHY_LOCAL(t + k,1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank-1,TAG_LAST_H_P
+            ,&HPHY_LOCAL(t + k,0, 1),size_y/NbCol, MPI_DOUBLE,my_rank-1,TAG_FIRST_H_P, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&UPHY_LOCAL(t + k,1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank-1,TAG_LAST_U_P
+            ,&UPHY_LOCAL(t + k,0, 1),size_y/NbCol, MPI_DOUBLE,my_rank-1,TAG_FIRST_U_P, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&VPHY_LOCAL(t + k,1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank-1,TAG_LAST_V_P
+            ,&VPHY_LOCAL(t + k,0, 1),size_y/NbCol, MPI_DOUBLE,my_rank-1,TAG_FIRST_V_P, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&UFIL_LOCAL(t + k,1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank-1,TAG_LAST_U_F
+            ,&UFIL_LOCAL(t + k,0, 1),size_y/NbCol, MPI_DOUBLE,my_rank-1,TAG_FIRST_U_F, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&VFIL_LOCAL(t + k,1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank-1,TAG_LAST_V_F
+            ,&VFIL_LOCAL(t + k,0, 1),size_y/NbCol, MPI_DOUBLE,my_rank-1,TAG_FIRST_V_F, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&HFIL_LOCAL(t + k,1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank-1,TAG_LAST_H_F
+            ,&HFIL_LOCAL(t + k,0, 1),size_y/NbCol, MPI_DOUBLE,my_rank-1,TAG_FIRST_H_F, MPI_COMM_WORLD,&status);
+
+            //printf("P#%d:mpirettype_1%d\n",my_rank, mpi_ret_type);
+
+        }
+        if(my_rank!=NP-1)
+        {
+            mpi_ret_type = MPI_Sendrecv(&HPHY_LOCAL(t + k,size_x/NP-2, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank+1,TAG_FIRST_H_P
+            ,&HPHY_LOCAL(t + k,size_x/NP-1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank+1,TAG_LAST_H_P, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&UPHY_LOCAL(t + k,size_x/NP-2, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank+1,TAG_FIRST_U_P
+            ,&UPHY_LOCAL(t + k,size_x/NP-1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank+1,TAG_LAST_U_P, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&VPHY_LOCAL(t + k,size_x/NP-2, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank+1,TAG_FIRST_V_P
+            ,&VPHY_LOCAL(t + k,size_x/NP-1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank+1,TAG_LAST_V_P, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&UFIL_LOCAL(t + k,size_x/NP-2, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank+1,TAG_FIRST_U_F
+            ,&UFIL_LOCAL(t + k,size_x/NP-1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank+1,TAG_LAST_U_F, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&VFIL_LOCAL(t + k,size_x/NP-2, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank+1,TAG_FIRST_V_F
+            ,&VFIL_LOCAL(t + k,size_x/NP-1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank+1,TAG_LAST_V_F, MPI_COMM_WORLD,&status);
+
+            mpi_ret_type = MPI_Sendrecv(&HFIL_LOCAL(t + k,size_x/NP-2, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank+1,TAG_FIRST_H_F
+            ,&HFIL_LOCAL(t + k,size_x/NP-1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank+1,TAG_LAST_H_F, MPI_COMM_WORLD,&status);
+
+            //printf("P#%d:mpirettype_2%d\n",my_rank, mpi_ret_type);
+        }
+
+        /*a droite a gauche */
+        if(my_rank%NbCol==0)
+        {
+         	for(i=0;i;i++)
+            // mpi_ret_type = MPI_Sendrecv(&HPHY_LOCAL(t + k,1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank-1,TAG_LAST_H_P
+            // ,&HPHY_LOCAL(t + k,0, 1),size_y/NbCol, MPI_DOUBLE,my_rank-1,TAG_FIRST_H_P, MPI_COMM_WORLD,&status);
+
+            // mpi_ret_type = MPI_Sendrecv(&UPHY_LOCAL(t + k,1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank-1,TAG_LAST_U_P
+            // ,&UPHY_LOCAL(t + k,0, 1),size_y/NbCol, MPI_DOUBLE,my_rank-1,TAG_FIRST_U_P, MPI_COMM_WORLD,&status);
+
+            // mpi_ret_type = MPI_Sendrecv(&VPHY_LOCAL(t + k,1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank-1,TAG_LAST_V_P
+            // ,&VPHY_LOCAL(t + k,0, 1),size_y/NbCol, MPI_DOUBLE,my_rank-1,TAG_FIRST_V_P, MPI_COMM_WORLD,&status);
+
+            // mpi_ret_type = MPI_Sendrecv(&UFIL_LOCAL(t + k,1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank-1,TAG_LAST_U_F
+            // ,&UFIL_LOCAL(t + k,0, 1),size_y/NbCol, MPI_DOUBLE,my_rank-1,TAG_FIRST_U_F, MPI_COMM_WORLD,&status);
+
+            // mpi_ret_type = MPI_Sendrecv(&VFIL_LOCAL(t + k,1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank-1,TAG_LAST_V_F
+            // ,&VFIL_LOCAL(t + k,0, 1),size_y/NbCol, MPI_DOUBLE,my_rank-1,TAG_FIRST_V_F, MPI_COMM_WORLD,&status);
+
+            // mpi_ret_type = MPI_Sendrecv(&HFIL_LOCAL(t + k,1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank-1,TAG_LAST_H_F
+            // ,&HFIL_LOCAL(t + k,0, 1),size_y/NbCol, MPI_DOUBLE,my_rank-1,TAG_FIRST_H_F, MPI_COMM_WORLD,&status);
+
+            //printf("P#%d:mpirettype_1%d\n",my_rank, mpi_ret_type);
+
+        }
+        if((my_rank+1)%NbCol==0)
+        {
+            // mpi_ret_type = MPI_Sendrecv(&HPHY_LOCAL(t + k,size_x/NP-2, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank+1,TAG_FIRST_H_P
+            // ,&HPHY_LOCAL(t + k,size_x/NP-1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank+1,TAG_LAST_H_P, MPI_COMM_WORLD,&status);
+
+            // mpi_ret_type = MPI_Sendrecv(&UPHY_LOCAL(t + k,size_x/NP-2, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank+1,TAG_FIRST_U_P
+            // ,&UPHY_LOCAL(t + k,size_x/NP-1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank+1,TAG_LAST_U_P, MPI_COMM_WORLD,&status);
+
+            // mpi_ret_type = MPI_Sendrecv(&VPHY_LOCAL(t + k,size_x/NP-2, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank+1,TAG_FIRST_V_P
+            // ,&VPHY_LOCAL(t + k,size_x/NP-1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank+1,TAG_LAST_V_P, MPI_COMM_WORLD,&status);
+
+            // mpi_ret_type = MPI_Sendrecv(&UFIL_LOCAL(t + k,size_x/NP-2, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank+1,TAG_FIRST_U_F
+            // ,&UFIL_LOCAL(t + k,size_x/NP-1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank+1,TAG_LAST_U_F, MPI_COMM_WORLD,&status);
+
+            // mpi_ret_type = MPI_Sendrecv(&VFIL_LOCAL(t + k,size_x/NP-2, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank+1,TAG_FIRST_V_F
+            // ,&VFIL_LOCAL(t + k,size_x/NP-1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank+1,TAG_LAST_V_F, MPI_COMM_WORLD,&status);
+
+            // mpi_ret_type = MPI_Sendrecv(&HFIL_LOCAL(t + k,size_x/NP-2, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank+1,TAG_FIRST_H_F
+            // ,&HFIL_LOCAL(t + k,size_x/NP-1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank+1,TAG_LAST_H_F, MPI_COMM_WORLD,&status);
+
+            //printf("P#%d:mpirettype_2%d\n",my_rank, mpi_ret_type);
+        }
+    }
+
+    mpi_ret_type++;
+    //printf("P#%d:line%d\n",my_rank,189);
+    for (int j = 0; j < size_y; j++) {
+      for (int i = 0; i < local_size_x+1; i++) {
+          if(my_rank==0)
+          {
+            HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
+            UPHY_LOCAL(t, i, j) = uPhy_forward(t, i, j);
+            VPHY_LOCAL(t, i, j) = vPhy_forward(t, i, j);
+            HFIL_LOCAL(t, i, j) = hFil_forward(t, i, j);
+            UFIL_LOCAL(t, i, j) = uFil_forward(t, i, j);
+            VFIL_LOCAL(t, i, j) = vFil_forward(t, i, j);
+          }
+          else
+          {
+            HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
+            UPHY_LOCAL(t, i, j) = uPhy_forward(t, i, j);
+            VPHY_LOCAL(t, i, j) = vPhy_forward(t, i, j);
+            HFIL_LOCAL(t, i, j) = hFil_forward(t, i, j);
+            UFIL_LOCAL(t, i, j) = uFil_forward(t, i, j);
+            VFIL_LOCAL(t, i, j) = vFil_forward(t, i, j);
+          }
+      }
+    }
+    //for(k=0;k<2;k++)
+    {
+        printf("---------------------------- Magic The Gathering ----------------------------\n");
+        MPI_Gather(&HFIL_LOCAL(t,(my_rank!=0), 0)/*+size_y*(my_rank!=0)*/,size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/
+        ,MPI_DOUBLE,&HFIL(t, 0, 0),size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);
+
+        printf("---------------------------- End of The Gathering ----------------------------\n");
+    }
+	if(my_rank==0)
+	{
+	    if (file_export) {
+	      export_step(file, t);
+	    }
+	    printf("export_step\n");
+	}
+    if (t == 2) {
+      dt = svdt;
+    }
+  }
+  if(my_rank==0)
+  if (file_export) {
+  	printf("finalize_export\n");
+    finalize_export(file);
+  }
+}
+
+
 void forward(void) {
   FILE *file = NULL;
   double svdt = 0.;

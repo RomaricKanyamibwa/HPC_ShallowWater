@@ -20,10 +20,10 @@ void gauss_init(void) {
 	//ATTENTION OPTI LOCAL_SIZEX
 	if(i<size_x/NP+1)
 	{
-        tmp=(size_x/NP*my_rank)-1*(i>0)*(my_rank!=0);
+        tmp=(size_x/NP*my_rank)/*-1*(i>0)*(my_rank!=0)*/;
         printf("P#%d:tmp=%lf\n",my_rank,tmp);
 	}
-	HFIL_LOCAL(0, i, j) = height *
+	HFIL_LOCAL(0, i+(my_rank!=0), j) = height *
 	(exp(- pow(((i+tmp) * dx - gmx) / gsx, 2) / 2.)) *
 	(exp(- pow((j * dy - gmy) / gsy, 2) / 2.)) ;
     //gauss_init_loc(my_rank,NP);

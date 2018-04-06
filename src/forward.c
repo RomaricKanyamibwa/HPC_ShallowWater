@@ -122,7 +122,7 @@ void forward(void) {
   FILE *file = NULL;
   double svdt = 0.;
   int t = 0,k=0;
-  MPI_Status status;
+  //MPI_Status status;
   int mpi_ret_type;
 
   if(my_rank==0)

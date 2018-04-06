@@ -396,7 +396,7 @@ void forward(void) {
 
     //printf("P#%d:line%d\n",my_rank,189);
     for (int j = 0; j < size_y; j++) {
-      for (int i = 0; i < size_x/NP; i++) {
+      for (int i = 0; i < size_x/NP+1; i++) {
           if(my_rank==0)
           {
             HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);

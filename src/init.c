@@ -22,7 +22,7 @@ void gauss_init(void) {
         printf("P#%d:tmp=%lf\n",my_rank,tmp);
 	}
 	HFIL_LOCAL(0, i, j) = height *
-	(exp(- pow(((i+tmp) * dx - gmx) / gsx, 2) / 2.)) *
+	(exp(- pow(((i+tmp-1) * dx - gmx) / gsx, 2) / 2.)) *
 	(exp(- pow((j * dy - gmy) / gsy, 2) / 2.)) ;
     }
   }

@@ -1,6 +1,8 @@
 #include <math.h>
 #include <shalw.h>
 
+void gauss_init_loc(int rank,int p);
+
 void gauss_init(void) {
   double gmx, gmy, gsx, gsy;
   double tmp=0.0;

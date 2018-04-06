@@ -121,7 +121,7 @@ double vPhy_forward(int t, int i, int j) {
 void forward(void) {
   FILE *file = NULL;
   double svdt = 0.;
-  int t = 0,k;
+  int t = 0,k=0;
   MPI_Status status;
   int mpi_ret_type;
 
@@ -217,7 +217,7 @@ void forward(void) {
 //        }
 //    }
 //
-//    mpi_ret_type++;
+    mpi_ret_type+=k;
     //printf("P#%d:line%d\n",my_rank,189);
     for (int j = 0; j < size_y; j++) {
       for (int i = 0; i < size_x/NP; i++) {

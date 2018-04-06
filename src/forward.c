@@ -124,7 +124,6 @@ void forward(void) {
   int t = 0,k;
   MPI_Status status;
   int mpi_ret_type;
-  double *buff=(double*)calloc(size_x*size_y,sizeof(double));
 
   if(my_rank==0)
   {
@@ -221,7 +220,7 @@ void forward(void) {
     mpi_ret_type++;
     //printf("P#%d:line%d\n",my_rank,189);
     for (int j = 0; j < size_y; j++) {
-      for (int i = 0; i < local_size_x+1; i++) {
+      for (int i = 0; i < local_size_x; i++) {
           if(my_rank==0)
           {
             HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);

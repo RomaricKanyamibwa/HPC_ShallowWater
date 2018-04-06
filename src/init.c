@@ -18,7 +18,7 @@ void gauss_init(void) {
 	(exp(- pow((i * dx - gmx) / gsx, 2) / 2.)) *
 	(exp(- pow((j * dy - gmy) / gsy, 2) / 2.)) ;
 	//ATTENTION OPTI LOCAL_SIZEX
-	if(i<=local_size_x)
+	if(i<size_x/NP+1)
 	{
         tmp=(size_x/NP*my_rank)-1*(i>0)*(my_rank!=0);
         printf("P#%d:tmp=%lf\n",my_rank,tmp);

@@ -5,18 +5,18 @@
 
 #define TAG_MESSAGE
 #ifdef TAG_MESSAGE
-#define TAG_FIRST_U_P 0
+#define TAG_FIRST_U_P 1
 #define TAG_LAST_U_P 0
-#define TAG_FIRST_V_P 0//101
-#define TAG_LAST_V_P 0//100
-#define TAG_FIRST_H_P 0//201
-#define TAG_LAST_H_P 0//200
-#define TAG_FIRST_U_F 0//301
-#define TAG_LAST_U_F 0//300
-#define TAG_FIRST_V_F 0//401
-#define TAG_LAST_V_F 0//400
-#define TAG_FIRST_H_F 0//501
-#define TAG_LAST_H_F 0//500
+#define TAG_FIRST_V_P 101
+#define TAG_LAST_V_P 100
+#define TAG_FIRST_H_P 201
+#define TAG_LAST_H_P 200
+#define TAG_FIRST_U_F 301
+#define TAG_LAST_U_F 300
+#define TAG_FIRST_V_F 401
+#define TAG_LAST_V_F 400
+#define TAG_FIRST_H_F 501
+#define TAG_LAST_H_F 500
 #endif /* #ifdef TAG_MESSAGE */
 
 double hFil_forward(int t, int i, int j) {
@@ -241,11 +241,11 @@ void forward(void) {
           }
       }
     }
-    for(k=0;k<2;k++)
+    //for(k=0;k<2;k++)
     {
         printf("---------------------------- Magic The Gathering ----------------------------\n");
         MPI_Gather(&HFIL_LOCAL(t+k,(my_rank!=0), 0)/*+size_y*(my_rank!=0)*/,size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/
-        ,MPI_DOUBLE,&HFIL(t+k, 0, 0),size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);
+        ,MPI_DOUBLE,&HFIL(t, 0, 0),size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);
 //
 //        MPI_Gather(&UFIL_LOCAL(t+k,(my_rank!=0), 0),size_y*size_x/NP
 //        ,MPI_DOUBLE,&UFIL(t+k, 0, 0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);

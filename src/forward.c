@@ -138,10 +138,10 @@ void forward(void) {
 
   for (t = 1; t < nb_steps; t++) {
 //    printf("============== SCATERING ============================\n");
-//    for(k=0;k<2;k++)
-//    {
-//        MPI_Scatter(&HFIL(t+k, 0, 0),size_y*size_x/NP,MPI_DOUBLE
-//        ,&HFIL_LOCAL(t+k,(my_rank!=0),0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);
+    for(k=0;k<2;k++)
+    {
+        MPI_Scatter(&HFIL(t+k, 0, 0),size_y*size_x/NP,MPI_DOUBLE
+        ,&HFIL_LOCAL(t+k,(my_rank!=0),0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);
 //
 //        MPI_Scatter(&UFIL(t+k, 0, 0),size_y*size_x/NP,MPI_DOUBLE
 //        ,&UFIL_LOCAL(t+k,(my_rank!=0),0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);
@@ -158,7 +158,7 @@ void forward(void) {
 //        MPI_Scatter(&VPHY(t+k, 0, 0),size_y*size_x/NP,MPI_DOUBLE
 //        ,&VPHY_LOCAL(t+k,(my_rank!=0),0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);
 //        printf("============== END SCATERING ========================\n");
-//    }
+    }
     if (t == 1) {
       svdt = dt;
       dt = 0;
@@ -244,7 +244,7 @@ void forward(void) {
     //for(k=0;k<2;k++)
     {
         printf("---------------------------- Magic The Gathering ----------------------------\n");
-        MPI_Gather(&HFIL_LOCAL(t,0, 0)/*+size_y*(my_rank!=0)*/,size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/
+        MPI_Gather(&HFIL_LOCAL(t,(my_rank!=0), 0)/*+size_y*(my_rank!=0)*/,size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/
         ,MPI_DOUBLE,&HFIL(t, 0, 0),size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);
 //
 //        MPI_Gather(&UFIL_LOCAL(t+k,(my_rank!=0), 0),size_y*size_x/NP

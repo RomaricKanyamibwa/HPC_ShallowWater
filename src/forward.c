@@ -245,7 +245,7 @@ void forward(void) {
     }
     //for(k=0;k<2;k++)
     {
-        double *tmp=&HFIL_LOCAL(t,(my_rank!=0), 0);
+        double *tmp=hFil_local+(0) +(my_rank!=0) * size_y +((t)%2) * size_x * size_y;//&HFIL_LOCAL(t,(my_rank!=0), 0);
         memcpy(buff,tmp,size_x/NP*size_y);
         printf("---------------------------- Magic The Gathering ----------------------------\n");
         MPI_Gather(buff/*+size_y*(my_rank!=0)*/,size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/

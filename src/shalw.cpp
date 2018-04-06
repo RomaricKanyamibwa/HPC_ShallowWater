@@ -15,7 +15,7 @@ double dx, dy, dt, pcor, grav, dissip, hmoy, alpha, height, epsilon;
 bool file_export;
 std::string export_path;
 int my_rank,NP/*Nombre de processeur*/,root;
-int NbCol, NbLi, ligne_colonne,,NP_temp,local_size_y;//par bloc
+int NbCol, NbLi, ligne_colonne,NP_temp,local_size_y;//par bloc
 
 
 

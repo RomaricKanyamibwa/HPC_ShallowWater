@@ -69,7 +69,7 @@ int main_bloc(int argc, char **argv)  {
     local_size_x++;
   if(my_rank%NbCol!=0)
     local_size_y++;
-  if(my_rank+1)%NbCol!=0)
+  if((my_rank+1)%NbCol!=0)
     local_size_y++;
 
 

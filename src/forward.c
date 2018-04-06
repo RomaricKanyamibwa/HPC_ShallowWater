@@ -396,7 +396,7 @@ void forward(void) {
 
     //printf("P#%d:line%d\n",my_rank,189);
     for (int j = 0; j < size_y; j++) {
-      for (int i = 0; i < size_x/NP+1; i++) {
+      for (int i = 0; i < size_x/NP; i++) {
           if(my_rank==0)
           {
             HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
@@ -408,12 +408,12 @@ void forward(void) {
           }
           else
           {
-            HPHY_LOCAL(t,i, j) = hPhy_forward(t,i, j);
-            UPHY_LOCAL(t,i, j) = uPhy_forward(t,i, j);
-            VPHY_LOCAL(t,i, j) = vPhy_forward(t,i, j);
-            HFIL_LOCAL(t,i, j) = hFil_forward(t,i, j);
-            UFIL_LOCAL(t,i, j) = uFil_forward(t,i, j);
-            VFIL_LOCAL(t,i, j) = vFil_forward(t,i, j);
+            HPHY_LOCAL(t, i+1, j) = hPhy_forward(t, i+1, j);
+            UPHY_LOCAL(t, i+1, j) = uPhy_forward(t, i+1, j);
+            VPHY_LOCAL(t, i+1, j) = vPhy_forward(t, i+1, j);
+            HFIL_LOCAL(t, i+1, j) = hFil_forward(t, i+1, j);
+            UFIL_LOCAL(t, i+1, j) = uFil_forward(t, i+1, j);
+            VFIL_LOCAL(t, i+1, j) = vFil_forward(t, i+1, j);
           }
       }
     }

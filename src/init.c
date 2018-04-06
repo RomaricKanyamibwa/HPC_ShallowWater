@@ -18,11 +18,11 @@ void gauss_init(void) {
 	//ATTENTION OPTI LOCAL_SIZEX
 	if(i<=local_size_x)
 	{
-        //tmp=(size_x/NP*my_rank);
+        tmp=(size_x/NP*my_rank);
         printf("P#%d:tmp=%lf\n",my_rank,tmp);
 	}
 	HFIL_LOCAL(0, i , j) = height *
-	(exp(- pow((i * dx - gmx) / gsx, 2) / 2.)) *
+	(exp(- pow(((i+tmp) * dx - gmx) / gsx, 2) / 2.)) *
 	(exp(- pow((j * dy - gmy) / gsy, 2) / 2.)) ;
     }
   }

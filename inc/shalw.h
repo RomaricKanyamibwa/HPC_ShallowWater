@@ -31,19 +31,19 @@ extern std::string export_path;
 //ATTENTION OPTI LOCAL_SIZEX
 #define HFIL_LOCAL(t, i, j) hFil_local[ (j) +			\
 			    (i) * size_y +		\
-			    ((t)%2) * size_x * size_y ]
+			    ((t)%2) * local_size_x * size_y ]
 #define UFIL_LOCAL(t, i, j) uFil_local[ (j) +			\
 			    (i) * size_y +		\
-			    ((t)%2) * size_x * size_y ]
+			    ((t)%2) * local_size_x * size_y ]
 #define VFIL_LOCAL(t, i, j) vFil_local[ (j) +			\
 			    (i) * size_y +		\
-			    ((t)%2) * size_x * size_y ]
+			    ((t)%2) * local_size_x * size_y ]
 #define HPHY_LOCAL(t, i, j) hPhy_local[ (j) +			\
 			    (i) * size_y +		\
-			    ((t)%2) * size_x * size_y ]
+			    ((t)%2) * local_size_x * size_y ]
 #define UPHY_LOCAL(t, i, j) uPhy_local[ (j) +			\
 			    (i) * size_y +		\
-			    ((t)%2) * size_x * size_y ]
+			    ((t)%2) * local_size_x * size_y ]
 #define VPHY_LOCAL(t, i, j) vPhy_local[ (j) +			\
 			    (i) * size_y +		\
-			    ((t)%2) * size_x * size_y ]
+			    ((t)%2) * local_size_x * size_y ]

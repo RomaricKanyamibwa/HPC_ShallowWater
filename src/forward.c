@@ -65,11 +65,11 @@ double hPhy_forward(int t, int i, int j) {
 double uPhy_forward(int t, int i, int j) {
   double b, e, f, g;
 
-  if (i == size_x/NP - 1)
+  if (i == local_size_x- 1)
     return 0.;
 
   b = 0.;
-  if (i < size_x/NP - 1)
+  if (i < local_size_x- 1)
     b = HPHY_LOCAL(t - 1, i + 1, j);
 
   e = 0.;
@@ -77,11 +77,11 @@ double uPhy_forward(int t, int i, int j) {
     e = VPHY_LOCAL(t - 1, i, j + 1);
 
   f = 0.;
-  if (i < size_x/NP - 1)
+  if (i < local_size_x- 1)
     f = VPHY_LOCAL(t - 1, i + 1, j);
 
   g = 0.;
-  if (i < size_x/NP - 1 && j < size_y - 1)
+  if (i < local_size_x- 1 && j < size_y - 1)
     g = VPHY_LOCAL(t - 1, i + 1, j + 1);
 
   return UFIL_LOCAL(t - 1, i, j) +
@@ -135,13 +135,11 @@ void forward(void) {
 	    printf("3\n");
 	  }
   }
-
-  for (t = 1; t < nb_steps; t++) {
-//    printf("============== SCATERING ============================\n");
-//    for(k=0;k<2;k++)
-//    {
-//        MPI_Scatter(&HFIL(t+k, 0, 0),size_y*size_x/NP,MPI_DOUBLE
-//        ,&HFIL_LOCAL(t+k,(my_rank!=0),0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);
+printf("============== SCATERING ============================\n");
+    for(k=0;k<2;k++)
+    {
+        MPI_Scatter(&HFIL(t+k, 0, 0),size_y*size_x/NP,MPI_DOUBLE
+        ,&HFIL_LOCAL(t+k,(my_rank!=0),0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);
 //
 //        MPI_Scatter(&UFIL(t+k, 0, 0),size_y*size_x/NP,MPI_DOUBLE
 //        ,&UFIL_LOCAL(t+k,(my_rank!=0),0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);
@@ -158,7 +156,9 @@ void forward(void) {
 //        MPI_Scatter(&VPHY(t+k, 0, 0),size_y*size_x/NP,MPI_DOUBLE
 //        ,&VPHY_LOCAL(t+k,(my_rank!=0),0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);
 //        printf("============== END SCATERING ========================\n");
-//    }
+    }
+  for (t = 1; t < nb_steps; t++) {
+
     if (t == 1) {
       svdt = dt;
       dt = 0;
@@ -220,7 +220,7 @@ void forward(void) {
     mpi_ret_type++;
     //printf("P#%d:line%d\n",my_rank,189);
     for (int j = 0; j < size_y; j++) {
-      for (int i = 0; i < local_size_x+1; i++) {
+      for (int i = 0; i < size_x/NP+1; i++) {
           if(my_rank==0)
           {
             HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
@@ -232,20 +232,22 @@ void forward(void) {
           }
           else
           {
-            HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
-            UPHY_LOCAL(t, i, j) = uPhy_forward(t, i, j);
-            VPHY_LOCAL(t, i, j) = vPhy_forward(t, i, j);
-            HFIL_LOCAL(t, i, j) = hFil_forward(t, i, j);
-            UFIL_LOCAL(t, i, j) = uFil_forward(t, i, j);
-            VFIL_LOCAL(t, i, j) = vFil_forward(t, i, j);
+            HPHY_LOCAL(t, i+1, j) = hPhy_forward(t, i+1, j);
+            UPHY_LOCAL(t, i+1, j) = uPhy_forward(t, i+1, j);
+            VPHY_LOCAL(t, i+1, j) = vPhy_forward(t, i+1, j);
+            HFIL_LOCAL(t, i+1, j) = hFil_forward(t, i+1, j);
+            UFIL_LOCAL(t, i+1, j) = uFil_forward(t, i+1, j);
+            VFIL_LOCAL(t, i+1, j) = vFil_forward(t, i+1, j);
           }
       }
     }
+
+
     //for(k=0;k<2;k++)
     {
         printf("---------------------------- Magic The Gathering ----------------------------\n");
-        MPI_Gather(&HFIL_LOCAL(t,(my_rank!=0), 0)/*+size_y*(my_rank!=0)*/,size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/
-        ,MPI_DOUBLE,&HFIL(t, 0, 0),size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);
+        MPI_Gather(&HFIL_LOCAL(t,my_rank!=0, 0)/*+size_y*(my_rank!=0)*/,size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/
+        ,MPI_DOUBLE,&HFIL(t, 0, 0),size_y*size_x/NP /*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);
 //
 //        MPI_Gather(&UFIL_LOCAL(t+k,(my_rank!=0), 0),size_y*size_x/NP
 //        ,MPI_DOUBLE,&UFIL(t+k, 0, 0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);

@@ -220,7 +220,7 @@ void forward(void) {
     mpi_ret_type++;
     //printf("P#%d:line%d\n",my_rank,189);
     for (int j = 0; j < size_y; j++) {
-      for (int i = 0; i < size_x/NP; i++) {
+      for (int i = 0; i < local_size_x; i++) {
           if(my_rank==0)
           {
             HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
@@ -232,20 +232,20 @@ void forward(void) {
           }
           else
           {
-            HPHY_LOCAL(t, i+1, j) = hPhy_forward(t, i+1, j);
-            UPHY_LOCAL(t, i+1, j) = uPhy_forward(t, i+1, j);
-            VPHY_LOCAL(t, i+1, j) = vPhy_forward(t, i+1, j);
-            HFIL_LOCAL(t, i+1, j) = hFil_forward(t, i+1, j);
-            UFIL_LOCAL(t, i+1, j) = uFil_forward(t, i+1, j);
-            VFIL_LOCAL(t, i+1, j) = vFil_forward(t, i+1, j);
+            HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
+            UPHY_LOCAL(t, i, j) = uPhy_forward(t, i, j);
+            VPHY_LOCAL(t, i, j) = vPhy_forward(t, i, j);
+            HFIL_LOCAL(t, i, j) = hFil_forward(t, i, j);
+            UFIL_LOCAL(t, i, j) = uFil_forward(t, i, j);
+            VFIL_LOCAL(t, i, j) = vFil_forward(t, i, j);
           }
       }
     }
     //for(k=0;k<2;k++)
     {
         printf("---------------------------- Magic The Gathering ----------------------------\n");
-        MPI_Gather(&HFIL_LOCAL(t,(my_rank!=0), 0)/*+size_y*(my_rank!=0)*/,(size_y+1)*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/
-        ,MPI_DOUBLE,&HFIL(t, 0, 0),(size_y+1)*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);
+        MPI_Gather(&HFIL_LOCAL(t,(my_rank!=0), 0)/*+size_y*(my_rank!=0)*/,size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/
+        ,MPI_DOUBLE,&HFIL(t, 0, 0),size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);
 //
 //        MPI_Gather(&UFIL_LOCAL(t+k,(my_rank!=0), 0),size_y*size_x/NP
 //        ,MPI_DOUBLE,&UFIL(t+k, 0, 0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);

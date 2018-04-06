@@ -25,7 +25,7 @@ double my_gettimeofday(){
 }
 
 
-int main_bloc(int argc, char **argv)  { 
+int main_bloc(int argc, char **argv)  {
 
   /* Variables liees au chronometrage */
   double debut=0, fin=0;
@@ -60,7 +60,7 @@ int main_bloc(int argc, char **argv)  {
       local_size_y = local_size_y/2;
       NbCol++;
     }
-    ligne_colonne = (ligne_colonne+1)%2
+    ligne_colonne = (ligne_colonne+1)%2;
   }
 
   if(my_rank>=NbCol)

@@ -65,11 +65,11 @@ double hPhy_forward(int t, int i, int j) {
 double uPhy_forward(int t, int i, int j) {
   double b, e, f, g;
 
-  if (i == size_x/NP - 1)
+  if (i == size_x/NP)
     return 0.;
 
   b = 0.;
-  if (i < size_x/NP - 1)
+  if (i <= size_x/NP - 1)
     b = HPHY_LOCAL(t - 1, i + 1, j);
 
   e = 0.;
@@ -77,11 +77,11 @@ double uPhy_forward(int t, int i, int j) {
     e = VPHY_LOCAL(t - 1, i, j + 1);
 
   f = 0.;
-  if (i < size_x/NP - 1)
+  if (i <= size_x/NP - 1)
     f = VPHY_LOCAL(t - 1, i + 1, j);
 
   g = 0.;
-  if (i < size_x/NP - 1 && j < size_y - 1)
+  if (i <= size_x/NP - 1 && j < size_y - 1)
     g = VPHY_LOCAL(t - 1, i + 1, j + 1);
 
   return UFIL_LOCAL(t - 1, i, j) +
@@ -410,12 +410,12 @@ void forward(void) {
           }
           else
           {
-            HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
-            UPHY_LOCAL(t, i, j) = uPhy_forward(t, i, j);
-            VPHY_LOCAL(t, i, j) = vPhy_forward(t, i, j);
-            HFIL_LOCAL(t, i, j) = hFil_forward(t, i, j);
-            UFIL_LOCAL(t, i, j) = uFil_forward(t, i, j);
-            VFIL_LOCAL(t, i, j) = vFil_forward(t, i, j);
+            HPHY_LOCAL(t, i+1, j) = hPhy_forward(t, i+1, j);
+            UPHY_LOCAL(t, i+1, j) = uPhy_forward(t, i+1, j);
+            VPHY_LOCAL(t, i+1, j) = vPhy_forward(t, i+1, j);
+            HFIL_LOCAL(t, i+1, j) = hFil_forward(t, i+1, j);
+            UFIL_LOCAL(t, i+1, j) = uFil_forward(t, i+1, j);
+            VFIL_LOCAL(t, i+1, j) = vFil_forward(t, i+1, j);
           }
       }
     }

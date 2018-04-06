@@ -148,7 +148,7 @@ void forward_bloc(void) {
     //double  *uFil_local, *vFil_local, *hPhy_local, *uPhy_local, *vPhy_local;
 
     for(k=0;k<2;k++)
-    {	
+    {
     	/* au dessus en dessous */
         if(my_rank!=0)
         {
@@ -199,7 +199,7 @@ void forward_bloc(void) {
         /*a droite a gauche */
         if(my_rank%NbCol==0)
         {
-         	for(i=0;i;i++)
+         	for(i=0;i;i++){}
             // mpi_ret_type = MPI_Sendrecv(&HPHY_LOCAL(t + k,1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank-1,TAG_LAST_H_P
             // ,&HPHY_LOCAL(t + k,0, 1),size_y/NbCol, MPI_DOUBLE,my_rank-1,TAG_FIRST_H_P, MPI_COMM_WORLD,&status);
 

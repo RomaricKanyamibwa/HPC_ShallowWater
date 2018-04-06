@@ -245,8 +245,8 @@ void forward(void) {
     }
     //for(k=0;k<2;k++)
     {
-        double *tmp=&HFIL_LOCAL(t,(my_rank!=0);
-        memcpy(buff,tmp, 0),size_x/NP*size_y);
+        double *tmp=&HFIL_LOCAL(t,(my_rank!=0), 0);
+        memcpy(buff,tmp,size_x/NP*size_y);
         printf("---------------------------- Magic The Gathering ----------------------------\n");
         MPI_Gather(buff/*+size_y*(my_rank!=0)*/,size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/
         ,MPI_DOUBLE,&HFIL(t, 0, 0),size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);

@@ -2,7 +2,6 @@
 #include <math.h>
 #include <shalw.h>
 #include <export.h>
-#include <stdlib.h>
 
 #define TAG_MESSAGE
 #ifdef TAG_MESSAGE
@@ -125,7 +124,7 @@ void forward(void) {
   int t = 0,k;
   MPI_Status status;
   int mpi_ret_type;
-  double *buff=(double*)calloc(size_x/NP*size_y,sizeof(double));
+  double *buff=(double*)calloc(size_x*size_y,sizeof(double));
 
   if(my_rank==0)
   {
@@ -245,10 +244,8 @@ void forward(void) {
     }
     //for(k=0;k<2;k++)
     {
-        double *tmp=hFil_local+(0) +(my_rank!=0) * size_y +((t)%2) * size_x * size_y;//&HFIL_LOCAL(t,(my_rank!=0), 0);
-        memcpy(buff,tmp,size_x/NP*size_y);
         printf("---------------------------- Magic The Gathering ----------------------------\n");
-        MPI_Gather(buff/*+size_y*(my_rank!=0)*/,size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/
+        MPI_Gather(&HFIL_LOCAL(t,(my_rank!=0), 0)/*+size_y*(my_rank!=0)*/,size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/
         ,MPI_DOUBLE,&HFIL(t, 0, 0),size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);
 //
 //        MPI_Gather(&UFIL_LOCAL(t+k,(my_rank!=0), 0),size_y*size_x/NP

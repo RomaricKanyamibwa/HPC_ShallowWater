@@ -130,6 +130,14 @@ int main(int argc, char **argv) {
   MPI_Init(&argc,&argv);
   MPI_Comm_size(MPI_COMM_WORLD,&NP);
   MPI_Comm_rank(MPI_COMM_WORLD,&my_rank);
+
+
+  if(size_x%NP!=0)
+  {
+    fprintf(stderr,"ERROR:NP ne divise pas size_y\n");
+    return EXIT_FAILURE;
+  }
+
   //if(NP>1)
   local_size_x = (my_rank==0||my_rank==(NP-1))?(size_x/NP+1):(size_x/NP+2);
   //else
@@ -141,14 +149,8 @@ int main(int argc, char **argv) {
   if(my_rank==0)
   {
     /* debut du chronometrage */
-    debut = my_gettimeofday();
     printf("***************NP:%d***************\n",NP);
-  }
-
-  if(size_x%NP!=0)
-  {
-    fprintf(stderr,"ERROR:NP ne divise pas size_y\n");
-    return EXIT_FAILURE;
+    debut = my_gettimeofday();
   }
 
   forward();
@@ -159,6 +161,12 @@ int main(int argc, char **argv) {
     fin = my_gettimeofday();
     printf("State computed\n");
     printf("#%d-Temps total de calcul : %g seconde(s) \n",my_rank,fin - debut);
+    FILE *perf = fopen("../perform.txt", "a+b");
+    char str[512];
+    fprintf(str,"***************NP:%d***************\n\
+           #%d-Temps total de calcul : %g seconde(s)\n\
+           ***********************************\n",NP,my_rank,fin-debut);
+    fwrite(str,sizeof(char),strlen(str),perf);
   }
 
   dealloc();

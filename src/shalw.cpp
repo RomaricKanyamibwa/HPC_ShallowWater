@@ -117,7 +117,7 @@ int main(int argc, char **argv) {
   /* Variables liees au chronometrage */
   double debut=0, fin=0;
   root = 0;
-  non_bloc_comm=true;
+  //non_bloc_comm=true;
   decomp_bloc=false;
   parse_args(argc, argv);
   if(my_rank==0)

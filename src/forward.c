@@ -301,16 +301,8 @@ void forward(void) {
   double svdt = 0.;
   int t = 0,k;
   MPI_Status status;
-  if(my_rank==0 || my_rank==NP-1)
-  {
-      MPI_Status stats[12];
-      MPI_Request reqs[12];
-  }
-  else
-  {
-      MPI_Status stats[24];
-      MPI_Request reqs[24];
-  }
+  MPI_Status stats[24];
+  MPI_Request reqs[24] ;
 
   if(my_rank==0)
   {

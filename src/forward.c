@@ -419,7 +419,7 @@ void forward(void) {
     }
     //for(k=0;k<2;k++)
     {
-        printf("---------------------------- Magic The Gathering ----------------------------\n");
+        //printf("---------------------------- Magic The Gathering ----------------------------\n");
         MPI_Gather(&HFIL_LOCAL(t,(my_rank!=0), 0)/*+size_y*(my_rank!=0)*/,size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/
         ,MPI_DOUBLE,&HFIL(t, 0, 0),size_y*size_x/NP/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);
 //
@@ -437,7 +437,7 @@ void forward(void) {
 //
 //        MPI_Gather(&VPHY_LOCAL(t+k,(my_rank!=0), 0),size_y*size_x/NP
 //        ,MPI_DOUBLE,&VPHY(t+k, 0, 0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);
-        printf("---------------------------- End of The Gathering ----------------------------\n");
+        //printf("---------------------------- End of The Gathering ----------------------------\n");
     }
 //    printf("P#%d:---memcpy\n",my_rank);
 //    memcpy(&HFIL(t,0,0),&HFIL_LOCAL(t,(my_rank!=0),0),size_x*size_y);

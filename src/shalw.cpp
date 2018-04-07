@@ -161,11 +161,12 @@ int main(int argc, char **argv) {
     fin = my_gettimeofday();
     printf("State computed\n");
     printf("#%d-Temps total de calcul : %g seconde(s) \n",my_rank,fin - debut);
-    FILE *perf = fopen("../perform.txt", "a+b");
+    FILE *perf = fopen("perform.txt", "a+");
     char str[512];
     sprintf(str,"***************NP:%d***************\n\
-           #%d-Temps total de calcul : %g seconde(s)\n\
-           ***********************************\n",NP,my_rank,fin-debut);
+size_x:%d , size_y:%d\n\
+#%d-Temps total de calcul : %g seconde(s)\n\
+***********************************\n",NP,size_x,size_y,my_rank,fin-debut);
     fwrite(str,sizeof(char),strlen(str),perf);
   }
 

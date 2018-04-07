@@ -12,7 +12,7 @@ double *hFil, *uFil, *vFil, *hPhy, *uPhy, *vPhy;
 double *hFil_local, *uFil_local, *vFil_local, *hPhy_local, *uPhy_local, *vPhy_local;
 int size_x, size_y, nb_steps,local_size_x;
 double dx, dy, dt, pcor, grav, dissip, hmoy, alpha, height, epsilon;
-bool file_export;
+bool file_export,decomp_bloc,non_bloc_comm;
 std::string export_path;
 int my_rank,NP/*Nombre de processeur*/,root;
 int NbCol, NbLi, ligne_colonne,NP_temp,local_size_y;//par bloc
@@ -117,6 +117,8 @@ int main(int argc, char **argv) {
   /* Variables liees au chronometrage */
   double debut=0, fin=0;
   root = 0;
+  non_bloc_comm=false;
+  decomp_bloc=false;
   parse_args(argc, argv);
   if(my_rank==0)
     printf("Command line options parsed\n");
@@ -163,10 +165,15 @@ int main(int argc, char **argv) {
     printf("#%d-Temps total de calcul : %g seconde(s) \n",my_rank,fin - debut);
     FILE *perf = fopen("perform.txt", "a+");
     char str[512];
-    sprintf(str,"***************NP:%d***************\n\
+    char tmp[64];
+    if(non_bloc_comm)
+        tmp="Non-block Mode";
+    else
+        tmp="Block-Mode";
+    sprintf(str,"***************NP:%d - %s***************\n\
 size_x:%d , size_y:%d , nbsteps:%d \n\
 #%d-Temps total de calcul : %g seconde(s)\n\n"
-            ,NP,size_x,size_y,nb_steps,my_rank,fin-debut);
+            ,NP,tmp,size_x,size_y,nb_steps,my_rank,fin-debut);
     fwrite(str,sizeof(char),strlen(str),perf);
   }
 

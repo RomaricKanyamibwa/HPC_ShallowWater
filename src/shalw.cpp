@@ -118,11 +118,15 @@ int main(int argc, char **argv) {
   double debut=0, fin=0;
   root = 0;
   parse_args(argc, argv);
-  printf("Command line options parsed\n");
+  if(my_rank==0)
+    printf("Command line options parsed\n");
 
   alloc();
-  printf("Memory allocated\n");
-  printf("State initialised\n");
+  if(my_rank==0)
+  {
+      printf("Memory allocated\n");
+      printf("State initialised\n");
+  }
   MPI_Init(&argc,&argv);
   MPI_Comm_size(MPI_COMM_WORLD,&NP);
   MPI_Comm_rank(MPI_COMM_WORLD,&my_rank);
@@ -131,14 +135,14 @@ int main(int argc, char **argv) {
   //else
     //local_size_x=size_x;
   gauss_init();
-  printf("P#%d:local size x:%d , y:%d\n",my_rank,local_size_x,size_y);
-  printf("P#%d:size x:%d , y:%d\n",my_rank,size_x,size_y);
+  //printf("P#%d:local size x:%d , y:%d\n",my_rank,local_size_x,size_y);
+  //printf("P#%d:size x:%d , y:%d\n",my_rank,size_x,size_y);
 
   if(my_rank==0)
   {
     /* debut du chronometrage */
     debut = my_gettimeofday();
-    printf("NP:%d\n",NP);
+    printf("***************NP:%d***************\n",NP);
   }
 
   if(size_x%NP!=0)
@@ -148,17 +152,18 @@ int main(int argc, char **argv) {
   }
 
   forward();
-  printf("State computed\n");
 
   if(my_rank==0)
   {
      /* fin du chronometrage */
     fin = my_gettimeofday();
+    printf("State computed\n");
     printf("#%d-Temps total de calcul : %g seconde(s) \n",my_rank,fin - debut);
   }
 
   dealloc();
-  printf("Memory freed\n");
+  if(my_rank==0)
+    printf("Memory freed\n");
 
   MPI_Finalize();
 

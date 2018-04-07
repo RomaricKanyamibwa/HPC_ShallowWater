@@ -328,7 +328,7 @@ void forward(void) {
     {
         if(non_bloc_comm)
         {
-            printf("t=%d,k=%d:Communication non bloquante\n",t,k);
+            //printf("t=%d,k=%d:Communication non bloquante\n",t,k);
             if(my_rank!=0)
             {
                  MPI_Isend(&HPHY_LOCAL(t + k,1, 0),size_y, MPI_DOUBLE,my_rank-1,TAG_LAST_H_P,MPI_COMM_WORLD,&reqs[0+k*12]);
@@ -434,6 +434,12 @@ void forward(void) {
         }
     }
 
+    if(non_bloc_comm)
+    {
+        printf("---------------------------- Waiting for The Gathering ----------------------------\n");
+        MPI_Waitall(48-24*(my_rank==0||my_rank==NP-1),reqs,stats) ;
+    }
+
     for (int j = 0; j < size_y; j++) {
       for (int i = 0; i < size_x/NP; i++) {
           if(my_rank==0)
@@ -458,14 +464,10 @@ void forward(void) {
     }
     if(NP>1)
     {
-        printf("---------------------------- Waiting for The Gathering ----------------------------\n");
-        if(non_bloc_comm)
-            MPI_Waitall(48-24*(my_rank==0||my_rank==NP-1),reqs,stats) ;
-
-        printf("---------------------------- Magic The Gathering ----------------------------\n");
+        //printf("---------------------------- Magic The Gathering ----------------------------\n");
         MPI_Gather(&HFIL_LOCAL(t,(my_rank!=0), 0),size_y*size_x/NP,MPI_DOUBLE,
                    &HFIL(t, 0, 0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);
-        printf("---------------------------- End of Gathering  ----------------------------\n");
+        //printf("---------------------------- End of Gathering  ----------------------------\n");
     }
 	if(my_rank==0)
 	{

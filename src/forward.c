@@ -433,12 +433,9 @@ void forward(void) {
             }
         }
     }
-
-    if(non_bloc_comm)
-    {
-        printf("---------------------------- Waiting for The Gathering ----------------------------\n");
-        MPI_Waitall(48-24*(my_rank==0||my_rank==NP-1),reqs,stats) ;
-    }
+    int outcount;
+    int array_of_indices[48];
+    MPI_Waitsome(6, &reqs,&outcount, array_of_indices,stats);
 
     for (int j = 0; j < size_y; j++) {
       for (int i = 0; i < size_x/NP; i++) {
@@ -461,6 +458,11 @@ void forward(void) {
             VFIL_LOCAL(t, i+1, j) = vFil_forward(t, i+1, j);
           }
       }
+    }
+    if(non_bloc_comm)
+    {
+        //printf("---------------------------- Waiting for The Gathering ----------------------------\n");
+        MPI_Waitall(48-24*(my_rank==0||my_rank==NP-1),reqs,stats) ;
     }
     if(NP>1)
     {

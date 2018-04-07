@@ -374,14 +374,14 @@ void forward(void) {
                  MPI_Irecv(&HFIL_LOCAL(t + k,local_size_x-1,0),size_y, MPI_DOUBLE,my_rank+1,TAG_LAST_H_F
                            ,MPI_COMM_WORLD,&reqs[19-12*(my_rank==0)]);
 
-                 MPI_Isend(&UFILL_LOCAL(t + k,local_size_x-2,0),size_y, MPI_DOUBLE,my_rank+1,TAG_FIRST_U_F
+                 MPI_Isend(&UFIL_LOCAL(t + k,local_size_x-2,0),size_y, MPI_DOUBLE,my_rank+1,TAG_FIRST_U_F
                            ,MPI_COMM_WORLD,&reqs[20-12*(my_rank==0)]);
-                 MPI_Irecv(&UFILL_LOCAL(t + k,local_size_x-1,0),size_y, MPI_DOUBLE,my_rank+1,TAG_LAST_U_F
+                 MPI_Irecv(&UFIL_LOCAL(t + k,local_size_x-1,0),size_y, MPI_DOUBLE,my_rank+1,TAG_LAST_U_F
                            ,MPI_COMM_WORLD,&reqs[21-12*(my_rank==0)]);
 
-                 MPI_Isend(&VFILL_LOCAL(t + k,local_size_x-2,0),size_y, MPI_DOUBLE,my_rank+1,TAG_FIRST_V_F
+                 MPI_Isend(&VFIL_LOCAL(t + k,local_size_x-2,0),size_y, MPI_DOUBLE,my_rank+1,TAG_FIRST_V_F
                            ,MPI_COMM_WORLD,&reqs[22-12*(my_rank==0)]);
-                 MPI_Irecv(&VFILL_LOCAL(t + k,local_size_x-1,0),size_y, MPI_DOUBLE,my_rank+1,TAG_LAST_V_F
+                 MPI_Irecv(&VFIL_LOCAL(t + k,local_size_x-1,0),size_y, MPI_DOUBLE,my_rank+1,TAG_LAST_V_F
                            ,MPI_COMM_WORLD,&reqs[23-12*(my_rank==0)]);
 
 

@@ -435,9 +435,7 @@ void forward(void) {
     }
     if(non_bloc_comm)
     {
-        int outcount;
-        int array_of_indices[48];
-        MPI_Waitsome(12, reqs,&outcount, array_of_indices,stats);
+        MPI_Waitall(12,reqs,stats) ;
     }
 
     for (int j = 0; j < size_y; j++) {

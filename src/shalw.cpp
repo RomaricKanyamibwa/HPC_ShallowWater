@@ -164,9 +164,9 @@ int main(int argc, char **argv) {
     FILE *perf = fopen("perform.txt", "a+");
     char str[512];
     sprintf(str,"***************NP:%d***************\n\
-size_x:%d , size_y:%d\n\
-#%d-Temps total de calcul : %g seconde(s)\n\
-***********************************\n",NP,size_x,size_y,my_rank,fin-debut);
+size_x:%d , size_y:%d , nbsteps:%d \n\
+#%d-Temps total de calcul : %g seconde(s)\n\n"
+            ,NP,size_x,size_y,nb_steps,my_rank,fin-debut);
     fwrite(str,sizeof(char),strlen(str),perf);
   }
 

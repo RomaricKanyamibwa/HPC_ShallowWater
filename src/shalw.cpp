@@ -163,7 +163,7 @@ int main(int argc, char **argv) {
     printf("#%d-Temps total de calcul : %g seconde(s) \n",my_rank,fin - debut);
     FILE *perf = fopen("../perform.txt", "a+b");
     char str[512];
-    fprintf(str,"***************NP:%d***************\n\
+    sprintf(str,"***************NP:%d***************\n\
            #%d-Temps total de calcul : %g seconde(s)\n\
            ***********************************\n",NP,my_rank,fin-debut);
     fwrite(str,sizeof(char),strlen(str),perf);

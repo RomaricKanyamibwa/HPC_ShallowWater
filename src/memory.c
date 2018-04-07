@@ -30,9 +30,9 @@ void dealloc(void) {
   free(vPhy);
   if(my_rank==0)
   {
-    printf("LOCAL free\n");
+    //printf("LOCAL free\n");
     free(hFil_local);
-    printf("LOCAL free2\n");
+    //printf("LOCAL free2\n");
     free(uFil_local);
     free(vFil_local);
     free(hPhy_local);

@@ -435,7 +435,8 @@ void forward(void) {
     }
     if(non_bloc_comm)
     {
-        MPI_Waitall(12,reqs,stats) ;
+        //printf("---------------------------- Waiting for The Gathering ----------------------------\n");
+        MPI_Waitall(48-24*(my_rank==0||my_rank==NP-1),reqs,stats) ;
     }
 
     for (int j = 0; j < size_y; j++) {
@@ -460,11 +461,7 @@ void forward(void) {
           }
       }
     }
-    if(non_bloc_comm)
-    {
-        //printf("---------------------------- Waiting for The Gathering ----------------------------\n");
-        MPI_Waitall(48-24*(my_rank==0||my_rank==NP-1),reqs,stats) ;
-    }
+
     if(NP>1)
     {
         //printf("---------------------------- Magic The Gathering ----------------------------\n");

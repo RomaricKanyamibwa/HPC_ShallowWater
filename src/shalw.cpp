@@ -117,11 +117,6 @@ int main(int argc, char **argv) {
   /* Variables liees au chronometrage */
   double debut=0, fin=0;
   root = 0;
-
-  MPI_Init(&argc,&argv);
-  MPI_Comm_size(MPI_COMM_WORLD,&NP);
-  MPI_Comm_rank(MPI_COMM_WORLD,&my_rank);
-
   parse_args(argc, argv);
   if(my_rank==0)
     printf("Command line options parsed\n");
@@ -132,6 +127,9 @@ int main(int argc, char **argv) {
       printf("Memory allocated\n");
       printf("State initialised\n");
   }
+  MPI_Init(&argc,&argv);
+  MPI_Comm_size(MPI_COMM_WORLD,&NP);
+  MPI_Comm_rank(MPI_COMM_WORLD,&my_rank);
   //if(NP>1)
   local_size_x = (my_rank==0||my_rank==(NP-1))?(size_x/NP+1):(size_x/NP+2);
   //else
@@ -154,13 +152,12 @@ int main(int argc, char **argv) {
   }
 
   forward();
-  printf("P#%d:State computed\n",my_rank);
-
 
   if(my_rank==0)
   {
      /* fin du chronometrage */
     fin = my_gettimeofday();
+    printf("State computed\n");
     printf("#%d-Temps total de calcul : %g seconde(s) \n",my_rank,fin - debut);
   }
 

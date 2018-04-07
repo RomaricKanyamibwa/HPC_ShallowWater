@@ -462,7 +462,7 @@ void forward(void) {
         if(non_bloc_comm)
             MPI_Waitall(48-24*(my_rank==0||my_rank==NP-1),reqs,stats) ;
 
-        rintf("---------------------------- Magic The Gathering ----------------------------\n");
+        printf("---------------------------- Magic The Gathering ----------------------------\n");
         MPI_Gather(&HFIL_LOCAL(t,(my_rank!=0), 0),size_y*size_x/NP,MPI_DOUBLE,
                    &HFIL(t, 0, 0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);
         printf("---------------------------- End of Gathering  ----------------------------\n");

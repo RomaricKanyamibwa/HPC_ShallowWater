@@ -282,7 +282,7 @@ void forward_bloc(void) {
 	    if (file_export) {
 	      export_step(file, t);
 	    }
-	    printf("export_step\n");
+	    //printf("export_step\n");
 	}
     if (t == 2) {
       dt = svdt;
@@ -457,7 +457,7 @@ void forward(void) {
 	    if (file_export) {
 	      export_step(file, t);
 	    }
-	    printf("export_step\n");
+	    //printf("export_step\n");
 	}
     if (t == 2) {
       dt = svdt;
@@ -465,7 +465,7 @@ void forward(void) {
   }
   if(my_rank==0)
   if (file_export) {
-  	printf("finalize_export\n");
+  	//printf("finalize_export\n");
     finalize_export(file);
   }
 }

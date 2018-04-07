@@ -6,7 +6,7 @@ extern int size_x/**Numero de lignes**/, size_y, nb_steps,local_size_x, local_si
 extern int NbCol, NbLi, ligne_colonne /*bloc*/; //nombre de lignes et colonnes pour le par bloc
 extern double *hFil_local, *uFil_local, *vFil_local, *hPhy_local, *uPhy_local, *vPhy_local;
 extern double dx, dy, dt, pcor, grav, dissip, hmoy, alpha, height, epsilon;
-extern bool file_export,decomp_bloc,non_bloc_comm;
+extern bool file_export,decomp_bloc,non_block_comm,pararel_IO;
 extern int my_rank,NP/*Nombre de processeur*/,root,NP_temp/*bloc*/;
 extern std::string export_path;
 

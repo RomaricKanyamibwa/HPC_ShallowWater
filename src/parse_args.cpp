@@ -22,7 +22,9 @@ void parse_args(int argc, char **argv) {
     ("hmoy", po::value<double>()->default_value(100), "hmoy")
     ("hinit", po::value<double>()->default_value(15), "Height of the initial state")
     ("export", "Export state of hFil")
-    ("non_bloc_comm","Activate non-blocking communication")
+    ("bloc", "Bloc decomposition of the grid")
+    ("non_block_comm","Activate non-blocking communication")
+    ("mpi_io","Activate MPI_IO for parallel IO")
     ("export-path", po::value<std::string>()->default_value("."), "Path for the export");
 
   po::variables_map vars;
@@ -47,13 +49,23 @@ void parse_args(int argc, char **argv) {
   hmoy = vars["hmoy"].as<double>();
   height = vars["hinit"].as<double>();
   file_export = false;
-  non_bloc_comm=false;
+  non_block_comm=false;
+  decomp_bloc=false;
+  pararel_IO=false;
+
   if (vars.count("export"))
     file_export = true;
-  if (vars.count("non_bloc_comm"))
+  if (vars.count("non_block_comm"))
   {
-      non_bloc_comm = true;
-
+      non_block_comm = true;
+  }
+  if (vars.count("bloc"))
+  {
+      decomp_bloc = true;
+  }
+  if (vars.count("mpi_io"))
+  {
+      pararel_IO = true;
   }
   export_path = vars["export-path"].as<std::string>();
 }

@@ -12,7 +12,7 @@ double *hFil, *uFil, *vFil, *hPhy, *uPhy, *vPhy;
 double *hFil_local, *uFil_local, *vFil_local, *hPhy_local, *uPhy_local, *vPhy_local;
 int size_x, size_y, nb_steps,local_size_x;
 double dx, dy, dt, pcor, grav, dissip, hmoy, alpha, height, epsilon;
-bool file_export,decomp_bloc,non_bloc_comm;
+bool file_export,decomp_bloc,non_block_comm,pararel_IO;
 std::string export_path;
 int my_rank,NP/*Nombre de processeur*/,root;
 int NbCol, NbLi, ligne_colonne,NP_temp,local_size_y;//par bloc
@@ -117,8 +117,7 @@ int main(int argc, char **argv) {
   /* Variables liees au chronometrage */
   double debut=0, fin=0;
   root = 0;
-  //non_bloc_comm=true;
-  decomp_bloc=false;
+  //non_block_comm=true;
   parse_args(argc, argv);
   if(my_rank==0)
     printf("Command line options parsed\n");
@@ -155,7 +154,10 @@ int main(int argc, char **argv) {
     debut = my_gettimeofday();
   }
 
-  forward();
+  if(pararel_IO)
+    forward_parallel_io();
+  else
+    forward();
 
   if(my_rank==0)
   {
@@ -166,7 +168,7 @@ int main(int argc, char **argv) {
     FILE *perf = fopen("perform.txt", "a+");
     char str[512];
     char tmp[64];
-    if(non_bloc_comm)
+    if(non_block_comm)
         sprintf(tmp,"Non-block Mode");
     else
         sprintf(tmp,"Block-Mode");

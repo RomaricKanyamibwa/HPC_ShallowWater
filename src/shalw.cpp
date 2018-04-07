@@ -165,7 +165,7 @@ int main(int argc, char **argv) {
     printf("#%d-Temps total de calcul : %g seconde(s) \n",my_rank,fin - debut);
     FILE *perf = fopen("perform.txt", "a+");
     char str[512];
-    char tmp[64];
+    char *tmp;
     if(non_bloc_comm)
         tmp="Non-block Mode";
     else

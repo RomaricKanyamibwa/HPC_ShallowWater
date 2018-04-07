@@ -23,9 +23,9 @@ void gauss_init(void) {
         tmp=(size_x/NP*my_rank)/*-1*(i>0)*(my_rank!=0)*/;
         //printf("P#%d:tmp=%lf\n",my_rank,tmp);
 	}
-	HFIL_LOCAL(0, i-1*(my_rank!=0)*(i<=size_x/NP)*(i>0), j) = height *
-	(exp(- pow(((i+tmp) * dx - gmx) / gsx, 2) / 2.)) *
-	(exp(- pow((j * dy - gmy) / gsy, 2) / 2.)) ;
+//	HFIL_LOCAL(0, i-1*(my_rank!=0)*(i<size_x/NP)*(i>0), j) = height *
+//	(exp(- pow(((i+tmp) * dx - gmx) / gsx, 2) / 2.)) *
+//	(exp(- pow((j * dy - gmy) / gsy, 2) / 2.)) ;
     //gauss_init_loc(my_rank,NP);
     }
   }

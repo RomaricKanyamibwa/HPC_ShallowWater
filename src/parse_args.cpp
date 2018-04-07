@@ -22,7 +22,7 @@ void parse_args(int argc, char **argv) {
     ("hmoy", po::value<double>()->default_value(100), "hmoy")
     ("hinit", po::value<double>()->default_value(15), "Height of the initial state")
     ("export", "Export state of hFil")
-    ("non_bloc_comm,nbc", po::value<bool>()->default_value(false),"Activate non-blocking communication")
+    ("non_bloc_comm,n", po::value<bool>()->default_value(false),"Activate non-blocking communication")
     ("export-path", po::value<std::string>()->default_value("."), "Path for the export");
 
   po::variables_map vars;

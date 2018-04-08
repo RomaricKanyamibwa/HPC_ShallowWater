@@ -657,13 +657,13 @@ void forward_parallel_io(void)
       }
     }
 
-    if(NP>1)
-    {
-        //printf("---------------------------- Magic The Gathering ----------------------------\n");
-        MPI_Gather(&HFIL_LOCAL(t,(my_rank!=0), 0),size_y*size_x/NP,MPI_DOUBLE,
-                   &HFIL(t, 0, 0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);
-        //printf("---------------------------- End of Gathering  ----------------------------\n");
-    }
+//    if(NP>1)
+//    {
+//        //printf("---------------------------- Magic The Gathering ----------------------------\n");
+//        MPI_Gather(&HFIL_LOCAL(t,(my_rank!=0), 0),size_y*size_x/NP,MPI_DOUBLE,
+//                   &HFIL(t, 0, 0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);
+//        //printf("---------------------------- End of Gathering  ----------------------------\n");
+//    }
 	//if(my_rank==0)
 	{
 	    if (file_export) {

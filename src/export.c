@@ -44,7 +44,7 @@ MPI_File* create_file_mpi(MPI_File *f) {
 //  printf("End open\n Error message%d\n",err);
   if (err)
     {
-        char* string;
+        char* string=calloc(512,sizeof(char));
         int resultlen;
         MPI_Error_string(err,string,&resultlen);
         printf("Process #%d failed to open file %s\nERROR:%s\n",my_rank,fname,string);

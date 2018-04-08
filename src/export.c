@@ -38,19 +38,16 @@ MPI_File* create_file_mpi(MPI_File *f) {
   sprintf(fname, "%s/shalw_%dx%d_T%d_NP%d.sav", export_path.c_str(), size_x, size_y, nb_steps,NP);
   printf("Fname:%s \n",fname);
   printf("Begin open\n");
-  if(my_rank==0)
-      err=MPI_File_open(MPI_COMM_WORLD,fname,
-                      MPI_MODE_RDWR | MPI_MODE_CREATE
-                      ,MPI_INFO_NULL,f);
-  else
-      err=MPI_File_open(MPI_COMM_WORLD,fname,
-                      MPI_MODE_RDWR,MPI_INFO_NULL,f);
-
-
+  err=MPI_File_open(MPI_COMM_WORLD,fname,
+                  MPI_MODE_RDWR | MPI_MODE_CREATE
+                  ,MPI_INFO_NULL,f);
 //  printf("End open\n Error message%d\n",err);
   if (err)
     {
-        printf("Process #%d failed to open file %s\n",my_rank,fname);
+        char* string;
+        int resultlen;
+        MPI_Error_string(err,string,&resultlen);
+        printf("Process #%d failed to open file %s\nERROR:%s\n",my_rank,fnamen,string);
         MPI_Abort(MPI_COMM_WORLD, 911);
     }
   return f;

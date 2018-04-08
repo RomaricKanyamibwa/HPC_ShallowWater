@@ -471,7 +471,7 @@ void forward(void) {
     }
     else
     {
-        &HFIL(t, 0, 0)=&HFIL_LOCAL(t,(my_rank!=0), 0);
+        hFil=hFil_local;
     }
 	if(my_rank==0)
 	{

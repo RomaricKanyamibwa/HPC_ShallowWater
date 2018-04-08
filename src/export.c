@@ -1,13 +1,23 @@
 #include <stdio.h>
 #include <shalw.h>
 #include <stdlib.h>
+#include <errno.h>
+
 
 FILE *create_file(void) {
   FILE *f;
   char fname[256];
-
+  //int errnum;
   sprintf(fname, "%s/shalw_%dx%d_T%d_NP%d.sav", export_path.c_str(), size_x, size_y, nb_steps,NP);
   printf("Fname:%s \n",fname);
+
+  if (pf == NULL) {
+
+      //errnum = errno;
+      //fprintf(stderr, "Value of errno: %d\n", errno);
+      perror("Error opening file");
+      //fprintf(stderr, "Error opening file: %s\n", strerror( errnum ));
+   }
 
   f = fopen(fname, "w+b");
 
@@ -23,11 +33,11 @@ void export_step(FILE *f, int t) {
 
 void finalize_export(FILE *f) {
 	printf("CLOSE\n");
-	if(f==NULL)
-		printf("tes trop nul\n");
+//	if(f==NULL)
+//		printf("tes trop nul\n");
 	if(my_rank==0)
         fclose(f);
-  	printf("CLOSE1\n");
+  	//printf("CLOSE1\n");
 
 }
 
@@ -38,7 +48,7 @@ MPI_File* create_file_mpi(MPI_File *f) {
 
   sprintf(fname, "%s/shalw_%dx%d_T%d_NP%d.sav", export_path.c_str(), size_x, size_y, nb_steps,NP);
   printf("Fname:%s \n",fname);
-  printf("Begin open\n");
+  //printf("Begin open\n");
   err=MPI_File_open(MPI_COMM_WORLD,fname,
                   MPI_MODE_RDWR | MPI_MODE_CREATE
                   ,MPI_INFO_NULL,f);

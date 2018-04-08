@@ -119,7 +119,7 @@ int main(int argc, char **argv) {
   parse_args(argc, argv);
   if(decomp_bloc)
   {
-      return main_bloc(arg,argv);
+      return main_bloc(argc,argv);
   }
   //non_block_comm=true;
   if(my_rank==0)

@@ -469,10 +469,6 @@ void forward(void) {
                    &HFIL(t, 0, 0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);
         //printf("---------------------------- End of Gathering  ----------------------------\n");
     }
-    else
-    {
-        hFil=hFil_local;
-    }
 	if(my_rank==0)
 	{
 	    if (file_export) {

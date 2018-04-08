@@ -31,16 +31,17 @@ void finalize_export(FILE *f) {
 }
 
 MPI_File* create_file_mpi(void) {
-  MPI_File *f;//=NULL;
+  MPI_File *f=NULL;
   int err = 0;
   char fname[256];
 
   sprintf(fname, "%s/shalw_%dx%d_T%d_NP%d.sav", export_path.c_str(), size_x, size_y, nb_steps,NP);
   printf("Fname:%s \n",fname);
-
+  printf("Begin open\n");
   err=MPI_File_open(MPI_COMM_WORLD,fname,
                   MPI_MODE_RDWR | MPI_MODE_CREATE
                   ,MPI_INFO_NULL,f);
+  printf("End open\n");
   if (err)
     {
         MPI_Abort(MPI_COMM_WORLD, 911);

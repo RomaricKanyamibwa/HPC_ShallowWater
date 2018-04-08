@@ -8,7 +8,7 @@
 #include <time.h>   /* chronometrage */
 #include <sys/time.h>
 
-double *hFil, *uFil, *vFil, *hPhy, *uPhy, *vPhy;
+double *hFil;//, *uFil, *vFil, *hPhy, *uPhy, *vPhy;
 double *hFil_local, *uFil_local, *vFil_local, *hPhy_local, *uPhy_local, *vPhy_local;
 int size_x, size_y, nb_steps,local_size_x;
 double dx, dy, dt, pcor, grav, dissip, hmoy, alpha, height, epsilon;

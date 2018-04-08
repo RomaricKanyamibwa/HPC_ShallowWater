@@ -1,0 +1,60 @@
+***************NP:4 - Non-block Mode Non-Block-MP_IO***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 4.22558 seconde(s)
+
+***************NP:4 - Non-block Mode Non-Block-MP_IO***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 4.11342 seconde(s)
+
+***************NP:4 - Block-Mode Non-Block-MP_IO***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 4.71253 seconde(s)
+
+***************NP:4 - Block-Mode***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 5.08923 seconde(s)
+
+***************NP:4 - Non-block Mode Non-Block-MP_IO***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 4.005 seconde(s)
+
+***************NP:4 - Block-Mode***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 5.02224 seconde(s)
+
+***************NP:4 - Block-Mode***************
+size_x:128 , size_y:128 , nbsteps:1000 
+#0-Temps total de calcul : 8.44812 seconde(s)
+
+***************NP:4 - Block-Mode MP_IO***************
+size_x:128 , size_y:128 , nbsteps:1000 
+#0-Temps total de calcul : 9.55713 seconde(s)
+
+***************NP:4 - Non-block Mode***************
+size_x:128 , size_y:128 , nbsteps:1000 
+#0-Temps total de calcul : 3.24476 seconde(s)
+
+***************NP:4 - Block-Mode Non-Block-MP_IO***************
+size_x:128 , size_y:128 , nbsteps:1000 
+#0-Temps total de calcul : 9.79727 seconde(s)
+
+***************NP:4 - Non-block Mode Non-Block-MP_IO***************
+size_x:128 , size_y:128 , nbsteps:1000 
+#0-Temps total de calcul : 4.58616 seconde(s)
+
+***************NP:1 - Block-Mode***************
+size_x:128 , size_y:128 , nbsteps:1000 
+#0-Temps total de calcul : 3.83911 seconde(s)
+
+***************NP:1 - Block-Mode***************
+size_x:512 , size_y:512 , nbsteps:40 
+#0-Temps total de calcul : 4.39464 seconde(s)
+
+***************NP:1 - Block-Mode***************
+size_x:512 , size_y:512 , nbsteps:4 
+#0-Temps total de calcul : 0.232406 seconde(s)
+
+***************NP:1 - Block-Mode***************
+size_x:512 , size_y:512 , nbsteps:40 
+#0-Temps total de calcul : 4.35214 seconde(s)
+

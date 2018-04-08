@@ -1,0 +1,257 @@
+
+***************NP:1***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 10.5417 seconde(s)
+
+***************NP:2***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 7.54002 seconde(s)
+
+***************NP:4***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 5.01888 seconde(s)
+
+***************NP:8***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 5.81924 seconde(s)
+
+***************NP:16***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 5.59221 seconde(s)
+
+***************NP:1***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 41.1236 seconde(s)
+
+***************NP:2***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 27.9333 seconde(s)
+
+***************NP:4***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 19.8811 seconde(s)
+
+***************NP:8***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 21.296 seconde(s)
+
+***************NP:16***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 20.1163 seconde(s)
+
+***************NP:1***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 71.6352 seconde(s)
+
+***************NP:2***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 47.426 seconde(s)
+
+***************NP:4***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 35.1719 seconde(s)
+
+***************NP:8***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 39.4393 seconde(s)
+
+***************NP:16***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 36.146 seconde(s)
+
+-----------------Test 1024*1024-----------------\n
+***************NP:1***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 10.9459 seconde(s)
+
+***************NP:2***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 7.21028 seconde(s)
+
+***************NP:4***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 5.43068 seconde(s)
+
+***************NP:8***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 5.88732 seconde(s)
+
+***************NP:16***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 6.17737 seconde(s)
+
+-----------------Test 2048*2048-----------------\n
+***************NP:1***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 40.2592 seconde(s)
+
+***************NP:2***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 28.7415 seconde(s)
+
+***************NP:4***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 19.8445 seconde(s)
+
+***************NP:8***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 21.5641 seconde(s)
+
+***************NP:16***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 20.2111 seconde(s)
+
+-----------------Test 4096*4096-----------------\n
+***************NP:1***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 71.5672 seconde(s)
+
+***************NP:2***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 48.2281 seconde(s)
+
+***************NP:4***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 35.4211 seconde(s)
+
+***************NP:8***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 38.7486 seconde(s)
+
+***************NP:16***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 36.6907 seconde(s)
+
+-----------------Test 8192*8192-----------------\n
+***************NP:1***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 331.404 seconde(s)
+
+***************NP:2***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 306.506 seconde(s)
+
+***************NP:4***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 161.918 seconde(s)
+
+***************NP:8***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 157.559 seconde(s)
+
+***************NP:16***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 145.405 seconde(s)
+
+***************NP:4***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 13.8995 seconde(s)
+
+***************NP:1***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 11.5236 seconde(s)
+
+***************NP:2***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 10.7333 seconde(s)
+
+***************NP:2 - Block-Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 13.0446 seconde(s)
+
+***************NP:2 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 10.6877 seconde(s)
+
+***************NP:2 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 11.2499 seconde(s)
+
+***************NP:4 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 8.56712 seconde(s)
+
+***************NP:16 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 15.0164 seconde(s)
+
+***************NP:16 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 14.6513 seconde(s)
+
+***************NP:8 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 14.147 seconde(s)
+
+***************NP:16 - Block-Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 25.9891 seconde(s)
+
+***************NP:2 - Block-Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 14.0447 seconde(s)
+
+***************NP:2 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 10.59 seconde(s)
+
+***************NP:2 - Block-Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 12.3403 seconde(s)
+
+***************NP:2 - Block-Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 12.6689 seconde(s)
+
+***************NP:2 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 9.9789 seconde(s)
+
+***************NP:2 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 11.3621 seconde(s)
+
+***************NP:2 - Block-Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 12.3885 seconde(s)
+
+***************NP:2 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 10.651 seconde(s)
+
+***************NP:2 - Block-Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 12.7357 seconde(s)
+
+***************NP:2 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 12.258 seconde(s)
+
+***************NP:2 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 10.9768 seconde(s)
+
+***************NP:4 - Block-Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 13.3875 seconde(s)
+
+***************NP:4 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 8.38644 seconde(s)
+
+***************NP:8 - Block-Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 19.4528 seconde(s)
+
+***************NP:8 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 15.5041 seconde(s)
+
+***************NP:8 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 15.6815 seconde(s)
+
+***************NP:8 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 15.576 seconde(s)
+

@@ -462,7 +462,7 @@ void forward(void) {
       }
     }
 
-    if(NP>1)
+    //if(NP>1)
     {
         //printf("---------------------------- Magic The Gathering ----------------------------\n");
         MPI_Gather(&HFIL_LOCAL(t,(my_rank!=0), 0),size_y*size_x/NP,MPI_DOUBLE,

@@ -64,3 +64,50 @@ mpirun -n 2 -hostfile hostfile -bynode ./bin/shalw  -x 8192 -y 8192 -t 20 --non_
 mpirun -n 4 -hostfile hostfile -bynode ./bin/shalw  -x 8192 -y 8192 -t 20 --non_block_comm
 mpirun -n 8 -hostfile hostfile -bynode ./bin/shalw  -x 8192 -y 8192 -t 20 --non_block_comm
 mpirun -n 16 -hostfile hostfile -bynode ./bin/shalw  -x 8192 -y 8192 -t 20 --non_block_comm
+
+echo "-----------------MPI_IO Test-----------------" >> perform.txt
+
+mpirun -n 1 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 40
+
+rm -f shalw_*
+
+mpirun -n 2 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 40
+mpirun -n 2 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 40 --non_block_comm 
+mpirun -n 2 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 40 --mpi_io
+mpirun -n 2 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 40 --mpi_io_non_block
+mpirun -n 2 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 40 --non_block_comm --mpi_io
+mpirun -n 2 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 40 --non_block_comm --mpi_io_non_block
+
+rm -f shalw_*
+
+mpirun -n 4 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 40
+mpirun -n 4 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 40 --non_block_comm 
+mpirun -n 4 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 40 --mpi_io
+mpirun -n 4 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 40 --mpi_io_non_block
+mpirun -n 4 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 40 --non_block_comm --mpi_io
+mpirun -n 4 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 40 --non_block_comm --mpi_io_non_block
+
+rm -f shalw_*
+
+mpirun -n 1 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 80
+
+rm -f shalw_*
+
+mpirun -n 2 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 80
+mpirun -n 2 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 80 --non_block_comm 
+mpirun -n 2 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 80 --mpi_io
+mpirun -n 2 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 80 --mpi_io_non_block
+mpirun -n 2 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 80 --non_block_comm --mpi_io
+mpirun -n 2 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 80 --non_block_comm --mpi_io_non_block
+
+rm -f shalw_*
+
+mpirun -n 4 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 80
+mpirun -n 4 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 80 --non_block_comm 
+mpirun -n 4 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 80 --mpi_io
+mpirun -n 4 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 80 --mpi_io_non_block
+mpirun -n 4 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 80 --non_block_comm --mpi_io
+mpirun -n 4 -hostfile hostfile -bynode ./bin/shalw --export -x 512 -y 512 -t 80 --non_block_comm --mpi_io_non_block
+
+rm -f shalw_*
+

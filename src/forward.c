@@ -505,7 +505,13 @@ void forward_parallel_io(void)
 	    //printf("P#%d-create file\n",my_rank);
 	    create_file_mpi(&file);
 	    //printf("P#%d-export file t=%d\n",my_rank,t);
-	    export_step_mpi(&file, t);
+	    if(non_block_pararel_IO)
+        {
+            export_step_mpi_begin(file,t);
+        }
+        else
+            export_step_mpi(file, t);
+
 	    //printf("P#%d-file exported t=%d\n",my_rank,t);
 	  }
   }
@@ -668,7 +674,13 @@ void forward_parallel_io(void)
 	{
 	    if (file_export) {
             //printf("P#%d-export file t=%d\n",my_rank,t);
-            export_step_mpi(&file, t);
+            if(non_block_pararel_IO)
+            {
+                export_step_mpi_end(file,t-1);
+                export_step_mpi_begin(file,t);
+            }
+            else
+                export_step_mpi(&file, t);
             //printf("P#%d-file exported for t=%d\n",my_rank,t);
 	    }
 	    //printf("export_step\n");

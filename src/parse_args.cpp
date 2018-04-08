@@ -68,11 +68,13 @@ void parse_args(int argc, char **argv) {
   if (vars.count("mpi_io"))
   {
       pararel_IO = true;
+      file_export=true;
   }
   if (vars.count("mpi_io_non_block"))
   {
       non_block_pararel_IO = true;
       pararel_IO=true;
+      file_export=true;
   }
   export_path = vars["export-path"].as<std::string>();
 }

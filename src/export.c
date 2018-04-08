@@ -9,7 +9,7 @@ FILE *create_file(void) {
   char fname[256];
   //int errnum;
   sprintf(fname, "%s/shalw_%dx%d_T%d_NP%d.sav", export_path.c_str(), size_x, size_y, nb_steps,NP);
-  printf("Fname:%s \n",fname);
+  //printf("Fname:%s \n",fname);
 
   if (f == NULL) {
 
@@ -47,7 +47,7 @@ MPI_File* create_file_mpi(MPI_File *f) {
   char fname[256];
 
   sprintf(fname, "%s/shalw_%dx%d_T%d_NP%d.sav", export_path.c_str(), size_x, size_y, nb_steps,NP);
-  printf("Fname:%s \n",fname);
+  //printf("Fname:%s \n",fname);
   //printf("Begin open\n");
   err=MPI_File_open(MPI_COMM_WORLD,fname,
                   MPI_MODE_RDWR | MPI_MODE_CREATE

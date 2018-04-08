@@ -31,7 +31,7 @@ int main_bloc(int argc, char **argv)  {
   /* Variables liees au chronometrage */
   double debut=0, fin=0;
   root = 0;
-  parse_args(argc, argv);
+  //parse_args(argc, argv);
   printf("Command line options parsed\n");
 
   alloc();
@@ -90,8 +90,7 @@ int main_bloc(int argc, char **argv)  {
     fprintf(stderr,"ERROR:NP ne divise pas size_y\n");
     return EXIT_FAILURE;
   }
-
-  forward();
+  forward_bloc();
   printf("State computed\n");
 
   if(my_rank==0)
@@ -117,8 +116,12 @@ int main(int argc, char **argv) {
   /* Variables liees au chronometrage */
   double debut=0, fin=0;
   root = 0;
-  //non_block_comm=true;
   parse_args(argc, argv);
+  if(decomp_bloc)
+  {
+      return main_bloc(arg,argv);
+  }
+  //non_block_comm=true;
   if(my_rank==0)
     printf("Command line options parsed\n");
 

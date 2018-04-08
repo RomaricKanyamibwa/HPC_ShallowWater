@@ -55,11 +55,9 @@ void export_step_mpi(MPI_File *f, int t) {
   	//fwrite((void *)&HFIL(t, 0, 0), sizeof(double), size_x * size_y, f);
   	MPI_File_write_at_all(*f, offset, (void *)&HFIL(t, 0, 0),
                   size_x*size_y, MPI_DOUBLE, &status);
-	//printf("k2\n");
 }
 
 void finalize_export_mpi(MPI_File *f) {
 	printf("CLOSE\n");
-	//if(my_rank==0)
-    MPI_File_close(fh);
+    MPI_File_close(f);
 }

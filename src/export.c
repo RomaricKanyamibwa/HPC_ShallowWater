@@ -11,7 +11,7 @@ FILE *create_file(void) {
   sprintf(fname, "%s/shalw_%dx%d_T%d_NP%d.sav", export_path.c_str(), size_x, size_y, nb_steps,NP);
   printf("Fname:%s \n",fname);
 
-  if (pf == NULL) {
+  if (f == NULL) {
 
       //errnum = errno;
       //fprintf(stderr, "Value of errno: %d\n", errno);

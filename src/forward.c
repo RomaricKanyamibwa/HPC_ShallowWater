@@ -491,7 +491,7 @@ void forward(void) {
 
 void forward_parallel_io(void)
  {
-  FILE *file = NULL;
+  MPI_File *file = NULL;
   double svdt = 0.;
   int t = 0,k;
   MPI_Status status;
@@ -499,13 +499,13 @@ void forward_parallel_io(void)
   MPI_Request reqs[48] ;
 
   //printf("---------MPI_IO---------\n");
-  if(my_rank==0)
+  //if(my_rank==0)
   {
 	  if (file_export) {
 	    //printf("1\n");
-	    file = create_file();
+	    file = create_file_mpi();
 	    //printf("2\n");
-	    export_step(file, t);
+	    export_step_mpi(file, t);
 	    //printf("3\n");
 	  }
   }
@@ -664,10 +664,10 @@ void forward_parallel_io(void)
                    &HFIL(t, 0, 0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);
         //printf("---------------------------- End of Gathering  ----------------------------\n");
     }
-	if(my_rank==0)
+	//if(my_rank==0)
 	{
 	    if (file_export) {
-	      export_step(file, t);
+	      export_step_mpi(file, t);
 	    }
 	    //printf("export_step\n");
 	}
@@ -675,10 +675,10 @@ void forward_parallel_io(void)
       dt = svdt;
     }
   }
-  if(my_rank==0)
+  //if(my_rank==0)
   if (file_export) {
   	//printf("finalize_export\n");
-    finalize_export(file);
+    finalize_export_mpi(file);
   }
 }
 

@@ -12,7 +12,7 @@ double *hFil, *uFil, *vFil, *hPhy, *uPhy, *vPhy;
 double *hFil_local, *uFil_local, *vFil_local, *hPhy_local, *uPhy_local, *vPhy_local;
 int size_x, size_y, nb_steps,local_size_x;
 double dx, dy, dt, pcor, grav, dissip, hmoy, alpha, height, epsilon;
-bool file_export,decomp_bloc,non_block_comm,pararel_IO;
+bool file_export,decomp_bloc,non_block_comm,pararel_IO,non_block_pararel_IO;
 std::string export_path;
 int my_rank,NP/*Nombre de processeur*/,root;
 int NbCol, NbLi, ligne_colonne,NP_temp,local_size_y;//par bloc
@@ -172,8 +172,14 @@ int main(int argc, char **argv) {
         sprintf(tmp,"Non-block Mode");
     else
         sprintf(tmp,"Block-Mode");
-    if(pararel_IO)
-        sprintf(tmp,"%s MP_IO",tmp);
+
+    if(non_block_pararel_IO)
+        sprintf(tmp,"%s Non-Block-MP_IO",tmp);
+    else
+    {
+        if(pararel_IO)
+            sprintf(tmp,"%s MP_IO",tmp);
+    }
     sprintf(str,"***************NP:%d - %s***************\n\
 size_x:%d , size_y:%d , nbsteps:%d \n\
 #%d-Temps total de calcul : %g seconde(s)\n\n"

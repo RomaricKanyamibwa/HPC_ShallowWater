@@ -25,6 +25,7 @@ void parse_args(int argc, char **argv) {
     ("bloc", "Bloc decomposition of the grid")
     ("non_block_comm","Activate non-blocking communication")
     ("mpi_io","Activate MPI_IO for parallel IO")
+    ("mpi_io_non_block","Activate non-blocking parallel IO with MPI_IO")
     ("export-path", po::value<std::string>()->default_value("."), "Path for the export");
 
   po::variables_map vars;
@@ -52,6 +53,7 @@ void parse_args(int argc, char **argv) {
   non_block_comm=false;
   decomp_bloc=false;
   pararel_IO=false;
+  non_block_pararel_IO=false;
 
   if (vars.count("export"))
     file_export = true;
@@ -66,6 +68,11 @@ void parse_args(int argc, char **argv) {
   if (vars.count("mpi_io"))
   {
       pararel_IO = true;
+  }
+  if (vars.count("mpi_io_non_block"))
+  {
+      non_block_pararel_IO = true;
+      pararel_IO=true;
   }
   export_path = vars["export-path"].as<std::string>();
 }

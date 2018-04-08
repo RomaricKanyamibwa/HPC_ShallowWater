@@ -30,8 +30,8 @@ void finalize_export(FILE *f) {
 
 }
 
-MPI_File* create_file_mpi(void) {
-  MPI_File *f=NULL;
+MPI_File* create_file_mpi(MPI_File *f) {
+  //MPI_File *f=NULL;
   int err = 0;
   char fname[256];
 

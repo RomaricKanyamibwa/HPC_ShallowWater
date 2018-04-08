@@ -491,7 +491,7 @@ void forward(void) {
 
 void forward_parallel_io(void)
  {
-  MPI_File *file = NULL;
+  MPI_File file;// = NULL;
   double svdt = 0.;
   int t = 0,k;
   MPI_Status status;
@@ -503,9 +503,9 @@ void forward_parallel_io(void)
   {
 	  if (file_export) {
 	    printf("P#%d-create file\n",my_rank);
-	    file = create_file_mpi();
+	    create_file_mpi(&file);
 	    printf("P#%d-export file t=%d\n",my_rank,t);
-	    export_step_mpi(file, t);
+	    export_step_mpi(&file, t);
 	    printf("P#%d-file exported t=%d\n",my_rank,t);
 	  }
   }
@@ -668,7 +668,7 @@ void forward_parallel_io(void)
 	{
 	    if (file_export) {
             printf("P#%d-export file t=%d\n",my_rank,t);
-            export_step_mpi(file, t);
+            export_step_mpi(&file, t);
             printf("P#%d-file exported for t=%d\n",my_rank,t);
 	    }
 	    //printf("export_step\n");
@@ -678,7 +678,7 @@ void forward_parallel_io(void)
     }
   }
   //if(my_rank==0)
-  if (file_export) {
+  if (&file_export) {
   	//printf("finalize_export\n");
     finalize_export_mpi(file);
   }

@@ -41,11 +41,11 @@ MPI_File* create_file_mpi(MPI_File *f) {
   err=MPI_File_open(MPI_COMM_WORLD,fname,
                   MPI_MODE_RDWR | MPI_MODE_CREATE
                   ,MPI_INFO_NULL,f);
-  printf("End open\n");
-  if (err)
-    {
-        MPI_Abort(MPI_COMM_WORLD, 911);
-    }
+  printf("End open\n Error message%d\n",err);
+//  if (err)
+//    {
+//        MPI_Abort(MPI_COMM_WORLD, 911);
+//    }
   return f;
 }
 

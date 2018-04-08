@@ -510,7 +510,7 @@ void forward_parallel_io(void)
             export_step_mpi_begin(&file,t);
         }
         else
-            export_step_mpi(file, t);
+            export_step_mpi(&file, t);
 
 	    //printf("P#%d-file exported t=%d\n",my_rank,t);
 	  }

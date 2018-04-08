@@ -86,7 +86,7 @@ void export_step_mpi_begin(MPI_File *f, int t) {
 void export_step_mpi_end(MPI_File *f, int t) {
     MPI_Status status;
   	//fwrite((void *)&HFIL(t, 0, 0), sizeof(double), size_x * size_y, f);
-  	MPI_File_write_at_all_end(*f, (void *)&HFIL_LOCAL(t,(my_rank!=0), 0), MPI_DOUBLE, &status);
+  	MPI_File_write_at_all_end(*f, (void *)&HFIL_LOCAL(t,(my_rank!=0), 0),&status);
 }
 
 void finalize_export_mpi(MPI_File *f) {

@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include <shalw.h>
+#include <shalw.h
+#include <stdlib.h>
 
 FILE *create_file(void) {
   FILE *f;

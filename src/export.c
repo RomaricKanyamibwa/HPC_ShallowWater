@@ -44,7 +44,7 @@ MPI_File* create_file_mpi(MPI_File *f) {
 //  printf("End open\n Error message%d\n",err);
   if (err)
     {
-        printf("Process #%d failed to open file %s\n",my_rank,fname)
+        printf("Process #%d failed to open file %s\n",my_rank,fname);
         MPI_Abort(MPI_COMM_WORLD, 911);
     }
   return f;

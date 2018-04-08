@@ -172,6 +172,8 @@ int main(int argc, char **argv) {
         sprintf(tmp,"Non-block Mode");
     else
         sprintf(tmp,"Block-Mode");
+    if(pararel_IO)
+        sprintf(tmp,"%s MP_IO",tmp);
     sprintf(str,"***************NP:%d - %s***************\n\
 size_x:%d , size_y:%d , nbsteps:%d \n\
 #%d-Temps total de calcul : %g seconde(s)\n\n"

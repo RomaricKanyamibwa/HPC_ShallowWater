@@ -498,7 +498,7 @@ void forward_parallel_io(void)
   MPI_Status stats[48];
   MPI_Request reqs[48] ;
 
-  printf("---------MPI_IO---------\n");
+  //printf("---------MPI_IO---------\n");
   if(my_rank==0)
   {
 	  if (file_export) {

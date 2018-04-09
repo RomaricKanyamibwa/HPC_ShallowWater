@@ -810,6 +810,7 @@ void forward_parallel_io(void)
   //if(my_rank==0)
   if (&file_export) {
   	//printf("finalize_export\n");
+  	export_step_mpi_end(&file,t-1);
     finalize_export_mpi(&file);
   }
 }

@@ -258,3 +258,63 @@ size_x:512 , size_y:512 , nbsteps:80
 size_x:512 , size_y:512 , nbsteps:80 
 #0-Temps total de calcul : 3.64451 seconde(s)
 
+***************NP:16 - Non-block Mode***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 159.788 seconde(s)
+
+***************NP:1 - Block-Mode***************
+size_x:128 , size_y:128 , nbsteps:1000 
+#0-Temps total de calcul : 3.55502 seconde(s)
+
+***************NP:4 - Non-block Mode***************
+size_x:128 , size_y:128 , nbsteps:1000 
+#0-Temps total de calcul : 3.19897 seconde(s)
+
+***************NP:4 - Block-Mode***************
+size_x:128 , size_y:128 , nbsteps:1000 
+#0-Temps total de calcul : 7.0614 seconde(s)
+
+***************NP:1 - Block-Mode***************
+size_x:256 , size_y:256 , nbsteps:40 
+#0-Temps total de calcul : 0.790126 seconde(s)
+
+***************NP:4 - Block-Mode***************
+size_x:256 , size_y:256 , nbsteps:100 
+#0-Temps total de calcul : 1.28299 seconde(s)
+
+***************NP:4 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:100 
+#0-Temps total de calcul : 1.0459 seconde(s)
+
+***************NP:4 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 7.57711 seconde(s)
+
+***************NP:4 - Block-Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 13.0324 seconde(s)
+
+***************NP:4 - Non-block Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 9.67491 seconde(s)
+
+***************NP:4 - Block-Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 11.5887 seconde(s)
+
+***************NP:4 - Block-Mode***************
+size_x:128 , size_y:128 , nbsteps:100 
+#0-Temps total de calcul : 0.658115 seconde(s)
+
+***************NP:4 - Block-Mode***************
+size_x:128 , size_y:128 , nbsteps:100 
+#0-Temps total de calcul : 0.848531 seconde(s)
+
+***************NP:4 - Block-Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 13.8729 seconde(s)
+
+***************NP:1 - Block-Mode***************
+size_x:256 , size_y:256 , nbsteps:1000 
+#0-Temps total de calcul : 15.8122 seconde(s)
+

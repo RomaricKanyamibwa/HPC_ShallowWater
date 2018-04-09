@@ -13,7 +13,7 @@ extern std::string export_path;
 #define HFIL(t, i, j) hFil[ (j) +			\
 			    (i) * size_y +		\
 			    ((t)%2) * size_x * size_y ]
-//#define UFIL(t, i, j) uFil[ (j) +			\
+/*#define UFIL(t, i, j) uFil[ (j) +			\
 //			    (i) * size_y +		\
 //			    ((t)%2) * size_x * size_y ]
 //#define VFIL(t, i, j) vFil[ (j) +			\
@@ -27,7 +27,7 @@ extern std::string export_path;
 //			    ((t)%2) * size_x * size_y ]
 //#define VPHY(t, i, j) vPhy[ (j) +			\
 //			    (i) * size_y +		\
-			    ((t)%2) * size_x * size_y ]
+			    ((t)%2) * size_x * size_y ]*/
 //Macro Local
 //ATTENTION OPTI LOCAL_SIZEX
 #define HFIL_LOCAL(t, i, j) hFil_local[ (j) +			\

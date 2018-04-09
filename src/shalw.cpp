@@ -64,7 +64,7 @@ int main_bloc(int argc, char **argv)  {
     }
     ligne_colonne = (ligne_colonne+1)%2;
   }
-  printf("End Calcul de size_x et size_y locaux");
+  printf("End Calcul de size_x et size_y locaux\n");
   if(my_rank>=NbCol)
     local_size_x++;
   if(my_rank<(NbLi-1)*NbCol)
@@ -76,7 +76,7 @@ int main_bloc(int argc, char **argv)  {
 
 
   gauss_init();
-  printf("P#%d:local size x:%d , y:%d\n",my_rank,local_size_x,size_y);
+  printf("P#%d:local size x:%d , y:%d\n",my_rank,local_size_x,local_size_y);
   printf("P#%d:size x:%d , y:%d\n",my_rank,size_x,size_y);
 
   if(my_rank==0)

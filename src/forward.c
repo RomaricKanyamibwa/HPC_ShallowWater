@@ -135,7 +135,7 @@ void forward_bloc(void) {
 	    printf("3\n");
 	  }
   }
-
+  printf("P#%d start de decomp par bloc\n",my_rank);
   for (t = 1; t < nb_steps; t++) {
 
     if (t == 1) {
@@ -152,6 +152,8 @@ void forward_bloc(void) {
     	/* au dessus en dessous */
         if(my_rank>=NbCol) //on envoie celui du haut
         {
+            printf("P#%d:Send bande haut\n",my_rank);
+
             mpi_ret_type = MPI_Sendrecv(&HPHY_LOCAL(t + k,1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank-NbCol,TAG_LAST_H_P
             ,&HPHY_LOCAL(t + k,0, 1),size_y/NbCol, MPI_DOUBLE,my_rank-NbCol,TAG_FIRST_H_P, MPI_COMM_WORLD,&status);
 
@@ -171,10 +173,12 @@ void forward_bloc(void) {
             ,&HFIL_LOCAL(t + k,0, 1),size_y/NbCol, MPI_DOUBLE,my_rank-NbCol,TAG_FIRST_H_F, MPI_COMM_WORLD,&status);
 
             //printf("P#%d:mpirettype_1%d\n",my_rank, mpi_ret_type);
+            printf("P#%d:Final Send bande haut\n",my_rank);
 
         }
         if(my_rank<NbCol*(NbLi-1)) //envoie celui du bas
         {
+            printf("P#%d:Send bande du bas\n",my_rank);
             mpi_ret_type = MPI_Sendrecv(&HPHY_LOCAL(t + k,local_size_x-2, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank+NbCol,TAG_FIRST_H_P
             ,&HPHY_LOCAL(t + k,local_size_x-1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank+NbCol,TAG_LAST_H_P, MPI_COMM_WORLD,&status);
 
@@ -192,13 +196,14 @@ void forward_bloc(void) {
 
             mpi_ret_type = MPI_Sendrecv(&HFIL_LOCAL(t + k,local_size_x-2, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank+NbCol,TAG_FIRST_H_F
             ,&HFIL_LOCAL(t + k,local_size_x-1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank+NbCol,TAG_LAST_H_F, MPI_COMM_WORLD,&status);
-
+            printf("P#%d:Final Send bande du bas\n",my_rank);
             //printf("P#%d:mpirettype_2%d\n",my_rank, mpi_ret_type);
         }
 
         /*a droite a gauche */
         if(my_rank%NbCol!=0) //tout les processus sauf ceux qui sont sur la colonne de gauche, on envoie la colonne tout a gauche
         {
+            printf("P#%d:Send bande gauche\n",my_rank);
          	for(i=0;i<size_x/NbLi;i++){
                     MPI_Sendrecv(&HPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1),1, MPI_DOUBLE, my_rank-1,TAG_LAST_H_P
                     ,&HPHY_LOCAL(t + k,i+(my_rank>=NbCol), 0),1, MPI_DOUBLE,my_rank-1,TAG_FIRST_H_P, MPI_COMM_WORLD,&status);
@@ -222,12 +227,13 @@ void forward_bloc(void) {
                     MPI_Sendrecv(&VFIL_LOCAL(t + k,i+(my_rank>=NbCol), 1),1, MPI_DOUBLE, my_rank-1,TAG_LAST_H_P
                     ,&VFIL_LOCAL(t + k,i+(my_rank>=NbCol), 0),1, MPI_DOUBLE,my_rank-1,TAG_FIRST_H_P, MPI_COMM_WORLD,&status);
 
-
             }
+            printf("P#%d: End Send bande gauche\n",my_rank);
 
             /*petit carre en haut a gauche*/
             if(my_rank>=NbCol) //on envoie celui du haut
             {
+                printf("P#%d: Send bande en haut gauche\n",my_rank);
                 MPI_Sendrecv(&HPHY_LOCAL(t + k,1, 1),1, MPI_DOUBLE, my_rank-1-NbCol,TAG_LAST_H_P
                 ,&HPHY_LOCAL(t + k,0, 0),1, MPI_DOUBLE,my_rank-1-NbCol,TAG_FIRST_H_P, MPI_COMM_WORLD,&status);
 
@@ -245,11 +251,13 @@ void forward_bloc(void) {
 
                 MPI_Sendrecv(&VFIL_LOCAL(t + k,1, 1),1, MPI_DOUBLE, my_rank-1-NbCol,TAG_LAST_H_P
                 ,&VFIL_LOCAL(t + k,0,0),1, MPI_DOUBLE,my_rank-1-NbCol,TAG_FIRST_H_P, MPI_COMM_WORLD,&status);
+                printf("P#%d: End Send bande en haut gauche\n",my_rank);
             }
 
             /*petit carre en bas a gauche */
             if(my_rank<NbCol*(NbLi-1))
             {
+                printf("P#%d: Send bande en bas a gauche\n",my_rank);
                 MPI_Sendrecv(&HPHY_LOCAL(t + k,1, local_size_y-2),1, MPI_DOUBLE, my_rank-1+NbCol,TAG_LAST_H_P
                 ,&HPHY_LOCAL(t + k,0, local_size_y-1),1, MPI_DOUBLE,my_rank-1+NbCol,TAG_FIRST_H_P, MPI_COMM_WORLD,&status);
 
@@ -267,6 +275,7 @@ void forward_bloc(void) {
 
                 MPI_Sendrecv(&VFIL_LOCAL(t + k,1, local_size_y-2),1, MPI_DOUBLE, my_rank-1+NbCol,TAG_LAST_H_P
                 ,&VFIL_LOCAL(t + k,0, local_size_y-1),1, MPI_DOUBLE,my_rank-1+NbCol,TAG_FIRST_H_P, MPI_COMM_WORLD,&status);
+                printf("P#%d: Final Send bande en bas a gauche\n",my_rank);
             }
 
             //printf("P#%d:mpirettype_1%d\n",my_rank, mpi_ret_type);
@@ -274,6 +283,7 @@ void forward_bloc(void) {
         }
         if((my_rank+1)%NbCol!=0) //tout les processus sauf ceux sur la colonne de droite, on envoiel aligne de droite
         {
+            printf("P#%d:Send bande droite\n",my_rank);
           	for(i=0;i<size_x/NbLi;i++){
                     MPI_Sendrecv(&HPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2),1, MPI_DOUBLE, my_rank+1,TAG_LAST_H_P
                     ,&HPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1),1, MPI_DOUBLE,my_rank+1,TAG_FIRST_H_P, MPI_COMM_WORLD,&status);
@@ -292,12 +302,13 @@ void forward_bloc(void) {
 
                     MPI_Sendrecv(&VFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2),1, MPI_DOUBLE, my_rank+1,TAG_LAST_H_P
                     ,&VFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1),1, MPI_DOUBLE,my_rank+1,TAG_FIRST_H_P, MPI_COMM_WORLD,&status);
-
+                    printf("P#%d: Final Send bande a droite\n",my_rank);
             }
 
             /*petit carre en haut a droite*/
             if(my_rank>=NbCol) //on envoie celui du haut
             {
+                printf("P#%d:Send bande en haut a droite\n",my_rank);
                 MPI_Sendrecv(&HPHY_LOCAL(t + k,1, local_size_y-2),1, MPI_DOUBLE, my_rank+1-NbCol,TAG_LAST_H_P
                 ,&HPHY_LOCAL(t + k,0, local_size_x-1),1, MPI_DOUBLE,my_rank+1-NbCol,TAG_FIRST_H_P, MPI_COMM_WORLD,&status);
 
@@ -315,11 +326,13 @@ void forward_bloc(void) {
 
                 MPI_Sendrecv(&VFIL_LOCAL(t + k,1, local_size_y-2),1, MPI_DOUBLE, my_rank+1-NbCol,TAG_LAST_H_P
                 ,&VFIL_LOCAL(t + k,0, local_size_x-1),1, MPI_DOUBLE,my_rank+1-NbCol,TAG_FIRST_H_P, MPI_COMM_WORLD,&status);
+                printf("P#%d:Final Send bande en haut a droite\n",my_rank);
             }
 
             /*petit carre en bas a droite */
             if(my_rank<NbCol*(NbLi-1))
             {
+                printf("P#%d:Send bande en bas a droite\n",my_rank);
                 MPI_Sendrecv(&HPHY_LOCAL(t + k,local_size_x-2, local_size_y-2),1, MPI_DOUBLE, my_rank+1+NbCol,TAG_LAST_H_P
                 ,&HPHY_LOCAL(t + k,local_size_x-1, local_size_y-1),1, MPI_DOUBLE,my_rank+1+NbCol,TAG_FIRST_H_P, MPI_COMM_WORLD,&status);
 
@@ -337,6 +350,7 @@ void forward_bloc(void) {
 
                 MPI_Sendrecv(&VFIL_LOCAL(t + k,local_size_x-2, local_size_y-2),1, MPI_DOUBLE, my_rank+1+NbCol,TAG_LAST_H_P
                 ,&VFIL_LOCAL(t + k,local_size_x-1, local_size_y-1),1, MPI_DOUBLE,my_rank+1+NbCol,TAG_FIRST_H_P, MPI_COMM_WORLD,&status);
+                printf("P#%d: Final Send bande en bas a droite\n",my_rank);
             }
 
 

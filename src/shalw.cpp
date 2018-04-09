@@ -45,9 +45,10 @@ int main_bloc(int argc, char **argv)  {
   NP_temp = NP;
   local_size_x = size_x;
   local_size_y = size_y;
-  NbCol = 0;
-  NbLi = 0;
+  NbCol = 1;
+  NbLi = 1;
   ligne_colonne = 0; //0 pour ligne 1 pour colonne
+  printf("Decomposition par bloc\n");
   while(NP_temp!=1)
   {
     NP_temp = NP_temp/2;
@@ -63,7 +64,7 @@ int main_bloc(int argc, char **argv)  {
     }
     ligne_colonne = (ligne_colonne+1)%2;
   }
-
+  printf("End Calcul de size_x et size_y locaux");
   if(my_rank>=NbCol)
     local_size_x++;
   if(my_rank<(NbLi-1)*NbCol)

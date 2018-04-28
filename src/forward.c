@@ -2,6 +2,7 @@
 #include <math.h>
 #include <shalw.h>
 #include <export.h>
+#include <stdlib.h>
 
 #define TAG_MESSAGE
 #ifdef TAG_MESSAGE

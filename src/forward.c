@@ -155,23 +155,23 @@ void forward_bloc(void) {
   int mpi_ret_type;
 
   /**buffer for send and recv**/
-  double* hphy_send=calloc(size_x/NbLi,sizeof(double));
-  double* hphy_recv=calloc(size_x/NbLi,sizeof(double));
+  double* hphy_send=(double *) calloc(size_x/NbLi,sizeof(double));
+  double* hphy_recv=(double *) calloc(size_x/NbLi,sizeof(double));
 
-  double* uphy_send=calloc(size_x/NbLi,sizeof(double));
-  double* uphy_recv=calloc(size_x/NbLi,sizeof(double));
+  double* uphy_send=(double *) calloc(size_x/NbLi,sizeof(double));
+  double* uphy_recv=(double *) calloc(size_x/NbLi,sizeof(double));
 
-  double* vphy_send=calloc(size_x/NbLi,sizeof(double));
-  double* vphy_recv=calloc(size_x/NbLi,sizeof(double));
+  double* vphy_send=(double *) calloc(size_x/NbLi,sizeof(double));
+  double* vphy_recv=(double *) calloc(size_x/NbLi,sizeof(double));
 
-  double* hfil_send=calloc(size_x/NbLi,sizeof(double));
-  double* hfil_recv=calloc(size_x/NbLi,sizeof(double));
+  double* hfil_send=(double *) calloc(size_x/NbLi,sizeof(double));
+  double* hfil_recv=(double *) calloc(size_x/NbLi,sizeof(double));
 
-  double* ufil_send=calloc(size_x/NbLi,sizeof(double));
-  double* ufil_recv=calloc(size_x/NbLi,sizeof(double));
+  double* ufil_send=(double *) calloc(size_x/NbLi,sizeof(double));
+  double* ufil_recv=(double *) calloc(size_x/NbLi,sizeof(double));
 
-  double* vfil_send=calloc(size_x/NbLi,sizeof(double));
-  double* vfil_recv=calloc(size_x/NbLi,sizeof(double));
+  double* vfil_send=(double *) calloc(size_x/NbLi,sizeof(double));
+  double* vfil_recv=(double *) calloc(size_x/NbLi,sizeof(double));
 
   if(my_rank==0)
   {

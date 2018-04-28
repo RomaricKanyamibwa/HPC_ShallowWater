@@ -75,7 +75,7 @@ int main_bloc(int argc, char **argv)  {
     local_size_y++;
 
 
-  gauss_init();
+  gauss_init_bloc();
   printf("P#%d:local size x:%d , y:%d\n",my_rank,local_size_x,local_size_y);
   printf("P#%d:size x:%d , y:%d\n",my_rank,size_x,size_y);
 

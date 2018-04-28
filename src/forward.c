@@ -153,6 +153,25 @@ void forward_bloc(void) {
   MPI_Status status;
   int mpi_ret_type;
 
+  /**buffer for send and recv**/
+  double* hphy_send=calloc(size_x/NbLi,sizeof(double));
+  double* hphy_recv=calloc(size_x/NbLi,sizeof(double));
+
+  double* uphy_send=calloc(size_x/NbLi,sizeof(double));
+  double* uphy_recv=calloc(size_x/NbLi,sizeof(double));
+
+  double* vphy_send=calloc(size_x/NbLi,sizeof(double));
+  double* vphy_recv=calloc(size_x/NbLi,sizeof(double));
+
+  double* hfil_send=calloc(size_x/NbLi,sizeof(double));
+  double* hfil_recv=calloc(size_x/NbLi,sizeof(double));
+
+  double* ufil_send=calloc(size_x/NbLi,sizeof(double));
+  double* ufil_recv=calloc(size_x/NbLi,sizeof(double));
+
+  double* vfil_send=calloc(size_x/NbLi,sizeof(double));
+  double* vfil_recv=calloc(size_x/NbLi,sizeof(double));
+
   if(my_rank==0)
   {
 	  if (file_export) {
@@ -233,29 +252,44 @@ void forward_bloc(void) {
         {
             printf("P#%d:Send bande gauche\n",my_rank);
          	for(i=0;i<size_x/NbLi;i++){
-                    MPI_Sendrecv(&HPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1),1, MPI_DOUBLE, my_rank-1,TAG_BLOC_VER_LAST_H_P
-                    ,&HPHY_LOCAL(t + k,i+(my_rank>=NbCol), 0),1, MPI_DOUBLE,my_rank-1,TAG_BLOC_VER_FIRST_H_P, MPI_COMM_WORLD,&status);
+                hphy_send[i]=HPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);
+                uphy_send[i]=UPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);
+                vphy_send[i]=VPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);
+                hfil_send[i]=HFIL_LOCAL(t + k,i+(my_rank>=NbCol), 1);
+                ufil_send[i]=UFIL_LOCAL(t + k,i+(my_rank>=NbCol), 1);
+                vfil_send[i]=VFIL_LOCAL(t + k,i+(my_rank>=NbCol), 1);
+         	}
+            MPI_Sendrecv(hphy_send,size_x/NbLi, MPI_DOUBLE, my_rank-1,TAG_BLOC_VER_LAST_H_P
+            ,hphy_recv,size_x/NbLi, MPI_DOUBLE,my_rank-1,TAG_BLOC_VER_FIRST_H_P, MPI_COMM_WORLD,&status);
 
-                    MPI_Sendrecv(&UPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1),1, MPI_DOUBLE, my_rank-1,TAG_BLOC_VER_LAST_H_P
-                    ,&UPHY_LOCAL(t + k,i+(my_rank>=NbCol), 0),1, MPI_DOUBLE,my_rank-1,TAG_BLOC_VER_FIRST_H_P, MPI_COMM_WORLD,&status);
-
-
-                    MPI_Sendrecv(&VPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1),1, MPI_DOUBLE, my_rank-1,TAG_BLOC_VER_LAST_H_P
-                    ,&VPHY_LOCAL(t + k,i+(my_rank>=NbCol), 0),1, MPI_DOUBLE,my_rank-1,TAG_BLOC_VER_FIRST_H_P, MPI_COMM_WORLD,&status);
-
-
-                    MPI_Sendrecv(&HFIL_LOCAL(t + k,i+(my_rank>=NbCol), 1),1, MPI_DOUBLE, my_rank-1,TAG_BLOC_VER_LAST_H_P
-                    ,&HFIL_LOCAL(t + k,i+(my_rank>=NbCol), 0),1, MPI_DOUBLE,my_rank-1,TAG_BLOC_VER_FIRST_H_P, MPI_COMM_WORLD,&status);
-
-
-                    MPI_Sendrecv(&UFIL_LOCAL(t + k,i+(my_rank>=NbCol), 1),1, MPI_DOUBLE, my_rank-1,TAG_BLOC_VER_LAST_H_P
-                    ,&UFIL_LOCAL(t + k,i+(my_rank>=NbCol), 0),1, MPI_DOUBLE,my_rank-1,TAG_BLOC_VER_FIRST_H_P, MPI_COMM_WORLD,&status);
+            MPI_Sendrecv(uphy_send,size_x/NbLi, MPI_DOUBLE, my_rank-1,TAG_BLOC_VER_LAST_H_P
+            ,uphy_recv,size_x/NbLi, MPI_DOUBLE,my_rank-1,TAG_BLOC_VER_FIRST_H_P, MPI_COMM_WORLD,&status);
 
 
-                    MPI_Sendrecv(&VFIL_LOCAL(t + k,i+(my_rank>=NbCol), 1),1, MPI_DOUBLE, my_rank-1,TAG_BLOC_VER_LAST_H_P
-                    ,&VFIL_LOCAL(t + k,i+(my_rank>=NbCol), 0),1, MPI_DOUBLE,my_rank-1,TAG_BLOC_VER_FIRST_H_P, MPI_COMM_WORLD,&status);
+            MPI_Sendrecv(vphy_send,size_x/NbLi, MPI_DOUBLE, my_rank-1,TAG_BLOC_VER_LAST_H_P
+            ,vphy_recv,size_x/NbLi, MPI_DOUBLE,my_rank-1,TAG_BLOC_VER_FIRST_H_P, MPI_COMM_WORLD,&status);
 
-            }
+
+            MPI_Sendrecv(hfil_send,size_x/NbLi, MPI_DOUBLE, my_rank-1,TAG_BLOC_VER_LAST_H_P
+            ,hfil_recv,size_x/NbLi, MPI_DOUBLE,my_rank-1,TAG_BLOC_VER_FIRST_H_P, MPI_COMM_WORLD,&status);
+
+
+            MPI_Sendrecv(ufil_send,size_x/NbLi, MPI_DOUBLE, my_rank-1,TAG_BLOC_VER_LAST_H_P
+            ,ufil_recv,size_x/NbLi, MPI_DOUBLE,my_rank-1,TAG_BLOC_VER_FIRST_H_P, MPI_COMM_WORLD,&status);
+
+
+            MPI_Sendrecv(vfil_send,size_x/NbLi, MPI_DOUBLE, my_rank-1,TAG_BLOC_VER_LAST_H_P
+            ,vfil_recv,size_x/NbLi, MPI_DOUBLE,my_rank-1,TAG_BLOC_VER_FIRST_H_P, MPI_COMM_WORLD,&status);
+
+            //&VFIL_LOCAL(t + k,i+(my_rank>=NbCol), 0)
+            for(i=0;i<size_x/NbLi;i++){
+                HPHY_LOCAL(t + k,i+(my_rank>=NbCol), 0)=hphy_recv[i];
+                UPHY_LOCAL(t + k,i+(my_rank>=NbCol), 0)=uphy_recv[i];
+                VPHY_LOCAL(t + k,i+(my_rank>=NbCol), 0)=vphy_recv[i];
+                HFIL_LOCAL(t + k,i+(my_rank>=NbCol), 0)=hfil_recv[i];
+                UFIL_LOCAL(t + k,i+(my_rank>=NbCol), 0)=ufil_recv[i];
+                VFIL_LOCAL(t + k,i+(my_rank>=NbCol), 0)=vfil_recv[i];
+         	}
             printf("P#%d: End Send bande gauche\n",my_rank);
 
 //            /*petit carre en haut a gauche*/
@@ -312,26 +346,41 @@ void forward_bloc(void) {
         if((my_rank+1)%NbCol!=0) //tout les processus sauf ceux sur la colonne de droite, on envoiel aligne de droite
         {
             printf("P#%d:Send bande droite\n",my_rank);
-          	for(i=0;i<size_x/NbLi;i++){
-                    MPI_Sendrecv(&HPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2),1, MPI_DOUBLE, my_rank+1,TAG_BLOC_VER_FIRST_H_P
-                    ,&HPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1),1, MPI_DOUBLE,my_rank+1,TAG_BLOC_VER_LAST_H_P, MPI_COMM_WORLD,&status);
+            for(i=0;i<size_x/NbLi;i++){
+                hphy_send[i]=HPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2);
+                uphy_send[i]=UPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2);
+                vphy_send[i]=VPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2);
+                hfil_send[i]=HFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2);
+                ufil_send[i]=UFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2);
+                vfil_send[i]=VFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2);
+         	}
+            MPI_Sendrecv(hphy_send,size_x/NbLi, MPI_DOUBLE, my_rank+1,TAG_BLOC_VER_FIRST_H_P
+            ,hphy_recv,size_x/NbLi, MPI_DOUBLE,my_rank+1,TAG_BLOC_VER_LAST_H_P, MPI_COMM_WORLD,&status);
 
-                    MPI_Sendrecv(&UPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2),1, MPI_DOUBLE, my_rank+1,TAG_BLOC_VER_FIRST_H_P
-                    ,&UPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1),1, MPI_DOUBLE,my_rank+1,TAG_BLOC_VER_LAST_H_P, MPI_COMM_WORLD,&status);
+            MPI_Sendrecv(uphy_send,size_x/NbLi, MPI_DOUBLE, my_rank+1,TAG_BLOC_VER_FIRST_H_P
+            ,uphy_recv,size_x/NbLi, MPI_DOUBLE,my_rank+1,TAG_BLOC_VER_LAST_H_P, MPI_COMM_WORLD,&status);
 
-                    MPI_Sendrecv(&VPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2),1, MPI_DOUBLE, my_rank+1,TAG_BLOC_VER_FIRST_H_P
-                    ,&VPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1),1, MPI_DOUBLE,my_rank+1,TAG_BLOC_VER_LAST_H_P, MPI_COMM_WORLD,&status);
+            MPI_Sendrecv(vphy_send,size_x/NbLi, MPI_DOUBLE, my_rank+1,TAG_BLOC_VER_FIRST_H_P
+            ,vphy_recv,size_x/NbLi, MPI_DOUBLE,my_rank+1,TAG_BLOC_VER_LAST_H_P, MPI_COMM_WORLD,&status);
 
-                    MPI_Sendrecv(&HFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2),1, MPI_DOUBLE, my_rank+1,TAG_BLOC_VER_FIRST_H_P
-                    ,&HFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1),1, MPI_DOUBLE,my_rank+1,TAG_BLOC_VER_LAST_H_P, MPI_COMM_WORLD,&status);
+            MPI_Sendrecv(hfil_send,size_x/NbLi, MPI_DOUBLE, my_rank+1,TAG_BLOC_VER_FIRST_H_P
+            ,hfil_recv,size_x/NbLi, MPI_DOUBLE,my_rank+1,TAG_BLOC_VER_LAST_H_P, MPI_COMM_WORLD,&status);
 
-                    MPI_Sendrecv(&UFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2),1, MPI_DOUBLE, my_rank+1,TAG_BLOC_VER_FIRST_H_P
-                    ,&UFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1),1, MPI_DOUBLE,my_rank+1,TAG_BLOC_VER_LAST_H_P, MPI_COMM_WORLD,&status);
+            MPI_Sendrecv(ufil_send,size_x/NbLi, MPI_DOUBLE, my_rank+1,TAG_BLOC_VER_FIRST_H_P
+            ,ufil_recv,size_x/NbLi, MPI_DOUBLE,my_rank+1,TAG_BLOC_VER_LAST_H_P, MPI_COMM_WORLD,&status);
 
-                    MPI_Sendrecv(&VFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2),1, MPI_DOUBLE, my_rank+1,TAG_BLOC_VER_FIRST_H_P
-                    ,&VFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1),1, MPI_DOUBLE,my_rank+1,TAG_BLOC_VER_LAST_H_P, MPI_COMM_WORLD,&status);
-                    printf("P#%d: Final Send bande a droite\n",my_rank);
-            }
+            MPI_Sendrecv(vfil_send,size_x/NbLi, MPI_DOUBLE, my_rank+1,TAG_BLOC_VER_FIRST_H_P
+            ,vfil_recv,size_x/NbLi, MPI_DOUBLE,my_rank+1,TAG_BLOC_VER_LAST_H_P, MPI_COMM_WORLD,&status);
+
+            for(i=0;i<size_x/NbLi;i++){
+                HPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1)=hphy_recv[i];
+                UPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1)=uphy_recv[i];
+                VPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1)=vphy_recv[i];
+                HFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1)=hfil_recv[i];
+                UFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1)=ufil_recv[i];
+                VFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1)=vfil_recv[i];
+         	}
+            printf("P#%d: Final Send bande a droite\n",my_rank);
 
 //            /*petit carre en haut a droite*/
 //            if(my_rank>=NbCol) //on envoie celui du haut
@@ -585,9 +634,9 @@ void forward(void) {
         MPI_Waitall(48-24*(my_rank==0||my_rank==NP-1),reqs,stats) ;
     }
 
-    for (int j = 0; j < size_y; j++) {
-      for (int i = 0; i < size_x/NP; i++) {
-          if(my_rank==0)
+    for (int j = 0; j < local_size_y; j++) {
+      for (int i = 0; i < local_size_x; i++) {
+          //if(my_rank==0)
           {
             HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
             UPHY_LOCAL(t, i, j) = uPhy_forward(t, i, j);
@@ -596,15 +645,15 @@ void forward(void) {
             UFIL_LOCAL(t, i, j) = uFil_forward(t, i, j);
             VFIL_LOCAL(t, i, j) = vFil_forward(t, i, j);
           }
-          else
-          {
-            HPHY_LOCAL(t, i+1, j) = hPhy_forward(t, i+1, j);
-            UPHY_LOCAL(t, i+1, j) = uPhy_forward(t, i+1, j);
-            VPHY_LOCAL(t, i+1, j) = vPhy_forward(t, i+1, j);
-            HFIL_LOCAL(t, i+1, j) = hFil_forward(t, i+1, j);
-            UFIL_LOCAL(t, i+1, j) = uFil_forward(t, i+1, j);
-            VFIL_LOCAL(t, i+1, j) = vFil_forward(t, i+1, j);
-          }
+//          else
+//          {
+//            HPHY_LOCAL(t, i+1, j) = hPhy_forward(t, i+1, j);
+//            UPHY_LOCAL(t, i+1, j) = uPhy_forward(t, i+1, j);
+//            VPHY_LOCAL(t, i+1, j) = vPhy_forward(t, i+1, j);
+//            HFIL_LOCAL(t, i+1, j) = hFil_forward(t, i+1, j);
+//            UFIL_LOCAL(t, i+1, j) = uFil_forward(t, i+1, j);
+//            VFIL_LOCAL(t, i+1, j) = vFil_forward(t, i+1, j);
+//          }
       }
     }
 

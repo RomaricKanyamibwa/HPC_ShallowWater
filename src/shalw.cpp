@@ -54,13 +54,13 @@ int main_bloc(int argc, char **argv)  {
     NP_temp = NP_temp/2;
     if(ligne_colonne==0) //ligne
     {
-      local_size_x = local_size_x/2;
-      NbLi++;
+      local_size_y = local_size_y/2;
+      NbCol*=2;
     }
     else
     {
-      local_size_y = local_size_y/2;
-      NbCol++;
+      local_size_x = local_size_x/2;
+      NbLi*=2;
     }
     ligne_colonne = (ligne_colonne+1)%2;
   }
@@ -77,7 +77,11 @@ int main_bloc(int argc, char **argv)  {
 
   gauss_init_bloc();
   printf("P#%d:local size x:%d , y:%d\n",my_rank,local_size_x,local_size_y);
-  printf("P#%d:size x:%d , y:%d\n",my_rank,size_x,size_y);
+  if(my_rank==0)
+  {
+    printf("P#%d:size x:%d , y:%d\n",my_rank,size_x,size_y);
+    printf("P#%d:Nbline:%d , Nbcolonne:%d\n",my_rank,NbLi,NbCol);
+    }
 
   if(my_rank==0)
   {

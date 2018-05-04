@@ -150,7 +150,7 @@ double vPhy_forward(int t, int i, int j) {
 void forward_bloc(void) {
   FILE *file = NULL;
   double svdt = 0.;
-  int t = 0,k,i,j;
+  int t = 0,k,i;
   MPI_Status status;
   //int mpi_ret_type;
 
@@ -462,7 +462,7 @@ void forward_bloc(void) {
         {
             for(i=0;i<size_x/NbLi;i++)
             {
-                for(j=0;j<NP;j++)
+                for(int j=0;j<NP;j++)
                 {
                     memcpy(&HFIL(t, i+(j/NbCol)*size_x/NbLi,(j%NbCol)*size_y/NbCol)
                            ,hphy_buff_recv+j*size_y/NbCol*size_x/NbLi+i*size_y/NbCol,size_y/NbCol);

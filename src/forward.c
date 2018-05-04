@@ -195,7 +195,7 @@ void forward_bloc(void) {
     }
     //double  *uFil_local, *vFil_local, *hPhy_local, *uPhy_local, *vPhy_local;
 
-    for(k=0;k<1;k++)
+    for(k=0;k<2;k++)
     {
     	/* au dessus en dessous */
         if(my_rank>=NbCol) //on envoie celui du haut sauf ceux sur la premiere ligne
@@ -244,14 +244,14 @@ void forward_bloc(void) {
 
             MPI_Sendrecv(&HFIL_LOCAL(t + k,local_size_x-1-(my_rank>=NbCol), my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank+NbCol,TAG_BLOC_HOR_FIRST_H_F
             ,&HFIL_LOCAL(t + k,local_size_x-1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank+NbCol,TAG_BLOC_HOR_LAST_H_F, MPI_COMM_WORLD,&status);
-            //printf("P#%d:Final Send bande du bas\n",my_rank);
+            printf("P#%d:Final Send bande du bas\n",my_rank);
             //printf("P#%d:mpirettype_2%d\n",my_rank, mpi_ret_type);
         }
 
         /*a droite a gauche */
         if(my_rank%NbCol!=0) //tout les processus sauf ceux qui sont sur la colonne de gauche, on envoie la colonne tout a gauche
         {
-            //printf("P#%d:Send bande gauche\n",my_rank);
+            printf("P#%d:Send bande gauche\n",my_rank);
          	for(i=0;i<size_x/NbLi;i++){
                 hphy_send[i]=HPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);
                 uphy_send[i]=UPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);
@@ -346,7 +346,7 @@ void forward_bloc(void) {
         }
         if((my_rank+1)%NbCol!=0) //tout les processus sauf ceux sur la colonne de droite, on envoiel aligne de droite
         {
-            //printf("P#%d:Send bande droite\n",my_rank);
+            printf("P#%d:Send bande droite\n",my_rank);
             for(i=0;i<size_x/NbLi;i++){
                 hphy_send[i]=HPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1-(my_rank%NbCol!=0));
                 uphy_send[i]=UPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1-(my_rank%NbCol!=0));

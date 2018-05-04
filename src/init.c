@@ -47,20 +47,20 @@ void gauss_init_bloc(void) {
 	(exp(- pow((i * dx - gmx) / gsx, 2) / 2.)) *
 	(exp(- pow((j * dy - gmy) / gsy, 2) / 2.)) ;
 	//ATTENTION OPTI LOCAL_SIZEX
-	if(i<local_size_x)
+	if(i<size_x/NbLi)
 	{
         tmpx=(size_x/NP*my_rank)/*-1*(i>0)*(my_rank!=0)*/;
         //printf("P#%d:tmp=%lf\n",my_rank,tmp);
 	}
-	else
-        tmpx=0.0;
-	if(j<local_size_y)
+	//else
+      //  tmpx=0.0;
+	if(j<size_y/NbCol)
 	{
         tmpy=(local_size_y*my_rank)/*-1*(i>0)*(my_rank!=0)*/;
         //printf("P#%d:tmp=%lf\n",my_rank,tmp);
 	}
-	else
-        tmpy=0.0;
+	//else
+      //  tmpy=0.0;
 	HFIL_LOCAL(0, i, j) = height *
 	(exp(- pow(((i+(my_rank>=NbCol)+tmpx) * dx - gmx) / gsx, 2) / 2.)) *
 	(exp(- pow(((j+(my_rank%NbCol!=0)+tmpy) * dy - gmy) / gsy, 2) / 2.)) ;

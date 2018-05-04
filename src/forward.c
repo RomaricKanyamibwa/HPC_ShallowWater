@@ -200,7 +200,7 @@ void forward_bloc(void) {
     	/* au dessus en dessous */
         if(my_rank>=NbCol) //on envoie celui du haut sauf ceux sur la premiere ligne
         {
-            //printf("P#%d:Send bande haut\n",my_rank);
+            printf("P#%d:Send bande haut\n",my_rank);
 
             MPI_Sendrecv(&HPHY_LOCAL(t + k,1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank-NbCol,TAG_BLOC_HOR_LAST_H_P
             ,&HPHY_LOCAL(t + k,0, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank-NbCol,TAG_BLOC_HOR_FIRST_H_P, MPI_COMM_WORLD,&status);
@@ -446,14 +446,14 @@ void forward_bloc(void) {
             VFIL_LOCAL(t, i, j) = vFil_forward(t, i, j);
       }
     }
-    //for(k=0;k<2;k++)
-    for(i=0;i<size_x/NbLi;i++)
-    {
-        MPI_Gather(&HFIL_LOCAL(t,i+(my_rank>=NbCol), (my_rank%NbCol!=0))/*+size_y*(my_rank!=0)*/,size_y/NbCol/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE
-        ,&HFIL(t, i+(my_rank/NbCol)*size_x/NbLi,(my_rank%NbCol)*size_y/NbCol),size_y/NbCol/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);
+//    //for(k=0;k<2;k++)
+//    for(i=0;i<size_x/NbLi;i++)
+//    {
+//        MPI_Gather(&HFIL_LOCAL(t,i+(my_rank>=NbCol), (my_rank%NbCol!=0))/*+size_y*(my_rank!=0)*/,size_y/NbCol/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE
+//        ,&HFIL(t, i+(my_rank/NbCol)*size_x/NbLi,(my_rank%NbCol)*size_y/NbCol),size_y/NbCol/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);
+//
+//    }
 
-    }
-    /*
     {
         double* hphy_buff_send=(double *) calloc(size_x/NbLi*size_y/NbCol,sizeof(double));
         double* hphy_buff_recv=(double *) calloc(size_x*size_y,sizeof(double));
@@ -484,7 +484,6 @@ void forward_bloc(void) {
         //printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
     }
 
-    */
    if(my_rank==0)
 	{
 	    if (file_export) {

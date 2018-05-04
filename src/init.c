@@ -52,15 +52,15 @@ void gauss_init_bloc(void) {
         tmpx=(size_x/NP*my_rank/NbLi)/*-1*(i>0)*(my_rank!=0)*/;
         //printf("P#%d:tmp=%lf\n",my_rank,tmp);
 	}
-	//else
-      //  tmpx=0.0;
+	else
+        tmpx=0.0;
 	if(j<size_y/NbCol)
 	{
         tmpy=(size_y/NP*my_rank%NbCol)/*-1*(i>0)*(my_rank!=0)*/;
         //printf("P#%d:tmp=%lf\n",my_rank,tmp);
 	}
-	//else
-      //  tmpy=0.0;
+	else
+        tmpy=0.0;
 	HFIL_LOCAL(0, i, j) = height *
 	(exp(- pow(((i+tmpy) * dx - gmx) / gsx, 2) / 2.)) *
 	(exp(- pow(((j+tmpx) * dy - gmy) / gsy, 2) / 2.)) ;

@@ -450,7 +450,7 @@ void forward_bloc(void) {
     for(i=0;i<size_x/NbLi;i++)
     {
         MPI_Gather(&HFIL_LOCAL(t,i+(my_rank>=NbCol), (my_rank%NbCol!=0))/*+size_y*(my_rank!=0)*/,size_y/NbCol/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE
-        ,&HFIL(t, (my_rank%NbCol)*size_y/NbCol, (my_rank%NbLi)*size_x/NbLi),size_y/NbCol/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);
+        ,&HFIL(t, i+(j/NbCol)*size_x/NbLi,(j%NbCol)*size_y/NbCol),size_y/NbCol/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);
 
     }
    if(my_rank==0)

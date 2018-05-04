@@ -183,7 +183,8 @@ void forward_bloc(void) {
 	    printf("3\n");
 	  }
   }
-  printf("P#%d start de decomp par bloc\n",my_rank);
+  if(my_rank==0)
+    printf("P#%d start de decomp par bloc\n",my_rank);
   for (t = 1; t < nb_steps; t++) {
 
     if (t == 1) {
@@ -200,7 +201,7 @@ void forward_bloc(void) {
     	/* au dessus en dessous */
         if(my_rank>=NbCol) //on envoie celui du haut sauf ceux sur la premiere ligne
         {
-            printf("P#%d:Send bande haut\n",my_rank);
+//            printf("P#%d:Send bande haut\n",my_rank);
 
             MPI_Sendrecv(&HPHY_LOCAL(t + k,1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank-NbCol,TAG_BLOC_HOR_LAST_H_P
             ,&HPHY_LOCAL(t + k,0, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank-NbCol,TAG_BLOC_HOR_FIRST_H_P, MPI_COMM_WORLD,&status);
@@ -244,14 +245,14 @@ void forward_bloc(void) {
 
             MPI_Sendrecv(&HFIL_LOCAL(t + k,local_size_x-1-(my_rank>=NbCol), my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE, my_rank+NbCol,TAG_BLOC_HOR_FIRST_H_F
             ,&HFIL_LOCAL(t + k,local_size_x-1, my_rank%NbCol!=0),size_y/NbCol, MPI_DOUBLE,my_rank+NbCol,TAG_BLOC_HOR_LAST_H_F, MPI_COMM_WORLD,&status);
-            printf("P#%d:Final Send bande du bas\n",my_rank);
+//            printf("P#%d:Final Send bande du bas\n",my_rank);
             //printf("P#%d:mpirettype_2%d\n",my_rank, mpi_ret_type);
         }
 
         /*a droite a gauche */
         if(my_rank%NbCol!=0) //tout les processus sauf ceux qui sont sur la colonne de gauche, on envoie la colonne tout a gauche
         {
-            printf("P#%d:Send bande gauche\n",my_rank);
+//            printf("P#%d:Send bande gauche\n",my_rank);
          	for(i=0;i<size_x/NbLi;i++){
                 hphy_send[i]=HPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);
                 uphy_send[i]=UPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);
@@ -346,7 +347,7 @@ void forward_bloc(void) {
         }
         if((my_rank+1)%NbCol!=0) //tout les processus sauf ceux sur la colonne de droite, on envoiel aligne de droite
         {
-            printf("P#%d:Send bande droite\n",my_rank);
+//            printf("P#%d:Send bande droite\n",my_rank);
             for(i=0;i<size_x/NbLi;i++){
                 hphy_send[i]=HPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1-(my_rank%NbCol!=0));
                 uphy_send[i]=UPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1-(my_rank%NbCol!=0));
@@ -469,14 +470,22 @@ void forward_bloc(void) {
         //printf("P#%d-------End gather-------\n",my_rank);
         if(my_rank==0)
         {
+            printf("P#%d:---------------------------- Magic The Gathering ----------------------------\n",my_rank);
             for(i=0;i<size_x/NbLi;i++)
             {
                 for(int j=0;j<NP;j++)
                 {
+                    printf("i:%d,j:%d\n",i,j);
+                    printf("(j/NbCol)*size_x/NbLi:%d\n",(j/NbCol)*size_x/NbLi);
+                    printf("i+(j/NbCol)*size_x/NbLi:%d\n",(j/NbCol)*size_x/NbLi);
+                    printf("(j%NbCol)*size_y/NbCol:%d\n",(j%NbCol)*size_y/NbCol);
+                    printf("j*size_y/NbCol*size_x/NbLi:%d\n",j*size_y/NbCol*size_x/NbLi);
+                    printf("i*size_y/NbCol:%d\n",i*size_y/NbCol);
                     memcpy(&HFIL(t, i+(j/NbCol)*size_x/NbLi,(j%NbCol)*size_y/NbCol)
                            ,hphy_buff_recv+j*size_y/NbCol*size_x/NbLi+i*size_y/NbCol,size_y/NbCol);
                 }
             }
+            printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
         }
         //printf("P#%d-------End if-------\n",my_rank);
         free(hphy_buff_send);

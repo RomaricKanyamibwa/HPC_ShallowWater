@@ -436,39 +436,39 @@ void forward_bloc(void) {
     }
 
     //printf("P#%d:line%d\n",my_rank,189);
-    for (int j = 0; j < local_size_y; j++) {
-      for (int i = 0; i < local_size_x+1; i++) {
-          if(my_rank==0)
-          {
+    for (int j = (my_rank%NbCol!=0); j < local_size_y; j++) {
+      for (int i = (my_rank>=NbCol); i < local_size_x; i++) {
             HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
             UPHY_LOCAL(t, i, j) = uPhy_forward(t, i, j);
             VPHY_LOCAL(t, i, j) = vPhy_forward(t, i, j);
             HFIL_LOCAL(t, i, j) = hFil_forward(t, i, j);
             UFIL_LOCAL(t, i, j) = uFil_forward(t, i, j);
             VFIL_LOCAL(t, i, j) = vFil_forward(t, i, j);
-          }
-          else
-          {
-            HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
-            UPHY_LOCAL(t, i, j) = uPhy_forward(t, i, j);
-            VPHY_LOCAL(t, i, j) = vPhy_forward(t, i, j);
-            HFIL_LOCAL(t, i, j) = hFil_forward(t, i, j);
-            UFIL_LOCAL(t, i, j) = uFil_forward(t, i, j);
-            VFIL_LOCAL(t, i, j) = vFil_forward(t, i, j);
-          }
       }
     }
     //for(k=0;k<2;k++)
     {
         double* hphy_buff_send=(double *) calloc(size_x/NbLi,sizeof(double)*size_y/NbCol);
-        double* hphy_buff_recv=(double *) calloc(size_x/NbLi,sizeof(double)*size_y/NbCol);
+        double* hphy_buff_recv=(double *) calloc(size_x,sizeof(double)*size_y);
         //printf("P#%d:---------------------------- Magic The Gathering ----------------------------\n",my_rank);
-        for(i=0;i<size_x/NbLi;i++)
+        for(i=0;i<size_x/NbLi;i++)//construction de buffer ligne par ligne
         {
             memcpy(hphy_buff_send+i*size_y/NbCol,&HFIL_LOCAL(t,i+(my_rank>=NbCol), (my_rank%NbCol!=0)),size_y/NbCol);
         }
-        MPI_Gather(&HFIL_LOCAL(t,i+(my_rank>=NbCol), (my_rank%NbCol!=0))/*+size_y*(my_rank!=0)*/,size_y/NbCol/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/
-            ,MPI_DOUBLE,&HFIL(t, (my_rank%NbCol)*size_y/NbCol, (my_rank%NbLi)*size_x/NbLi),size_y/NbCol/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);
+        MPI_Gather(hphy_buff_send,size_y/NbCol*size_x/NbLi,MPI_DOUBLE
+                   ,hphy_buff_recv//&HFIL(t, (my_rank%NbCol)*size_y/NbCol,(my_rank%NbLi)*size_x/NbLi)
+                   ,size_y/NbCol*size_x/NbLi,MPI_DOUBLE,0,MPI_COMM_WORLD);
+        if(my_rank==0)
+        {
+            for(i=0;i<size_x/NbLi;i++)
+            {
+                for(j=0;j<NP;j++)
+                {
+                    memcpy(&HFIL(t, i+(j/NbCol)*size_x/NbLi,(j%NbCol)*size_y/NbCol)
+                           ,hphy_buff_recv+j*size_y/NbCol*size_x/NbLi+i*size_y/NbCol,size_y/NbCol);
+                }
+            }
+        }
         free(hphy_buff_send);
         free(hphy_buff_recv);
         //printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);

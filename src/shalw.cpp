@@ -65,13 +65,13 @@ int main_bloc(int argc, char **argv)  {
     ligne_colonne = (ligne_colonne+1)%2;
   }
   printf("End Calcul de size_x et size_y locaux\n");
-  if(my_rank>=NbCol)
+  if(my_rank>=NbCol)//tous les blocs sauf ceux de la 1ere ligne
     local_size_x++;
-  if(my_rank<(NbLi-1)*NbCol)
+  if(my_rank<(NbLi-1)*NbCol)//tous les blocs sauf ceux de la derniere ligne
     local_size_x++;
-  if(my_rank%NbCol!=0)
+  if(my_rank%NbCol!=0)//tous les blocs sauf ceux de la colonne la plus a gauche
     local_size_y++;
-  if((my_rank+1)%NbCol!=0)
+  if((my_rank+1)%NbCol!=0)//tous les blocs sauf ceux de la colonne la plus a droire
     local_size_y++;
 
 

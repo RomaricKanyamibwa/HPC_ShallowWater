@@ -150,7 +150,7 @@ double vPhy_forward(int t, int i, int j) {
 void forward_bloc(void) {
   FILE *file = NULL;
   double svdt = 0.;
-  int t = 0,k,i;
+  int t = 0,k,i,j;
   MPI_Status status;
   //int mpi_ret_type;
 

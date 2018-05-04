@@ -48,7 +48,7 @@ void gauss_init_bloc(void) {
 //	(exp(- pow((j * dy - gmy) / gsy, 2) / 2.)) ;
 
 	HFIL_LOCAL(0, i, j) = height *
-	(exp(- pow(((i+tmp) * dx - gmx) / gsx, 2) / 2.)) *
+	(exp(- pow((i * dx - gmx) / gsx, 2) / 2.)) *
 	(exp(- pow((j * dy - gmy) / gsy, 2) / 2.)) ;
 	//ATTENTION OPTI LOCAL_SIZEX
 //	if(i<size_x/NbLi)

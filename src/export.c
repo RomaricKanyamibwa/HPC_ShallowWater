@@ -10,7 +10,7 @@ FILE *create_file(void) {
   //int errnum;
   sprintf(fname, "%s/shalw_%dx%d_T%d_NP%d.sav", export_path.c_str(), size_x, size_y, nb_steps,NP);
   //printf("Fname:%s \n",fname);
-
+  f = fopen(fname, "w+b");
   if (f == NULL) {
 
       //errnum = errno;
@@ -19,7 +19,6 @@ FILE *create_file(void) {
       //fprintf(stderr, "Error opening file: %s\n", strerror( errnum ));
    }
 
-  f = fopen(fname, "w+b");
 
   return f;
 }

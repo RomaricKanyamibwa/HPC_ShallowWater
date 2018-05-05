@@ -48,7 +48,7 @@ int main_bloc(int argc, char **argv)  {
   NbCol = 1;
   NbLi = 1;
   ligne_colonne = 0; //0 pour ligne 1 pour colonne
-  printf("Decomposition par bloc\n");
+  //printf("Decomposition par bloc\n");
   while(NP_temp!=1)
   {
     NP_temp = NP_temp/2;
@@ -87,7 +87,7 @@ int main_bloc(int argc, char **argv)  {
   {
     /* debut du chronometrage */
     debut = my_gettimeofday();
-    printf("NP:%d\n",NP);
+    printf("***************NP:%d***************\n",NP);
   }
 
   if(size_x%NP!=0)

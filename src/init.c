@@ -53,14 +53,14 @@ void gauss_init_bloc(void) {
 	//ATTENTION OPTI LOCAL_SIZEX
 	if(i<size_x/NbLi|| j<size_y/NbCol)
 	{
-        tmpx=(size_x/NP*my_rank/NbLi)/*-1*(i>0)*(my_rank!=0)*/;
+        tmpx=(size_x/NbLi*my_rank/NbLi)/*-1*(i>0)*(my_rank!=0)*/;
         //printf("P#%d:tmp=%lf\n",my_rank,tmp);
 	}
 	else
         tmpx=0.0;
 	if(j<size_y/NbCol ||i<size_x/NbLi)
 	{
-        tmpy=(size_y/NP*my_rank%NbCol)/*-1*(i>0)*(my_rank!=0)*/;
+        tmpy=(size_y/NbCol*my_rank%NbCol)/*-1*(i>0)*(my_rank!=0)*/;
         //printf("P#%d:tmp=%lf\n",my_rank,tmp);
 	}
 	else

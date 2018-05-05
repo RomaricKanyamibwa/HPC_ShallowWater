@@ -502,6 +502,8 @@ void forward_bloc(void) {
 //                    printf("i*size_y/NbCol:%d\n",i*size_y/NbCol);
                     memcpy(&HFIL(t, i+(j/NbCol)*size_x/NbLi,(j%NbCol)*size_y/NbCol)
                            ,hfil_buff_recv+j*size_y/NbCol*size_x/NbLi+i*size_y/NbCol,size_y/NbCol);
+                           HFIL(t,i,j)=7532144;
+                           HFIL(t-1,i,j)=9582144;
                 }
             }
             //printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);

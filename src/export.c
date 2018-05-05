@@ -26,7 +26,7 @@ int i=0;
 void export_step(FILE *f, int t) {
 	//printf("k1,my_rank %d \n",i++);
 	//printf("t=%d \n",t );
-  	fwrite((void *)&HFIL_LOCAL(t, 0, 0), sizeof(double), size_x * size_y, f);
+  	fwrite((void *)&HFIL(t, 0, 0), sizeof(double), size_x * size_y, f);
 	//printf("k2\n");
 }
 

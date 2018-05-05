@@ -41,8 +41,8 @@ void gauss_init_bloc(void) {
   gsx = 25000 ;
   gsy = 25000 ;
 
-  for (int i = 0; i < size_x;  i++) {
-    for (int j = 0; j < size_y; j++) {
+  for (int i = 0; i < size_x/NbLi;  i++) {
+    for (int j = 0; j < size_y/NbCol; j++) {
 //      HFIL(0, i, j) = height *
 //	(exp(- pow((i * dx - gmx) / gsx, 2) / 2.)) *
 //	(exp(- pow((j * dy - gmy) / gsy, 2) / 2.)) ;
@@ -53,7 +53,7 @@ void gauss_init_bloc(void) {
 	//ATTENTION OPTI LOCAL_SIZEX
 	if(i<size_x/NbLi)
 	{
-        tmpx=(size_x/NbLi*my_rank/NbLi)/*-1*(i>0)*(my_rank!=0)*/;
+        tmpx=(size_x/NbLi*my_rank/NbCol)/*-1*(i>0)*(my_rank!=0)*/;
         //printf("P#%d:tmp=%lf\n",my_rank,tmp);
 	}
 	else
@@ -66,8 +66,8 @@ void gauss_init_bloc(void) {
 	else
         tmpy=0.0;
 	HFIL_LOCAL(0, i+(my_rank>=NbCol), j+(my_rank%NbCol!=0)) = height *
-	(exp(- pow(((i+tmpy) * dx - gmx) / gsx, 2) / 2.)) *
-	(exp(- pow(((j+tmpx) * dy - gmy) / gsy, 2) / 2.)) ;
+	(exp(- pow(((i+tmpx) * dx - gmx) / gsx, 2) / 2.)) *
+	(exp(- pow(((j+tmpy) * dy - gmy) / gsy, 2) / 2.)) ;
     }
   }
   tmpx++;

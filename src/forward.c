@@ -469,12 +469,15 @@ void forward_bloc(void) {
     }
     if(my_rank==0)
     {
-        printf("Root receiving\n");
-        MPI_Recv(&connect_msg,1,MPI_UNSIGNED_CHAR,MPI_ANY_SOURCE,TAG_REQ,MPI_COMM_WORLD,&status);
-        printf("Root receiving2\n");
-        MPI_Recv(hphy_buff_recv+size_x/NbLi*size_y/NbCol*status.MPI_SOURCE
-                 ,size_y/NbCol*size_x/NbLi,MPI_DOUBLE,status.MPI_SOURCE,TAG_GATHER,MPI_COMM_WORLD,&status);
-        printf("Root receiving3\n");
+        for(i=0;i<NP;i++)
+        {
+            //printf("Root receiving\n");
+            MPI_Recv(&connect_msg,1,MPI_UNSIGNED_CHAR,MPI_ANY_SOURCE,TAG_REQ,MPI_COMM_WORLD,&status);
+            printf("Root receiving2---> from P#%d\n",status.MPI_SOURCE);
+            MPI_Recv(hphy_buff_recv+size_x/NbLi*size_y/NbCol*status.MPI_SOURCE
+                     ,size_y/NbCol*size_x/NbLi,MPI_DOUBLE,status.MPI_SOURCE,TAG_GATHER,MPI_COMM_WORLD,&status);
+            //printf("Root receiving3\n");
+        }
     }
     else
     {

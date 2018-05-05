@@ -68,7 +68,7 @@ void gauss_init_bloc(void) {
 	HFIL_LOCAL(0, i+(my_rank>=NbCol), j+(my_rank%NbCol!=0)) = height *
 	(exp(- pow(((i+tmpx) * dx - gmx) / gsx, 2) / 2.)) *
 	(exp(- pow(((j+tmpy) * dy - gmy) / gsy, 2) / 2.)) ;
-	if(my_rank==3 || my_rank=1)
+	if(my_rank==3 || my_rank==1)
     {
         HFIL_LOCAL(0, i+(my_rank>=NbCol), j+(my_rank%NbCol!=0)) =22545;
     }

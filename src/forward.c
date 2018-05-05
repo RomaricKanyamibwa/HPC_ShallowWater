@@ -452,23 +452,31 @@ void forward_bloc(void) {
     }
     //for(k=0;k<2;k++)
     unsigned char connect_msg=0;
+    printf("P#%d:---------------------------- Magic The Gathering ----------------------------\n",my_rank);
     for(i=0;i<size_x/NbLi;i++)
     {
 //        MPI_Gather(&HFIL_LOCAL(t,i+(my_rank>=NbCol), (my_rank%NbCol!=0))/*+size_y*(my_rank!=0)*/,size_y/NbCol/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE
 //        ,&HFIL(t, i+(my_rank/NbCol)*size_x/NbLi,(my_rank%NbCol)*size_y/NbCol),size_y/NbCol/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);
         if(my_rank==0)
         {
+            printf("Root receiving\n");
             MPI_Recv(&connect_msg,1,MPI_UNSIGNED_CHAR,MPI_ANY_SOURCE,TAG_REQ,MPI_COMM_WORLD,&status);
+            printf("Root receiving2\n");
             MPI_Recv(&HFIL(t, i+(status.MPI_SOURCE/NbCol)*size_x/NbLi,(status.MPI_SOURCE%NbCol)*size_y/NbCol)
                      ,size_y/NbCol,MPI_DOUBLE,status.MPI_SOURCE,TAG_GATHER,MPI_COMM_WORLD,&status);
+            printf("Root receiving3\n");
         }
         else
         {
+            printf("P#%d:Root sending\n",my_rank);
             MPI_Send(&connect_msg,1,MPI_UNSIGNED_CHAR,0/*rank_master*/,TAG_REQ,MPI_COMM_WORLD);
+            printf("P#%d:Root sending2\n",my_rank);
             MPI_Send(&HFIL_LOCAL(t,i+(my_rank>=NbCol), (my_rank%NbCol!=0)),
                      size_y/NbCol,MPI_DOUBLE,0,TAG_GATHER,MPI_COMM_WORLD);
+            printf("P#%d:Root sending3\n",my_rank);
         }
     }
+    printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
 
 //    {
 //        double* hphy_buff_send=(double *) calloc(size_x/NbLi*size_y/NbCol,sizeof(double));

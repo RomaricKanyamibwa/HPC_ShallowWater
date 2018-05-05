@@ -481,7 +481,7 @@ void forward_bloc(void) {
 //                    printf("(j mod NbCol)*size_y/NbCol:%d\n",(j%NbCol)*size_y/NbCol);
 //                    printf("j*size_y/NbCol*size_x/NbLi:%d\n",j*size_y/NbCol*size_x/NbLi);
 //                    printf("i*size_y/NbCol:%d\n",i*size_y/NbCol);
-                    memcpy(&HFIL(t, i+(j/NbCol)*size_x/NbLi,(j%NbCol)*size_y/NbCol*j)
+                    memcpy(&HFIL(t, i+(j/NbCol)*size_x/NbLi,(j%NbCol)*size_y/NbCol+55)
                            ,hphy_buff_recv+j*size_y/NbCol*size_x/NbLi+i*size_y/NbCol,size_y/NbCol);
                 }
             }

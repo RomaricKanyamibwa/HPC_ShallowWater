@@ -70,6 +70,8 @@ void gauss_init_bloc(void) {
 	(exp(- pow(((j+tmpx) * dy - gmy) / gsy, 2) / 2.)) ;
     }
   }
+  tmpx++;
+  tmpy++;
 }
 
 void gauss_init_loc(int rank,int p) {

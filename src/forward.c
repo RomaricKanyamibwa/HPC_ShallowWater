@@ -469,7 +469,7 @@ void forward_bloc(void) {
     }
     if(my_rank==0)
     {
-        for(i=0;i<NP;i++)
+        for(i=0;i<NP-1;i++)
         {
             //printf("Root receiving\n");
             MPI_Recv(&connect_msg,1,MPI_UNSIGNED_CHAR,MPI_ANY_SOURCE,TAG_REQ,MPI_COMM_WORLD,&status);

@@ -490,7 +490,7 @@ void forward_bloc(void) {
             //printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
         }
         //printf("P#%d-------End if-------\n",my_rank);
-        free(hphy_buff_send);
+        //free(hphy_buff_send);
         free(hphy_buff_recv);
         //printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
     }

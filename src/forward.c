@@ -456,8 +456,8 @@ void forward_bloc(void) {
 //    }
 
     {
-        double* hphy_buff_send=(double *) calloc(size_x/NbLi*size_y/NbCol,sizeof(double));
-        double* hphy_buff_recv=(double *) calloc(size_x*size_y,sizeof(double));
+        double* hphy_buff_send=(double *) malloc(size_x/NbLi*size_y/NbCol*sizeof(double));
+        double* hphy_buff_recv=(double *) malloc(size_x*size_y*sizeof(double));
         //printf("P#%d:---------------------------- Magic The Gathering ----------------------------\n",my_rank);
         for(i=0;i<size_x/NbLi;i++)//construction de buffer ligne par ligne
         {

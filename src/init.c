@@ -65,9 +65,9 @@ void gauss_init_bloc(void) {
 //	}
 //	else
 //        tmpy=0.0;
-	HFIL_LOCAL(0, i+(my_rank>=NbCol)+tmpx, j+(my_rank%NbCol!=0)+tmpy) = height *
-	(exp(- pow(((i) * dx - gmx) / gsx, 2) / 2.)) *
-	(exp(- pow(((j+tmpy) * dy - gmy) / gsy, 2) / 2.)) ;
+	HFIL_LOCAL(0, i+(my_rank>=NbCol), j+(my_rank%NbCol!=0)) = height *
+	(exp(- pow(((i+(my_rank/NbCol)*size_x/NbLi) * dx - gmx) / gsx, 2) / 2.)) *
+	(exp(- pow(((j+(my_rank%NbCol)*size_y/NbCol) * dy - gmy) / gsy, 2) / 2.)) ;
     }
   }
 //  for(int i=0;i<size_x/NbLi;i++)//construction de buffer ligne par ligne

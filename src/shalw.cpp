@@ -64,7 +64,7 @@ int main_bloc(int argc, char **argv)  {
     }
     ligne_colonne = (ligne_colonne+1)%2;
   }
-  printf("End Calcul de size_x et size_y locaux\n");
+  //printf("End Calcul de size_x et size_y locaux\n");
   if(my_rank>=NbCol)//tous les blocs sauf ceux de la 1ere ligne
     local_size_x++;
   if(my_rank<(NbLi-1)*NbCol)//tous les blocs sauf ceux de la derniere ligne

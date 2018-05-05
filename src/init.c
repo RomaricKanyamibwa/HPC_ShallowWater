@@ -41,8 +41,8 @@ void gauss_init_bloc(void) {
   gsx = 25000 ;
   gsy = 25000 ;
 
-  for (int i = 0; i < size_x/NbLi;  i++) {
-    for (int j = 0; j < size_y/NbCol; j++) {
+  for (int i = 0; i < size_x;  i++) {
+    for (int j = 0; j < size_y; j++) {
 //      HFIL(0, i, j) = height *
 //	(exp(- pow((i * dx - gmx) / gsx, 2) / 2.)) *
 //	(exp(- pow((j * dy - gmy) / gsy, 2) / 2.)) ;
@@ -68,10 +68,6 @@ void gauss_init_bloc(void) {
 	HFIL_LOCAL(0, i+(my_rank>=NbCol), j+(my_rank%NbCol!=0)) = height *
 	(exp(- pow(((i+tmpx) * dx - gmx) / gsx, 2) / 2.)) *
 	(exp(- pow(((j+tmpy) * dy - gmy) / gsy, 2) / 2.)) ;
-	if(my_rank==3)
-    {
-        HFIL_LOCAL(0, i+(my_rank>=NbCol), j+(my_rank%NbCol!=0)) =22545;
-    }
     }
   }
   tmpx++;

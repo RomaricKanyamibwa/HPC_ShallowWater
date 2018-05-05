@@ -444,8 +444,8 @@ void forward_bloc(void) {
     }
 
     //printf("P#%d:line%d\n",my_rank,189);
-    for (int j = 0; j < local_size_y; j++) {
-      for (int i = 0; i < local_size_x; i++) {
+    for (int j = (my_rank%NbCol!=0); j < local_size_y; j++) {
+      for (int i = (my_rank>=NbCol); i < local_size_x; i++) {
             HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
             UPHY_LOCAL(t, i, j) = uPhy_forward(t, i, j);
             VPHY_LOCAL(t, i, j) = vPhy_forward(t, i, j);

@@ -176,6 +176,10 @@ void forward_bloc(void) {
   double* vfil_send=(double *) calloc(size_x/NbLi,sizeof(double));
   double* vfil_recv=(double *) calloc(size_x/NbLi,sizeof(double));
 
+  unsigned char connect_msg=0;
+  double* hphy_buff_send=(double *) calloc(size_x/NbLi*size_y/NbCol,sizeof(double))
+  double* hphy_buff_recv=(double *) calloc(size_x*size_y,sizeof(double));
+
   if(my_rank==0)
   {
 	  if (file_export) {
@@ -458,10 +462,7 @@ void forward_bloc(void) {
 ////        ,&HFIL(t, i+(my_rank/NbCol)*size_x/NbLi,(my_rank%NbCol)*size_y/NbCol),size_y/NbCol/*(local_size_x-1-1*(my_rank!=0 && my_rank!=NP-1))*/,MPI_DOUBLE,0,MPI_COMM_WORLD);
 //
 //    }
-    unsigned char connect_msg=0;
-    double* hphy_buff_send=(double *) calloc(size_x/NbLi*size_y/NbCol,sizeof(double));
-    double* hphy_buff_recv=(double *) calloc(size_x*size_y,sizeof(double));
-    //printf("P#%d:---------------------------- Magic The Gathering ----------------------------\n",my_rank);
+    printf("P#%d:---------------------------- Magic The Gathering ----------------------------\n",my_rank);
     for(i=0;i<size_x/NbLi;i++)//construction de buffer ligne par ligne
     {
         memcpy(hphy_buff_send+i*size_y/NbCol,&HFIL_LOCAL(t,i+(my_rank>=NbCol), (my_rank%NbCol!=0)),size_y/NbCol);
@@ -502,11 +503,8 @@ void forward_bloc(void) {
             }
             //printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
         }
-        //printf("P#%d-------End if-------\n",my_rank);
-        free(hphy_buff_send);
-        free(hphy_buff_recv);
-
-    //printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
+        printf("P#%d-------End if-------\n",my_rank);
+        printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
 
 //    {
 //        double* hphy_buff_send=(double *) calloc(size_x/NbLi*size_y/NbCol,sizeof(double));
@@ -580,6 +578,9 @@ void forward_bloc(void) {
 
   free(vfil_recv);
   free(vfil_send);
+
+  free(hphy_buff_send);
+  free(hphy_buff_recv);
 }
 
 

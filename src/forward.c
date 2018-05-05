@@ -176,7 +176,7 @@ void forward_bloc(void) {
   double* vfil_send=(double *) calloc(size_x/NbLi,sizeof(double));
   double* vfil_recv=(double *) calloc(size_x/NbLi,sizeof(double));
 
-  unsigned char connect_msg=0;
+  //unsigned char connect_msg=0;
   double* hfil_buff_send=(double *) calloc(size_x/NbLi*size_y/NbCol,sizeof(double));
   double* hfil_buff_recv=(double *) calloc(size_x*size_y,sizeof(double));
 

@@ -470,7 +470,7 @@ void forward_bloc(void) {
         //printf("P#%d-------End gather-------\n",my_rank);
         if(my_rank==0)
         {
-            printf("P#%d:---------------------------- Magic The Gathering ----------------------------\n",my_rank);
+            //printf("P#%d:---------------------------- Magic The Gathering ----------------------------\n",my_rank);
             for(i=0;i<size_x/NbLi;i++)
             {
                 for(int j=0;j<NP;j++)
@@ -485,7 +485,7 @@ void forward_bloc(void) {
                            ,hphy_buff_recv+j*size_y/NbCol*size_x/NbLi+i*size_y/NbCol,size_y/NbCol);
                 }
             }
-            printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
+            //printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
         }
         //printf("P#%d-------End if-------\n",my_rank);
         free(hphy_buff_send);

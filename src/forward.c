@@ -455,43 +455,43 @@ void forward_bloc(void) {
 
     }
 
-    {
-        double* hphy_buff_send=(double *) calloc(size_x/NbLi*size_y/NbCol,sizeof(double));
-        double* hphy_buff_recv=(double *) calloc(size_x*size_y,sizeof(double));
-        //printf("P#%d:---------------------------- Magic The Gathering ----------------------------\n",my_rank);
-        for(i=0;i<size_x/NbLi;i++)//construction de buffer ligne par ligne
-        {
-            memcpy(hphy_buff_send+i*size_y/NbCol,&HFIL_LOCAL(t,i+(my_rank>=NbCol), (my_rank%NbCol!=0)),size_y/NbCol);
-        }
-        //printf("P#%d-------End for-------\n",my_rank);
-        MPI_Gather(hphy_buff_send,size_y/NbCol*size_x/NbLi,MPI_DOUBLE
-                   ,hphy_buff_recv//&HFIL(t, (my_rank%NbCol)*size_y/NbCol,(my_rank%NbLi)*size_x/NbLi)
-                   ,size_y/NbCol*size_x/NbLi,MPI_DOUBLE,0,MPI_COMM_WORLD);
-        //printf("P#%d-------End gather-------\n",my_rank);
-        if(my_rank==0)
-        {
-            //printf("P#%d:---------------------------- Magic The Gathering ----------------------------\n",my_rank);
-            for(i=0;i<size_x/NbLi;i++)
-            {
-                for(int j=0;j<NP;j++)
-                {
-//                    printf("i:%d,j:%d\n",i,j);
-//                    printf("(j/NbCol)*size_x/NbLi:%d\n",(j/NbCol)*size_x/NbLi);
-//                    printf("i+(j/NbCol)*size_x/NbLi:%d\n",(j/NbCol)*size_x/NbLi);
-//                    printf("(j mod NbCol)*size_y/NbCol:%d\n",(j%NbCol)*size_y/NbCol);
-//                    printf("j*size_y/NbCol*size_x/NbLi:%d\n",j*size_y/NbCol*size_x/NbLi);
-//                    printf("i*size_y/NbCol:%d\n",i*size_y/NbCol);
-                    memcpy(&HFIL(t, i+(j/NbCol)*size_x/NbLi,(j%NbCol)*size_y/NbCol)
-                           ,hphy_buff_recv+j*size_y/NbCol*size_x/NbLi+i*size_y/NbCol,size_y/NbCol);
-                }
-            }
-            //printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
-        }
-        //printf("P#%d-------End if-------\n",my_rank);
-        free(hphy_buff_send);
-        free(hphy_buff_recv);
-        //printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
-    }
+//    {
+//        double* hphy_buff_send=(double *) calloc(size_x/NbLi*size_y/NbCol,sizeof(double));
+//        double* hphy_buff_recv=(double *) calloc(size_x*size_y,sizeof(double));
+//        //printf("P#%d:---------------------------- Magic The Gathering ----------------------------\n",my_rank);
+//        for(i=0;i<size_x/NbLi;i++)//construction de buffer ligne par ligne
+//        {
+//            memcpy(hphy_buff_send+i*size_y/NbCol,&HFIL_LOCAL(t,i+(my_rank>=NbCol), (my_rank%NbCol!=0)),size_y/NbCol);
+//        }
+//        //printf("P#%d-------End for-------\n",my_rank);
+//        MPI_Gather(hphy_buff_send,size_y/NbCol*size_x/NbLi,MPI_DOUBLE
+//                   ,hphy_buff_recv//&HFIL(t, (my_rank%NbCol)*size_y/NbCol,(my_rank%NbLi)*size_x/NbLi)
+//                   ,size_y/NbCol*size_x/NbLi,MPI_DOUBLE,0,MPI_COMM_WORLD);
+//        //printf("P#%d-------End gather-------\n",my_rank);
+//        if(my_rank==0)
+//        {
+//            //printf("P#%d:---------------------------- Magic The Gathering ----------------------------\n",my_rank);
+//            for(i=0;i<size_x/NbLi;i++)
+//            {
+//                for(int j=0;j<NP;j++)
+//                {
+////                    printf("i:%d,j:%d\n",i,j);
+////                    printf("(j/NbCol)*size_x/NbLi:%d\n",(j/NbCol)*size_x/NbLi);
+////                    printf("i+(j/NbCol)*size_x/NbLi:%d\n",(j/NbCol)*size_x/NbLi);
+////                    printf("(j mod NbCol)*size_y/NbCol:%d\n",(j%NbCol)*size_y/NbCol);
+////                    printf("j*size_y/NbCol*size_x/NbLi:%d\n",j*size_y/NbCol*size_x/NbLi);
+////                    printf("i*size_y/NbCol:%d\n",i*size_y/NbCol);
+//                    memcpy(&HFIL(t, i+(j/NbCol)*size_x/NbLi,(j%NbCol)*size_y/NbCol)
+//                           ,hphy_buff_recv+j*size_y/NbCol*size_x/NbLi+i*size_y/NbCol,size_y/NbCol);
+//                }
+//            }
+//            //printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
+//        }
+//        //printf("P#%d-------End if-------\n",my_rank);
+//        free(hphy_buff_send);
+//        free(hphy_buff_recv);
+//        //printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
+//    }
 
    if(my_rank==0)
 	{

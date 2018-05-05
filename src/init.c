@@ -41,8 +41,8 @@ void gauss_init_bloc(void) {
   gsx = 25000 ;
   gsy = 25000 ;
 
-  for (int i = 0; i < size_x/NP;  i++) {
-    for (int j = 0; j < size_y/NP; j++) {
+  for (int i = 0; i < size_x/NbLi;  i++) {
+    for (int j = 0; j < size_y/NbCol; j++) {
 //      HFIL(0, i, j) = height *
 //	(exp(- pow((i * dx - gmx) / gsx, 2) / 2.)) *
 //	(exp(- pow((j * dy - gmy) / gsy, 2) / 2.)) ;

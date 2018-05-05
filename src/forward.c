@@ -506,8 +506,8 @@ void forward_bloc(void) {
             }
             //printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
         }
-        printf("P#%d-------End if-------\n",my_rank);
-        printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
+//        printf("P#%d-------End if-------\n",my_rank);
+//        printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
 
 //    {
 //        double* hfil_buff_send=(double *) calloc(size_x/NbLi*size_y/NbCol,sizeof(double));
@@ -546,8 +546,7 @@ void forward_bloc(void) {
 //        free(hfil_buff_recv);
 //        //printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
 //    }
-memcpy(&HFIL(t, 0, 0)
-,hfil_buff_recv,size_x/NbLi*size_y/NbCol);
+memcpy(&HFIL(t, 0, 0),hfil_buff_recv,size_x*size_y);
    if(my_rank==0)
 	{
 	    if (file_export) {

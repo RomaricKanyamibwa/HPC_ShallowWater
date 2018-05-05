@@ -465,7 +465,7 @@ void forward_bloc(void) {
     //printf("P#%d:---------------------------- Magic The Gathering ----------------------------\n",my_rank);
     for(i=0;i<size_x/NbLi;i++)//construction de buffer ligne par ligne
     {
-        memcpy(&hfil_buff_send[i*size_y/NbCol],&HFIL_LOCAL(t,i+(my_rank>=NbCol), (my_rank%NbCol!=0)),size_y/NbCol);
+        memcpy(&hfil_buff_send[i*size_y/NbCol],&HFIL_LOCAL(t,i+(my_rank>=NbCol), (my_rank%NbCol!=0)),size_y/NbCol*sizeof(double));
     }
     if(my_rank==0)
     {
@@ -501,9 +501,9 @@ void forward_bloc(void) {
 //                    printf("j*size_y/NbCol*size_x/NbLi:%d\n",j*size_y/NbCol*size_x/NbLi);
 //                    printf("i*size_y/NbCol:%d\n",i*size_y/NbCol);
                     memcpy(&HFIL(t, i+(j/NbCol)*size_x/NbLi,(j%NbCol)*size_y/NbCol)
-                           ,hfil_buff_recv+j*size_y/NbCol*size_x/NbLi+i*size_y/NbCol,size_y/NbCol);
-                           HFIL(t,i,j)=7532144;
-                           HFIL(t-1,i,j)=9582144;
+                           ,hfil_buff_recv+j*size_y/NbCol*size_x/NbLi+i*size_y/NbCol,size_y/NbCol*sizeof(double));
+                           //HFIL(t,i,j)=7532144;
+                           //HFIL(t-1,i,j)=9582144;
                 }
             }
             //printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
@@ -548,7 +548,7 @@ void forward_bloc(void) {
 //        free(hfil_buff_recv);
 //        //printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
 //    }
-memcpy(&HFIL(t, 0, 0),hfil_buff_recv,size_x*size_y);
+//memcpy(&HFIL(t, 0, 0),hfil_buff_recv,size_x*size_y);
    if(my_rank==0)
 	{
 	    if (file_export) {

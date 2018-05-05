@@ -33,8 +33,8 @@ void gauss_init(void) {
 
 void gauss_init_bloc(void) {
   double gmx, gmy, gsx, gsy;
-//  double tmpx=0.0;
-//  double tmpy=0.0;
+  double tmpx=0.0;
+  double tmpy=0.0;
 
   gmx = size_x * dx / 2 ;
   gmy = size_y * dy / 2 ;

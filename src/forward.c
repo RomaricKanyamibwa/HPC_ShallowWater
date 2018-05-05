@@ -177,7 +177,7 @@ void forward_bloc(void) {
   double* vfil_recv=(double *) calloc(size_x/NbLi,sizeof(double));
 
   unsigned char connect_msg=0;
-  double* hphy_buff_send=(double *) calloc(size_x/NbLi*size_y/NbCol,sizeof(double))
+  double* hphy_buff_send=(double *) calloc(size_x/NbLi*size_y/NbCol,sizeof(double));
   double* hphy_buff_recv=(double *) calloc(size_x*size_y,sizeof(double));
 
   if(my_rank==0)

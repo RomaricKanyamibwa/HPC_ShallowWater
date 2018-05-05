@@ -546,7 +546,8 @@ void forward_bloc(void) {
 //        free(hfil_buff_recv);
 //        //printf("P#%d:---------------------------- End of The Gathering ----------------------------\n",my_rank);
 //    }
-hFil=hfil_buff_recv;
+memcpy(&HFIL(t, 0, 0)
+,hfil_buff_recv,size_x/NbLi*size_y/NbCol);
    if(my_rank==0)
 	{
 	    if (file_export) {
@@ -583,7 +584,7 @@ hFil=hfil_buff_recv;
   free(vfil_send);
 
   free(hfil_buff_send);
-  //free(hfil_buff_recv);
+  free(hfil_buff_recv);
 }
 
 

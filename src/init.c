@@ -72,7 +72,8 @@ void gauss_init_bloc(void) {
   }
   for(int i=0;i<size_x/NbLi;i++)//construction de buffer ligne par ligne
         {
-            memcpy(&HFIL_LOCAL(0,i+(my_rank>=NbCol), (my_rank%NbCol!=0)),&HFIL(0,i,0),size_y/NbCol*sizeof(double));
+            memcpy(&HFIL_LOCAL(0,i+(my_rank>=NbCol), (my_rank%NbCol!=0)),
+                   &HFIL(0,i+(my_rank/NbCol)*size_x/NbLi,(my_rank%NbCol)*size_y/NbCol),size_y/NbCol*sizeof(double));
         }
   tmpx++;
   tmpy++;

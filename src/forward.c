@@ -271,8 +271,6 @@ void forward_bloc(void) {
         if(my_rank%NbCol!=0) //tout les processus sauf ceux qui sont sur la colonne de gauche, on envoie la colonne tout a gauche
         {
 //            printf("P#%d:Send bande gauche\n",my_rank);
-printf("P#%d:HPHY_LOCAL(t + k,0+(my_rank>=NbCol), 1)=%lf\n",my_rank,HPHY_LOCAL(t + k,0+(my_rank>=NbCol), 1));
-printf("P#%d:HPHY_LOCAL(t + k,1+(my_rank>=NbCol), 1)=%lf\n",my_rank,HPHY_LOCAL(t + k,1+(my_rank>=NbCol), 1));
          	for(i=0;i<size_x/NbLi;i++){
                 hphy_send[i]=HPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);
                 uphy_send[i]=UPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);
@@ -318,12 +316,12 @@ printf("P#%d:HPHY_LOCAL(t + k,1+(my_rank>=NbCol), 1)=%lf\n",my_rank,HPHY_LOCAL(t
         {
 //            printf("P#%d:Send bande droite\n",my_rank);
             for(i=0;i<size_x/NbLi;i++){
-                hphy_send[i]=HPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1-(my_rank%NbCol!=0));
-                uphy_send[i]=UPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1-(my_rank%NbCol!=0));
-                vphy_send[i]=VPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1-(my_rank%NbCol!=0));
-                hfil_send[i]=HFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1-(my_rank%NbCol!=0));
-                ufil_send[i]=UFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1-(my_rank%NbCol!=0));
-                vfil_send[i]=VFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1-(my_rank%NbCol!=0));
+                hphy_send[i]=10;
+                uphy_send[i]=10;
+                vphy_send[i]=10;
+                hfil_send[i]=10;
+                ufil_send[i]=10;
+                vfil_send[i]=10;
          	}
             MPI_Sendrecv(hphy_send,size_x/NbLi, MPI_DOUBLE, my_rank+1,TAG_BLOC_VER_FIRST_H_P
             ,hphy_recv,size_x/NbLi, MPI_DOUBLE,my_rank+1,TAG_BLOC_VER_LAST_H_P, MPI_COMM_WORLD,&status);

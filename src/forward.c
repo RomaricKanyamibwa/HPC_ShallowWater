@@ -203,7 +203,7 @@ void forward_bloc(void) {
     }
     //double  *uFil_local, *vFil_local, *hPhy_local, *uPhy_local, *vPhy_local;
 
-    for(k=0;k<1;k++)
+    for(k=0;k<2;k++)
     {
     	/* au dessus en dessous */
         if(my_rank>=NbCol) //on envoie celui du haut sauf ceux sur la premiere ligne

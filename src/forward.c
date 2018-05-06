@@ -201,7 +201,6 @@ void forward_bloc(void) {
     if (t == 2){
       dt = svdt / 2.;
     }
-    //double  *uFil_local, *vFil_local, *hPhy_local, *uPhy_local, *vPhy_local;
 
     for(k=0;k<2;k++)
     {
@@ -273,12 +272,12 @@ void forward_bloc(void) {
         {
 //            printf("P#%d:Send bande gauche\n",my_rank);
          	for(i=0;i<size_x/NbLi;i++){
-                hphy_send[i]=HPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);
-                uphy_send[i]=UPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);
-                vphy_send[i]=VPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);
-                hfil_send[i]=HFIL_LOCAL(t + k,i+(my_rank>=NbCol), 1);
-                ufil_send[i]=UFIL_LOCAL(t + k,i+(my_rank>=NbCol), 1);
-                vfil_send[i]=VFIL_LOCAL(t + k,i+(my_rank>=NbCol), 1);
+                hphy_send[i]=10;
+                uphy_send[i]=10;
+                vphy_send[i]=10;
+                hfil_send[i]=10;
+                ufil_send[i]=10;
+                vfil_send[i]=10;
          	}
             MPI_Sendrecv(hphy_send,size_x/NbLi, MPI_DOUBLE, my_rank-1,TAG_BLOC_VER_LAST_H_P
             ,hphy_recv,size_x/NbLi, MPI_DOUBLE,my_rank-1,TAG_BLOC_VER_FIRST_H_P, MPI_COMM_WORLD,&status);
@@ -459,7 +458,7 @@ void forward(void) {
       dt = svdt / 2.;
     }
 
-    for(k=0;k<1;k++)
+    for(k=0;k<2;k++)
     {
         if(non_block_comm)
         {

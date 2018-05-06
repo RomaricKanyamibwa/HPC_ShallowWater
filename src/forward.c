@@ -202,7 +202,7 @@ void forward_bloc(void) {
       dt = svdt / 2.;
     }
 
-    for(k=0;k<2-(t<=1);k++)
+    for(k=0;k<1+(t<=1);k++)
     {
     	/* au dessus en dessous */
         if(my_rank>=NbCol) //on envoie celui du haut sauf ceux sur la premiere ligne
@@ -458,7 +458,7 @@ void forward(void) {
       dt = svdt / 2.;
     }
 
-    for(k=0;k<2-(t<=1);k++)
+    for(k=0;k<1+(t<=1);k++)
     {
         if(non_block_comm)
         {
@@ -659,7 +659,7 @@ void forward_parallel_io(void)
       dt = svdt / 2.;
     }
 
-    for(k=0;k<2;k++)
+    for(k=0;k<1+(t<=1);k++)
     {
         if(non_block_comm)
         {

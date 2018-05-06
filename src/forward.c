@@ -272,12 +272,12 @@ void forward_bloc(void) {
         {
 //            printf("P#%d:Send bande gauche\n",my_rank);
          	for(i=0;i<size_x/NbLi;i++){
-                hphy_send[i]=10;
-                uphy_send[i]=10;
-                vphy_send[i]=10;
-                hfil_send[i]=10;
-                ufil_send[i]=10;
-                vfil_send[i]=10;
+                hphy_send[i]=100;
+                uphy_send[i]=100;
+                vphy_send[i]=100;
+                hfil_send[i]=100;
+                ufil_send[i]=100;
+                vfil_send[i]=100;
          	}
             MPI_Sendrecv(hphy_send,size_x/NbLi, MPI_DOUBLE, my_rank-1,TAG_BLOC_VER_LAST_H_P
             ,hphy_recv,size_x/NbLi, MPI_DOUBLE,my_rank-1,TAG_BLOC_VER_FIRST_H_P, MPI_COMM_WORLD,&status);

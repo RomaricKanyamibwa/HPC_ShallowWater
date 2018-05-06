@@ -458,7 +458,7 @@ void forward(void) {
       dt = svdt / 2.;
     }
 
-    for(k=0;k<2;k++)
+    for(k=0;k<2-(t<=1);k++)
     {
         if(non_block_comm)
         {

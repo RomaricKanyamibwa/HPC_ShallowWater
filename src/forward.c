@@ -235,32 +235,32 @@ void forward_bloc(void) {
         if(my_rank<NbCol*(NbLi-1)) //envoie celui du bas
         {
             //printf("P#%d:Send bande du bas\n",my_rank);
-            MPI_Sendrecv(&HPHY_LOCAL(t + k,local_size_x-1-(my_rank>=NbCol), my_rank%NbCol!=0),size_y/NbCol
+            MPI_Sendrecv(&HPHY_LOCAL(t + k,local_size_x-2, my_rank%NbCol!=0),size_y/NbCol
                          , MPI_DOUBLE, my_rank+NbCol,TAG_BLOC_HOR_FIRST_H_P
                          ,&HPHY_LOCAL(t + k,local_size_x-1, my_rank%NbCol!=0),size_y/NbCol
                          , MPI_DOUBLE,my_rank+NbCol,TAG_BLOC_HOR_LAST_H_P, MPI_COMM_WORLD,&status);
 
-            MPI_Sendrecv(&UPHY_LOCAL(t + k,local_size_x-1-(my_rank>=NbCol), my_rank%NbCol!=0),size_y/NbCol
+            MPI_Sendrecv(&UPHY_LOCAL(t + k,local_size_x-2, my_rank%NbCol!=0),size_y/NbCol
                          , MPI_DOUBLE, my_rank+NbCol,TAG_BLOC_HOR_FIRST_U_P
                          ,&UPHY_LOCAL(t + k,local_size_x-1, my_rank%NbCol!=0),size_y/NbCol
                          , MPI_DOUBLE,my_rank+NbCol,TAG_BLOC_HOR_LAST_U_P, MPI_COMM_WORLD,&status);
 
-            MPI_Sendrecv(&VPHY_LOCAL(t + k,local_size_x-1-(my_rank>=NbCol), my_rank%NbCol!=0),size_y/NbCol
+            MPI_Sendrecv(&VPHY_LOCAL(t + k,local_size_x-2, my_rank%NbCol!=0),size_y/NbCol
                          , MPI_DOUBLE, my_rank+NbCol,TAG_BLOC_HOR_FIRST_V_P
                          ,&VPHY_LOCAL(t + k,local_size_x-1, my_rank%NbCol!=0),size_y/NbCol
                          , MPI_DOUBLE,my_rank+NbCol,TAG_BLOC_HOR_LAST_V_P, MPI_COMM_WORLD,&status);
 
-            MPI_Sendrecv(&UFIL_LOCAL(t + k,local_size_x-1-(my_rank>=NbCol), my_rank%NbCol!=0),size_y/NbCol
+            MPI_Sendrecv(&UFIL_LOCAL(t + k,local_size_x-2, my_rank%NbCol!=0),size_y/NbCol
                          , MPI_DOUBLE, my_rank+NbCol,TAG_BLOC_HOR_FIRST_U_F
                          ,&UFIL_LOCAL(t + k,local_size_x-1, my_rank%NbCol!=0),size_y/NbCol
                          , MPI_DOUBLE,my_rank+NbCol,TAG_BLOC_HOR_LAST_U_F, MPI_COMM_WORLD,&status);
 
-            MPI_Sendrecv(&VFIL_LOCAL(t + k,local_size_x-1-(my_rank>=NbCol), my_rank%NbCol!=0),size_y/NbCol
+            MPI_Sendrecv(&VFIL_LOCAL(t + k,local_size_x-2, my_rank%NbCol!=0),size_y/NbCol
                          , MPI_DOUBLE, my_rank+NbCol,TAG_BLOC_HOR_FIRST_V_F
                          ,&VFIL_LOCAL(t + k,local_size_x-1, my_rank%NbCol!=0),size_y/NbCol
                          , MPI_DOUBLE,my_rank+NbCol,TAG_BLOC_HOR_LAST_V_F, MPI_COMM_WORLD,&status);
 
-            MPI_Sendrecv(&HFIL_LOCAL(t + k,local_size_x-1-(my_rank>=NbCol), my_rank%NbCol!=0),size_y/NbCol
+            MPI_Sendrecv(&HFIL_LOCAL(t + k,local_size_x-2, my_rank%NbCol!=0),size_y/NbCol
                          , MPI_DOUBLE, my_rank+NbCol,TAG_BLOC_HOR_FIRST_H_F
                          ,&HFIL_LOCAL(t + k,local_size_x-1, my_rank%NbCol!=0),size_y/NbCol
                          , MPI_DOUBLE,my_rank+NbCol,TAG_BLOC_HOR_LAST_H_F, MPI_COMM_WORLD,&status);

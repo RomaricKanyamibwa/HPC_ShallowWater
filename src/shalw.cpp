@@ -32,11 +32,15 @@ int main_bloc(int argc, char **argv)  {
   double debut=0, fin=0;
   root = 0;
   //parse_args(argc, argv);
-  printf("Command line options parsed\n");
+  if(my_rank==0)
+    printf("Command line options parsed\n");
 
   alloc();
-  printf("Memory allocated\n");
-  printf("State initialised\n");
+  if(my_rank==0)
+  {
+    printf("Memory allocated\n");
+    printf("State initialised\n");
+  }
   MPI_Init(&argc,&argv);
   MPI_Comm_size(MPI_COMM_WORLD,&NP);
   MPI_Comm_rank(MPI_COMM_WORLD,&my_rank);
@@ -79,9 +83,9 @@ int main_bloc(int argc, char **argv)  {
   printf("P#%d:local size x:%d , y:%d\n",my_rank,local_size_x,local_size_y);
   if(my_rank==0)
   {
-    printf("P#%d:size x:%d , y:%d\n",my_rank,size_x,size_y);
-    printf("P#%d:Nbline:%d , Nbcolonne:%d\n",my_rank,NbLi,NbCol);
-    }
+      printf("P#%d:size x:%d , y:%d\n",my_rank,size_x,size_y);
+      printf("P#%d:Nbline:%d , Nbcolonne:%d\n",my_rank,NbLi,NbCol);
+  }
 
   if(my_rank==0)
   {

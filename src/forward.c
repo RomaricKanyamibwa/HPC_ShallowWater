@@ -271,8 +271,8 @@ void forward_bloc(void) {
         if(my_rank%NbCol!=0) //tout les processus sauf ceux qui sont sur la colonne de gauche, on envoie la colonne tout a gauche
         {
 //            printf("P#%d:Send bande gauche\n",my_rank);
-printf("P#%d:HPHY_LOCAL(t + k,0+(my_rank>=NbCol), 1)=%lf\n",HPHY_LOCAL(t + k,0+(my_rank>=NbCol), 1));
-printf("P#%d:HPHY_LOCAL(t + k,1+(my_rank>=NbCol), 1)=%lf\n",HPHY_LOCAL(t + k,1+(my_rank>=NbCol), 1));
+printf("P#%d:HPHY_LOCAL(t + k,0+(my_rank>=NbCol), 1)=%lf\n",my_rank,HPHY_LOCAL(t + k,0+(my_rank>=NbCol), 1));
+printf("P#%d:HPHY_LOCAL(t + k,1+(my_rank>=NbCol), 1)=%lf\n",my_rank,HPHY_LOCAL(t + k,1+(my_rank>=NbCol), 1));
          	for(i=0;i<size_x/NbLi;i++){
                 hphy_send[i]=HPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);
                 uphy_send[i]=UPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);

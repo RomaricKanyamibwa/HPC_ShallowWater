@@ -88,8 +88,8 @@ void export_step_mpi_begin(MPI_File *f, int t) {
     {
         //un MPI_File_set_view a defini
         offset = my_rank*size_x/NbLi *size_y/NbCol*sizeof(double) + (t)*size_x*size_y*sizeof(double);
-        MPI_File_write_at_all(*f, offset, (void *)&HFIL_LOCAL(t,(my_rank!=0), 0),
-                              size_x/NbLi*size_y/NbCol, MPI_DOUBLE, &status);
+        MPI_File_write_at_all_begin(*f, offset, (void *)&HFIL_LOCAL(t,(my_rank!=0), 0),
+                  size_x/NbLi*size_y/NbCol, MPI_DOUBLE);
         return;
     }
     else

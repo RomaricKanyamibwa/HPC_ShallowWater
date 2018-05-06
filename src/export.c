@@ -66,7 +66,16 @@ MPI_File* create_file_mpi(MPI_File *f) {
 void export_step_mpi(MPI_File *f, int t) {
     MPI_Status status;
     MPI_Offset offset;
-    offset = my_rank*size_x/NP *size_y*sizeof(double) + (t)*size_x*size_y*sizeof(double);
+    if(decomp_bloc)
+    {
+        offset = my_rank*size_x/NbLi *size_y/NbCol*sizeof(double) + (t)*size_x*size_y*sizeof(double);
+        //un MPI_File_set_view a definir
+        MPI_File_write_at_all(*f, offset, (void *)&HFIL_LOCAL(t,(my_rank!=0), 0),
+                              size_x/NbLi*size_y/NbCol, MPI_DOUBLE, &status);
+        return;
+    }
+    else
+        offset = my_rank*size_x/NP *size_y*sizeof(double) + (t)*size_x*size_y*sizeof(double);
   	//fwrite((void *)&HFIL(t, 0, 0), sizeof(double), size_x * size_y, f);
   	MPI_File_write_at_all(*f, offset, (void *)&HFIL_LOCAL(t,(my_rank!=0), 0),
                   size_x/NP*size_y, MPI_DOUBLE, &status);
@@ -75,7 +84,16 @@ void export_step_mpi(MPI_File *f, int t) {
 
 void export_step_mpi_begin(MPI_File *f, int t) {
     MPI_Offset offset;
-    offset = my_rank*size_x/NP *size_y*sizeof(double) + (t)*size_x*size_y*sizeof(double);
+    if(decomp_bloc)
+    {
+        //un MPI_File_set_view a defini
+        offset = my_rank*size_x/NbLi *size_y/NbCol*sizeof(double) + (t)*size_x*size_y*sizeof(double);
+        MPI_File_write_at_all(*f, offset, (void *)&HFIL_LOCAL(t,(my_rank!=0), 0),
+                              size_x/NbLi*size_y/NbCol, MPI_DOUBLE, &status);
+        return;
+    }
+    else
+        offset = my_rank*size_x/NP *size_y*sizeof(double) + (t)*size_x*size_y*sizeof(double);
   	//fwrite((void *)&HFIL(t, 0, 0), sizeof(double), size_x * size_y, f);
   	MPI_File_write_at_all_begin(*f, offset, (void *)&HFIL_LOCAL(t,(my_rank!=0), 0),
                   size_x/NP*size_y, MPI_DOUBLE);

@@ -31,6 +31,11 @@ int main_bloc(int argc, char **argv)  {
   /* Variables liees au chronometrage */
   double debut=0, fin=0;
   root = 0;
+
+  MPI_Init(&argc,&argv);
+  MPI_Comm_size(MPI_COMM_WORLD,&NP);
+  MPI_Comm_rank(MPI_COMM_WORLD,&my_rank);
+
   //parse_args(argc, argv);
   if(my_rank==0)
     printf("Command line options parsed\n");
@@ -41,10 +46,6 @@ int main_bloc(int argc, char **argv)  {
     printf("Memory allocated\n");
     printf("State initialised\n");
   }
-  MPI_Init(&argc,&argv);
-  MPI_Comm_size(MPI_COMM_WORLD,&NP);
-  MPI_Comm_rank(MPI_COMM_WORLD,&my_rank);
-
   /*NP doit etre une puissance de 2*/
   NP_temp = NP;
   local_size_x = size_x;
@@ -107,10 +108,31 @@ int main_bloc(int argc, char **argv)  {
      /* fin du chronometrage */
     fin = my_gettimeofday();
     printf("#%d-Temps total de calcul : %g seconde(s) \n",my_rank,fin - debut);
+    FILE *perf = fopen("perform.txt", "a+");
+    char str[512];
+    char tmp[128];
+    if(non_block_comm)
+        sprintf(tmp,"Decomp_Bloc Non-block Mode");
+    else
+        sprintf(tmp,"Decomp_Bloc Block-Mode");
+
+    if(non_block_pararel_IO)
+        sprintf(tmp,"%s Non-Block-MP_IO",tmp);
+    else
+    {
+        if(pararel_IO)
+            sprintf(tmp,"%s MP_IO",tmp);
+    }
+    sprintf(str,"***************NP:%d - %s***************\n\
+size_x:%d , size_y:%d , nbsteps:%d \n\
+#%d-Temps total de calcul : %g seconde(s)\n\n"
+            ,NP,tmp,size_x,size_y,nb_steps,my_rank,fin-debut);
+    fwrite(str,sizeof(char),strlen(str),perf);
   }
 
   dealloc();
-  printf("Memory freed\n");
+  if(my_rank==0)
+    printf("Memory freed\n");
 
   MPI_Finalize();
 
@@ -130,6 +152,10 @@ int main(int argc, char **argv) {
   {
       return main_bloc(argc,argv);
   }
+  MPI_Init(&argc,&argv);
+  MPI_Comm_size(MPI_COMM_WORLD,&NP);
+  MPI_Comm_rank(MPI_COMM_WORLD,&my_rank);
+
   //non_block_comm=true;
   if(my_rank==0)
     printf("Command line options parsed\n");
@@ -140,10 +166,6 @@ int main(int argc, char **argv) {
       printf("Memory allocated\n");
       printf("State initialised\n");
   }
-  MPI_Init(&argc,&argv);
-  MPI_Comm_size(MPI_COMM_WORLD,&NP);
-  MPI_Comm_rank(MPI_COMM_WORLD,&my_rank);
-
 
   if(size_x%NP!=0)
   {

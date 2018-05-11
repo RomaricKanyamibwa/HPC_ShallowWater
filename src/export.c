@@ -75,7 +75,9 @@ void export_step_mpi(MPI_File *f, int t) {
         return;
     }
     else
+    {
         offset = my_rank*size_x/NP *size_y*sizeof(double) + (t)*size_x*size_y*sizeof(double);
+    }
   	//fwrite((void *)&HFIL(t, 0, 0), sizeof(double), size_x * size_y, f);
   	MPI_File_write_at_all(*f, offset, (void *)&HFIL_LOCAL(t,(my_rank!=0), 0),
                   size_x/NP*size_y, MPI_DOUBLE, &status);
@@ -93,7 +95,9 @@ void export_step_mpi_begin(MPI_File *f, int t) {
         return;
     }
     else
+    {
         offset = my_rank*size_x/NP *size_y*sizeof(double) + (t)*size_x*size_y*sizeof(double);
+    }
   	//fwrite((void *)&HFIL(t, 0, 0), sizeof(double), size_x * size_y, f);
   	MPI_File_write_at_all_begin(*f, offset, (void *)&HFIL_LOCAL(t,(my_rank!=0), 0),
                   size_x/NP*size_y, MPI_DOUBLE);

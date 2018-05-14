@@ -1,4 +1,4 @@
-CXX=mpic++ -Werror -Wall -O3
+CXX=mpic++ -Werror -Wall -O3  -ffast-math -ftree-vectorize -march=native -funroll-loops
 
 CPPFLAGS=-Iinc -g
 

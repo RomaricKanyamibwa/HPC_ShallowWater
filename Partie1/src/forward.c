@@ -597,7 +597,7 @@ void forward_bloc(void) {
     if(non_block_comm)
     {
         //printf("---------------------------- Waiting for The Gathering ----------------------------\n");
-        MPI_Waitall(24,reqs,stats) ;
+        MPI_Waitall(48-12*((my_rank<NbCol)+(my_rank>=NbCol*(NbLi-1))+(my_rank%NbCol==0)+((my_rank+1)%NbCol==0)),reqs,stats) ;
     }
   }
   if(my_rank==0)

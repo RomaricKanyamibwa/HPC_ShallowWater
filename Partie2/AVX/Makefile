@@ -1,4 +1,4 @@
-CXX=g++ -Wall -O3
+CXX=g++ -Wall -O3  -ffast-math -mavx -ftree-vectorize -march=native -funroll-loops
 
 CPPFLAGS=-Iinc
 

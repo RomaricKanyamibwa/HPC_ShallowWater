@@ -1,10 +1,73 @@
 -----------------Sans export-----------------
-
 *************** NP:1 Bad memory access methode***************
 size_x:2048 , size_y:2048 , nbsteps:80 
-Temps total de calcul : 74.8196 seconde(s)
+Temps total de calcul : 74.7565 seconde(s)
+
+*************** NP:1 Bad memory access methode***************
+size_x:4096 , size_y:4096 , nbsteps:80 
+Temps total de calcul : 276.163 seconde(s)
 
 ***************NP:2 - Decomp_Bloc Block-Mode***************
 size_x:2048 , size_y:2048 , nbsteps:80 
-#0-Temps total de calcul : 51.569 seconde(s)
+#0-Temps total de calcul : 26.0709 seconde(s)
+
+***************NP:2 - Block-Mode***************
+size_x:2048 , size_y:2048 , nbsteps:80 
+#0-Temps total de calcul : 25.2955 seconde(s)
+
+***************NP:2 - Decomp_Bloc Non-block Mode***************
+size_x:2048 , size_y:2048 , nbsteps:80 
+#0-Temps total de calcul : 26.0567 seconde(s)
+
+***************NP:2 - Non-block Mode***************
+size_x:2048 , size_y:2048 , nbsteps:80 
+#0-Temps total de calcul : 26.1309 seconde(s)
+
+***************NP:4 - Decomp_Bloc Block-Mode***************
+size_x:2048 , size_y:2048 , nbsteps:80 
+#0-Temps total de calcul : 64.4888 seconde(s)
+
+***************NP:4 - Block-Mode***************
+size_x:2048 , size_y:2048 , nbsteps:80 
+#0-Temps total de calcul : 64.7549 seconde(s)
+
+***************NP:4 - Decomp_Bloc Non-block Mode***************
+size_x:2048 , size_y:2048 , nbsteps:80 
+#0-Temps total de calcul : 64.1006 seconde(s)
+
+***************NP:4 - Non-block Mode***************
+size_x:2048 , size_y:2048 , nbsteps:80 
+#0-Temps total de calcul : 63.8597 seconde(s)
+
+***************NP:2 - Decomp_Bloc Block-Mode***************
+size_x:4096 , size_y:4096 , nbsteps:80 
+#0-Temps total de calcul : 101.242 seconde(s)
+
+***************NP:2 - Block-Mode***************
+size_x:4096 , size_y:4096 , nbsteps:80 
+#0-Temps total de calcul : 91.2465 seconde(s)
+
+***************NP:2 - Decomp_Bloc Non-block Mode***************
+size_x:4096 , size_y:4096 , nbsteps:80 
+#0-Temps total de calcul : 101.918 seconde(s)
+
+***************NP:2 - Non-block Mode***************
+size_x:4096 , size_y:4096 , nbsteps:80 
+#0-Temps total de calcul : 90.383 seconde(s)
+
+***************NP:4 - Decomp_Bloc Block-Mode***************
+size_x:4096 , size_y:4096 , nbsteps:80 
+#0-Temps total de calcul : 255.47 seconde(s)
+
+***************NP:4 - Block-Mode***************
+size_x:4096 , size_y:4096 , nbsteps:80 
+#0-Temps total de calcul : 247.85 seconde(s)
+
+***************NP:4 - Decomp_Bloc Non-block Mode***************
+size_x:4096 , size_y:4096 , nbsteps:80 
+#0-Temps total de calcul : 255.244 seconde(s)
+
+***************NP:4 - Non-block Mode***************
+size_x:4096 , size_y:4096 , nbsteps:80 
+#0-Temps total de calcul : 248.779 seconde(s)
 

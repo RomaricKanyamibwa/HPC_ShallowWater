@@ -1,0 +1,19 @@
+NP:1 size_x:256 , size_y:256 , nbsteps:1000 
+  Temps total de calcul : 10.8921 seconde(s)
+
+*************** NP:1 ***************
+  size_x:256 , size_y:256 , nbsteps:1000 
+  Temps total de calcul : 10.6449 seconde(s)
+
+*************** NP:1 ***************
+size_x:256 , size_y:256 , nbsteps:1000 
+Temps total de calcul : 10.7774 seconde(s)
+
+*************** NP:1 ***************
+size_x:256 , size_y:256 , nbsteps:1000 
+Temps total de calcul : 10.1957 seconde(s)
+
+*************** NP:1 Bon access memoire***************
+size_x:256 , size_y:256 , nbsteps:1000 
+Temps total de calcul : 2.49575 seconde(s)
+

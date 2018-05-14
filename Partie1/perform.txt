@@ -1,0 +1,10 @@
+-----------------Sans export-----------------
+
+*************** NP:1 Bad memory access methode***************
+size_x:2048 , size_y:2048 , nbsteps:80 
+Temps total de calcul : 74.8196 seconde(s)
+
+***************NP:2 - Decomp_Bloc Block-Mode***************
+size_x:2048 , size_y:2048 , nbsteps:80 
+#0-Temps total de calcul : 51.569 seconde(s)
+

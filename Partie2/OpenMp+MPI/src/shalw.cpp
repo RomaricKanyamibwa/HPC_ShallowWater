@@ -92,7 +92,7 @@ int main_bloc(int argc, char **argv)  {
   {
     /* debut du chronometrage */
     debut = my_gettimeofday();
-    printf("***************NP:%d***************\n",NP);
+    printf("***************OpenMp+MPI NP:%d***************\n",NP);
   }
 
   if(size_x%NP!=0)
@@ -123,7 +123,7 @@ int main_bloc(int argc, char **argv)  {
         if(pararel_IO)
             sprintf(tmp,"%s MP_IO",tmp);
     }
-    sprintf(str,"***************NP:%d - %s***************\n\
+    sprintf(str,"***************OpenMp+MPI NP:%d - %s***************\n\
 size_x:%d , size_y:%d , nbsteps:%d \n\
 #%d-Temps total de calcul : %g seconde(s)\n\n"
             ,NP,tmp,size_x,size_y,nb_steps,my_rank,fin-debut);

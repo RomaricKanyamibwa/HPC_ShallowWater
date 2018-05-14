@@ -1,5 +1,9 @@
 #include <string>
 #include <mpi.h>
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 
 extern double *hFil;//, *uFil, *vFil, *hPhy, *uPhy, *vPhy;
 extern int size_x/**Numero de lignes**/, size_y, nb_steps,local_size_x, local_size_y/*bloc*/;

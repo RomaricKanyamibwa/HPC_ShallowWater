@@ -154,7 +154,7 @@ double vPhy_forward(int t, int i, int j) {
 void forward_bloc(void) {
   FILE *file = NULL;
   double svdt = 0.;
-  int t = 0,k;
+  int t = 0,k = 0;
   MPI_Status status;
   MPI_Status stats[48];
   MPI_Request reqs[48];
@@ -203,7 +203,7 @@ void forward_bloc(void) {
     if (t == 2){
       dt = svdt / 2.;
     }
-    //double  *uFil_local, *vFil_local, *hPhy_local, *uPhy_local, *vPhy_local;
+    #pragma omp parallel
     for (int i = (my_rank>=NbCol); i < local_size_x; i++) {
         for (int j = (my_rank%NbCol!=0); j < local_size_y; j++) {
             HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
@@ -215,7 +215,6 @@ void forward_bloc(void) {
       }
     }
 
-    for(k=0;k<1;k++)
     {
         if(non_block_comm)
         {
@@ -298,6 +297,7 @@ void forward_bloc(void) {
             if(my_rank%NbCol!=0) //tout les processus sauf ceux qui sont sur la colonne de gauche, on envoie la colonne tout a gauche
             {
     //            printf("P#%d:Send bande gauche\n",my_rank);
+                #pragma omp parallel for schedule(static)
                 for(int i=0;i<size_x/NbLi;i++){
                     hphy_send[i]=HPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);
                     uphy_send[i]=UPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);
@@ -342,6 +342,7 @@ void forward_bloc(void) {
                 ,&reqs[35-12*((my_rank<NbCol)+(my_rank>=NbCol*(NbLi-1)))]);
 
                 //&VFIL_LOCAL(t + k,i+(my_rank>=NbCol), 0)
+                #pragma omp parallel for schedule(static)
                 for(int i=0;i<size_x/NbLi;i++){
                     HPHY_LOCAL(t + k,i+(my_rank>=NbCol), 0)=hphy_recv[i];
                     UPHY_LOCAL(t + k,i+(my_rank>=NbCol), 0)=uphy_recv[i];
@@ -355,6 +356,7 @@ void forward_bloc(void) {
             if((my_rank+1)%NbCol!=0) //tout les processus sauf ceux sur la colonne de droite, on envoiel aligne de droite
             {
     //            printf("P#%d:Send bande droite\n",my_rank);
+                #pragma omp parallel for schedule(static)
                 for(int i=0;i<size_x/NbLi;i++){
                     hphy_send[i]=HPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2);
                     uphy_send[i]=UPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2);
@@ -394,6 +396,7 @@ void forward_bloc(void) {
                 MPI_Irecv(vfil_recv,size_x/NbLi, MPI_DOUBLE,my_rank+1,TAG_BLOC_VER_LAST_V_F,MPI_COMM_WORLD
                 ,&reqs[47-12*((my_rank<NbCol)+(my_rank>=NbCol*(NbLi-1))+(my_rank%NbCol==0))]);
 
+                #pragma omp parallel for schedule(static)
                 for(int i=0;i<size_x/NbLi;i++){
                     HPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1)=hphy_recv[i];
                     UPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1)=uphy_recv[i];
@@ -473,6 +476,7 @@ void forward_bloc(void) {
             if(my_rank%NbCol!=0) //tout les processus sauf ceux qui sont sur la colonne de gauche, on envoie la colonne tout a gauche
             {
     //            printf("P#%d:Send bande gauche\n",my_rank);
+                #pragma omp parallel for schedule(static)
                 for(int i=0;i<size_x/NbLi;i++){
                     hphy_send[i]=HPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);
                     uphy_send[i]=UPHY_LOCAL(t + k,i+(my_rank>=NbCol), 1);
@@ -504,6 +508,7 @@ void forward_bloc(void) {
                 ,vfil_recv,size_x/NbLi, MPI_DOUBLE,my_rank-1,TAG_BLOC_VER_FIRST_V_F, MPI_COMM_WORLD,&status);
 
                 //&VFIL_LOCAL(t + k,i+(my_rank>=NbCol), 0)
+                #pragma omp parallel for schedule(static)
                 for(int i=0;i<size_x/NbLi;i++){
                     HPHY_LOCAL(t + k,i+(my_rank>=NbCol), 0)=hphy_recv[i];
                     UPHY_LOCAL(t + k,i+(my_rank>=NbCol), 0)=uphy_recv[i];
@@ -517,6 +522,7 @@ void forward_bloc(void) {
             if((my_rank+1)%NbCol!=0) //tout les processus sauf ceux sur la colonne de droite, on envoiel aligne de droite
             {
     //            printf("P#%d:Send bande droite\n",my_rank);
+                #pragma omp parallel for schedule(static)
                 for(int i=0;i<size_x/NbLi;i++){
                     hphy_send[i]=HPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2);
                     uphy_send[i]=UPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-2);
@@ -543,6 +549,7 @@ void forward_bloc(void) {
                 MPI_Sendrecv(vfil_send,size_x/NbLi, MPI_DOUBLE, my_rank+1,TAG_BLOC_VER_FIRST_V_F
                 ,vfil_recv,size_x/NbLi, MPI_DOUBLE,my_rank+1,TAG_BLOC_VER_LAST_V_F, MPI_COMM_WORLD,&status);
 
+                #pragma omp parallel for schedule(static)
                 for(int i=0;i<size_x/NbLi;i++){
                     HPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1)=hphy_recv[i];
                     UPHY_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1)=uphy_recv[i];
@@ -551,7 +558,6 @@ void forward_bloc(void) {
                     UFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1)=ufil_recv[i];
                     VFIL_LOCAL(t + k,i+(my_rank>=NbCol), local_size_y-1)=vfil_recv[i];
                 }
-
             }
 
         }
@@ -560,6 +566,7 @@ void forward_bloc(void) {
     //printf("P#%d:line%d\n",my_rank,189);
 
     //printf("P#%d:---------------------------- Magic The Gathering ----------------------------\n",my_rank);
+    #pragma omp parallel for schedule(static)
     for(int i=0;i<size_x/NbLi;i++)//construction de buffer ligne par ligne
     {
         memcpy(hfil_buff_send+i*size_y/NbCol,&HFIL_LOCAL(t,i+(my_rank>=NbCol), (my_rank%NbCol!=0)),size_y/NbCol*sizeof(double));
@@ -572,6 +579,7 @@ void forward_bloc(void) {
     if(my_rank==0)
     {
         //printf("P#%d:---------------------------- Magic The Gathering ----------------------------\n",my_rank);
+        #pragma omp parallel for schedule(static)
         for(int i=0;i<size_x/NbLi;i++)
         {
             for(int j=0;j<NP;j++)
@@ -632,7 +640,7 @@ void forward_bloc(void) {
 void forward(void) {
   FILE *file = NULL;
   double svdt = 0.;
-  int t = 0,k;
+  int t = 0,k=0;
   MPI_Status status;
   MPI_Status stats[24];
   MPI_Request reqs[24];
@@ -657,6 +665,7 @@ void forward(void) {
       dt = svdt / 2.;
     }
 
+    #pragma omp parallel for schedule(static)
     for (int i = 0; i < size_x/NP; i++) {
         for (int j = 0; j < size_y; j++) {
             if(my_rank==0)
@@ -680,7 +689,7 @@ void forward(void) {
         }
     }
 
-    for(k=0;k<1;k++)
+    //for(k=0;k<1;k++)
     {
         if(non_block_comm)
         {
@@ -826,7 +835,7 @@ void forward_parallel_io(void)
  {
   MPI_File file;// = NULL;
   double svdt = 0.;
-  int t = 0,k;
+  int t = 0,k=0;
   MPI_Status status;
   MPI_Status stats[24];
   MPI_Request reqs[24] ;
@@ -857,6 +866,7 @@ void forward_parallel_io(void)
     if (t == 2){
       dt = svdt / 2.;
     }
+    #pragma omp parallel for schedule(static)
     for (int i = 0; i < size_x/NP; i++) {
         for (int j = 0; j < size_y; j++) {
           if(my_rank==0)
@@ -881,7 +891,7 @@ void forward_parallel_io(void)
     }
 
 
-    for(k=0;k<1;k++)
+    //for(k=0;k<1;k++)
     {
         if(non_block_comm)
         {
@@ -990,14 +1000,7 @@ void forward_parallel_io(void)
             }
         }
     }
-//    if(NP>1)
-//    {
-//        //printf("---------------------------- Magic The Gathering ----------------------------\n");
-//        MPI_Gather(&HFIL_LOCAL(t,(my_rank!=0), 0),size_y*size_x/NP,MPI_DOUBLE,
-//                   &HFIL(t, 0, 0),size_y*size_x/NP,MPI_DOUBLE,0,MPI_COMM_WORLD);
-//        //printf("---------------------------- End of Gathering  ----------------------------\n");
-//    }
-	//if(my_rank==0)
+
 	{
 	    if (file_export) {
             //printf("P#%d-export file t=%d\n",my_rank,t);

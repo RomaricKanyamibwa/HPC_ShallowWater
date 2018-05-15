@@ -148,6 +148,11 @@ int main(int argc, char **argv) {
   double debut=0, fin=0;
   root = 0;
   parse_args(argc, argv);
+  # pragma omp parallel
+  {
+    if(omp_get_thread_num()==0)
+        printf("Number of threads: %d\n", omp_get_num_threads());
+  }
   if(decomp_bloc)
   {
       return main_bloc(argc,argv);

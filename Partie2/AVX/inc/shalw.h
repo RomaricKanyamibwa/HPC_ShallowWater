@@ -1,4 +1,5 @@
 #include <string>
+#include <immintrin.h>
 extern double *hFil, *uFil, *vFil, *hPhy, *uPhy, *vPhy;
 extern int size_x, size_y, nb_steps;
 extern double dx, dy, dt, pcor, grav, dissip, hmoy, alpha, height, epsilon;

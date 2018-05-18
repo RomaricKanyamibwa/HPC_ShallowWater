@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
   printf("Temps total de calcul : %g seconde(s) \n",fin - debut);
   FILE *perf = fopen("perform.txt", "a+");
   char str[512];
-  sprintf(str,"*************** NP:1 ***************\n\
+  sprintf(str,"*************** AVX NP:1 ***************\n\
 size_x:%d , size_y:%d , nbsteps:%d \n\
 Temps total de calcul : %g seconde(s)\n\n",
     size_x,size_y,nb_steps,fin-debut);

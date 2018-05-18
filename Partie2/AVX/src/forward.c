@@ -219,33 +219,33 @@ __m256d uPhy_forward_vect(int t, int i, int j) {
   return res;
 }
 
-double vPhy_forward(int t, int i, int j) {
-  double c, d, e, f;
+// double vPhy_forward(int t, int i, int j) {
+//   double c, d, e, f;
 
-  if (j == 0)
-    return 0.;
+//   if (j == 0)
+//     return 0.;
 
-  c = 0.;
-  if (j > 0)
-    c = HPHY(t - 1, i, j - 1);
+//   c = 0.;
+//   if (j > 0)
+//     c = HPHY(t - 1, i, j - 1);
 
-  d = 0.;
-  if (i > 0 && j > 0)
-    d = UPHY(t - 1, i -1, j -1);
+//   d = 0.;
+//   if (i > 0 && j > 0)
+//     d = UPHY(t - 1, i -1, j -1);
 
-  e = 0.;
-  if (i > 0)
-    e = UPHY(t - 1, i - 1, j);
+//   e = 0.;
+//   if (i > 0)
+//     e = UPHY(t - 1, i - 1, j);
 
-  f = 0.;
-  if (j > 0)
-    f = UPHY(t - 1, i, j - 1);
+//   f = 0.;
+//   if (j > 0)
+//     f = UPHY(t - 1, i, j - 1);
 
-  return VFIL(t - 1, i, j) +
-    dt * ((-grav / dy) * (HPHY(t - 1, i, j) - c) -
-	  (pcor / 4.) * (d + e + f + UPHY(t - 1, i, j)) -
-	  (dissip * VFIL(t - 1, i, j)));
-}
+//   return VFIL(t - 1, i, j) +
+//     dt * ((-grav / dy) * (HPHY(t - 1, i, j) - c) -
+// 	  (pcor / 4.) * (d + e + f + UPHY(t - 1, i, j)) -
+// 	  (dissip * VFIL(t - 1, i, j)));
+// }
 __m256d vPhy_forward_vect(int t, int i, int j) {
   __m256d c, d, e, f;
 
@@ -326,7 +326,7 @@ void forward(void) {
       for (int j = 0; j < size_y/4; j++) {
 	//HPHY(t, i, j) = hPhy_forward(t, i, j);
 	//UPHY(t, i, j) = uPhy_forward(t, i, j);
-	VPHY(t, i, j) = vPhy_forward(t, i, j);
+	// VPHY(t, i, j) = vPhy_forward(t, i, j);
 //	HFIL(t, i, j) = hFil_forward(t, i, j);
 //	UFIL(t, i, j) = uFil_forward(t, i, j);
 //	VFIL(t, i, j) = vFil_forward(t, i, j);
@@ -348,11 +348,13 @@ void forward(void) {
     vFil_vect=vFil_forward_vect(t,i,j);
     hPhy_vect=hPhy_forward_vect(t,i,j);
     uPhy_vect=uPhy_forward_vect(t,i,j);
+    vPhy_vect=vPhy_forward_vect(t,i,j);
     _mm256_store_pd(&HFIL(t, i, j*4),hFil_vect);
     _mm256_store_pd(&UFIL(t, i, j*4),uFil_vect);
     _mm256_store_pd(&VFIL(t, i, j*4),vFil_vect);
     _mm256_store_pd(&HPHY(t, i, j*4),hPhy_vect);
     _mm256_store_pd(&UPHY(t, i, j*4),hPhy_vect);
+    _mm256_store_pd(&VPHY(t, i, j*4),hPhy_vect);
 
       }
     }

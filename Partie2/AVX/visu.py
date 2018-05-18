@@ -9,11 +9,18 @@ import sys
 def displayFile(fname):
     searchObj = re.search( r'(.*)_(.*)x(.*)_T(.*).sav', fname, 0)
     name = searchObj.group(1) 
+    print(name)
     M = int(searchObj.group(2))
     N = int(searchObj.group(3))
-    T = int(searchObj.group(4))
-    # lecture binaire suivant l'ordre de stockage des
-    # éléments d'un tableau multi-dimensionnel en C : 
+    searchObj2 = re.search( r'(.*)_NP(.*)', searchObj.group(4), 0)
+    # print(searchObj2)
+    if(searchObj2==None):
+    	T = int(searchObj.group(4))
+
+    else:
+    	T = int(searchObj2.group(1))
+	# lecture binaire suivant l'ordre de stockage des
+	# éléments d'un tableau multi-dimensionnel en C : 
     x = np.fromfile(fname,np.float64,T*N*N,"")
     x.shape = (T,N,N)
     #np.set_printoptions(precision=15)

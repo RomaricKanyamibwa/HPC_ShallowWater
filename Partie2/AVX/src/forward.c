@@ -111,7 +111,7 @@ __m256d hPhy_forward_vect(int t, int i, int j) {
   if (i > 0)
     c = _mm256_load_pd(&UPHY(t - 1, i - 1, j*4));
   else
-    c=_mm256_set1_pd(0.0);
+    c=_mm256_setzero_pd();//_mm256_set1_pd(0.0);
 
   if (j < size_y/4)
     d = _mm256_loadu_pd(&VPHY(t - 1, i, j*4 + 1));
@@ -132,61 +132,91 @@ __m256d hPhy_forward_vect(int t, int i, int j) {
   return res;
 }
 
-double uPhy_forward(int t, int i, int j) {
-  double b, e, f, g;
+//double uPhy_forward(int t, int i, int j) {
+//  double b, e, f, g;
+//
+//  if (i == size_x - 1)
+//    return 0.;
+//
+//  b = 0.;
+//  if (i < size_x - 1)
+//    b = HPHY(t - 1, i + 1, j);
+//
+//  e = 0.;
+//  if (j < size_y - 1)
+//    e = VPHY(t - 1, i, j + 1);
+//
+//  f = 0.;
+//  if (i < size_x - 1)
+//    f = VPHY(t - 1, i + 1, j);
+//
+//  g = 0.;
+//  if (i < size_x - 1 && j < size_y - 1)
+//    g = VPHY(t - 1, i + 1, j + 1);
+//
+//  return UFIL(t - 1, i, j) +
+//    dt * ((-grav / dx) * (b - HPHY(t - 1, i, j)) +
+//	  (pcor / 4.) * (VPHY(t - 1, i, j) + e + f + g) -
+//	  (dissip * UFIL(t - 1, i, j)));
+//}
+
+__m256d uPhy_forward_vect(int t, int i, int j) {
+  __m256d b, e, f, g;
 
   if (i == size_x - 1)
-    return 0.;
-
-  b = 0.;
-  if (i < size_x - 1)
-    b = HPHY(t - 1, i + 1, j);
-
-  e = 0.;
-  if (j < size_y - 1)
-    e = VPHY(t - 1, i, j + 1);
-
-  f = 0.;
-  if (i < size_x - 1)
-    f = VPHY(t - 1, i + 1, j);
-
-  g = 0.;
-  if (i < size_x - 1 && j < size_y - 1)
-    g = VPHY(t - 1, i + 1, j + 1);
-
-  return UFIL(t - 1, i, j) +
-    dt * ((-grav / dx) * (b - HPHY(t - 1, i, j)) +
-	  (pcor / 4.) * (VPHY(t - 1, i, j) + e + f + g) -
-	  (dissip * UFIL(t - 1, i, j)));
-}
-
-__mm256d uPhy_forward(int t, int i, int j) {
-  __mm256d b, e, f, g;
-
-  if (i == size_x - 1)
-    return _mm256_setzero_ps();
+    return _mm256_setzero_pd();
 
   if (i < size_x - 1)
-    b = HPHY(t - 1, i + 1, j);
+    b = _mm256_load_pd(&HPHY(t - 1, i + 1, j*4));
   else
-    b=_mm256_setzero_ps();
+    b=_mm256_setzero_pd();
 
-  e = 0.;
-  if (j < size_y - 1)
-    e = VPHY(t - 1, i, j + 1);
+  if (j < size_y/4)
+    e = _mm256_loadu_pd(&VPHY(t - 1, i, j*4 + 1));
+  else
+    e=_mm256_set_pd(VPHY(t - 1, i, j*4 + 1),VPHY(t - 1, i, j*4 + 2),VPHY(t - 1, i, j*4 + 3),0.0);
 
-  f = 0.;
   if (i < size_x - 1)
-    f = VPHY(t - 1, i + 1, j);
+    f = _mm256_load_pd(&VPHY(t - 1, i + 1, j*4));
+  else
+    f = _mm256_setzero_pd();
 
-  g = 0.;
-  if (i < size_x - 1 && j < size_y - 1)
-    g = VPHY(t - 1, i + 1, j + 1);
+  if (i < size_x - 1 && j < size_y/4)
+    g = _mm256_loadu_pd(&VPHY(t - 1, i + 1, j*4 + 1));
+  else
+  {
+    if(i < size_x -1)
+        g = _mm256_set_pd(VPHY(t - 1, i + 1, j*4 + 1),
+        VPHY(t - 1, i + 1, j*4 + 2),
+        VPHY(t - 1, i + 1, j*4 + 3),0.0);
+    else
+        g = _mm256_setzero_pd();
+  }
+    //_mm256_set_pd(VPHY(t - 1, i + 1, j*4 + 1),VPHY(t - 1, i + 1, j*4 + 2),VPHY(t - 1, i + 1, j*4 + 3),0.0);
 
-  return UFIL(t - 1, i, j) +
-    dt * ((-grav / dx) * (b - HPHY(t - 1, i, j)) +
-	  (pcor / 4.) * (VPHY(t - 1, i, j) + e + f + g) -
-	  (dissip * UFIL(t - 1, i, j)));
+  __m256d uFil_vect=_mm256_load_pd(&UFIL(t - 1, i, j*4));
+  __m256d hPhy_vect=_mm256_load_pd(&HPHY(t - 1, i, j*4));
+  __m256d vPhy_vect=_mm256_load_pd(&VPHY(t - 1, i, j*4));
+
+  __m256d res=_mm256_sub_pd(b,hPhy_vect);//b - HPHY(t - 1, i, j)
+  __m256d res2=_mm256_add_pd(e,_mm256_add_pd(f,g));//e + f + g
+  res2=_mm256_mul_pd(_mm256_set1_pd(pcor / 4. ),_mm256_add_pd(vPhy_vect,res2));
+  //(pcor / 4.) * (VPHY(t - 1, i, j) + e + f + g)
+  res=_mm256_fmadd_pd(_mm256_set1_pd(-grav / dx),res,res2);
+  //(-grav / dx) * (b - HPHY(t - 1, i, j)) + (pcor / 4.) * (VPHY(t - 1, i, j) + e + f + g)
+  res=_mm256_sub_pd(res,_mm256_mul_pd(_mm256_set1_pd(dissip),uFil_vect));
+  //(-grav / dx) * (b - HPHY(t - 1, i, j)) + (pcor / 4.) * (VPHY(t - 1, i, j) + e + f + g) -
+  //(dissip * UFIL(t - 1, i, j))
+  res=_mm256_mul_pd(_mm256_set1_pd(dt),res);//dt * ((-grav / dx) * (b - HPHY(t - 1, i, j)) +
+  //(pcor / 4.) * (VPHY(t - 1, i, j) + e + f + g) -
+  //(dissip * UFIL(t - 1, i, j)))
+  res=_mm256_add_pd(res,uFil_vect);
+//  UFIL(t - 1, i, j) +
+//    dt * ((-grav / dx) * (b - HPHY(t - 1, i, j)) +
+//	  (pcor / 4.) * (VPHY(t - 1, i, j) + e + f + g) -
+//	  (dissip * UFIL(t - 1, i, j)))
+
+  return res;
 }
 
 double vPhy_forward(int t, int i, int j) {
@@ -216,6 +246,61 @@ double vPhy_forward(int t, int i, int j) {
 	  (pcor / 4.) * (d + e + f + UPHY(t - 1, i, j)) -
 	  (dissip * VFIL(t - 1, i, j)));
 }
+__m256d vPhy_forward_vect(int t, int i, int j) {
+  __m256d c, d, e, f;
+
+  if (j == 0)
+    return _mm256_setzero_pd();
+
+  if (j > 0)
+    c = _mm256_loadu_pd(&HPHY(t - 1, i, j*4 - 1));
+  else
+    c = _mm256_set_pd(0.0,HPHY(t - 1, i, 0),VPHY(t - 1, i , 1),VPHY(t - 1, i, 2));
+
+  if (i > 0 && j > 0)
+    d = _mm256_loadu_pd(&UPHY(t - 1, i - 1, j*4 -1));
+  else
+  {
+    if(i>0)
+        d = _mm256_set_pd(0.0,HPHY(t - 1, i - 1, 0),VPHY(t - 1, i - 1 , 1),VPHY(t - 1, i - 1, 2));
+    else
+        d = _mm256_setzero_pd();
+  }
+
+  if (i > 0)
+    e = _mm256_load_pd(&UPHY(t - 1, i - 1, j*4));
+  else
+    e = _mm256_setzero_pd();
+
+  if (j > 0)
+    f = _mm256_loadu_pd(&UPHY(t - 1, i, j*4 - 1));
+  else
+    f = _mm256_set_pd(0.0,UPHY(t - 1, i, 0),UPHY(t - 1, i , 1),UPHY(t - 1, i, 2));
+
+  __m256d vFil_vect=_mm256_load_pd(&VFIL(t - 1, i, j*4));
+  __m256d hPhy_vect=_mm256_load_pd(&HPHY(t - 1, i, j*4));
+  __m256d uPhy_vect=_mm256_load_pd(&UPHY(t - 1, i, j*4));
+
+  __m256d res=_mm256_sub_pd(hPhy_vect,c);//HPHY(t - 1, i, j) - c
+  __m256d res2=_mm256_add_pd(d,_mm256_add_pd(e,f));//d + e + f
+  res2=_mm256_mul_pd(_mm256_set1_pd(pcor / 4. ),_mm256_add_pd(uPhy_vect,res2));
+  //(pcor / 4.) * (d + e + f + UPHY(t - 1, i, j))
+  res=_mm256_fmsub_pd(_mm256_set1_pd(-grav / dy),res,res2);
+  //(-grav / dy) * (HPHY(t - 1, i, j) - c) - (pcor / 4.) * (d + e + f + UPHY(t - 1, i, j))
+  res=_mm256_sub_pd(res,_mm256_mul_pd(_mm256_set1_pd(dissip),vFil_vect));
+  //(-grav / dy) * (HPHY(t - 1, i, j) - c) - (pcor / 4.) * (d + e + f + UPHY(t - 1, i, j)) -
+  //(dissip * UFIL(t - 1, i, j))
+  res=_mm256_mul_pd(_mm256_set1_pd(dt),res);
+  // dt * ((-grav / dy) * (HPHY(t - 1, i, j) - c) -
+  // (pcor / 4.) * (d + e + f + UPHY(t - 1, i, j)) -
+  // (dissip * VFIL(t - 1, i, j)))
+  res=_mm256_add_pd(res,vFil_vect);
+  // VFIL(t - 1, i, j) +
+  // dt * ((-grav / dy) * (HPHY(t - 1, i, j) - c) -
+  // (pcor / 4.) * (d + e + f + UPHY(t - 1, i, j)) -
+  // (dissip * VFIL(t - 1, i, j)));
+  return res;
+}
 
 void forward(void) {
   FILE *file = NULL;
@@ -239,8 +324,8 @@ void forward(void) {
 
     for (int i = 0; i < size_x; i++) {
       for (int j = 0; j < size_y/4; j++) {
-	HPHY(t, i, j) = hPhy_forward(t, i, j);
-	UPHY(t, i, j) = uPhy_forward(t, i, j);
+	//HPHY(t, i, j) = hPhy_forward(t, i, j);
+	//UPHY(t, i, j) = uPhy_forward(t, i, j);
 	VPHY(t, i, j) = vPhy_forward(t, i, j);
 //	HFIL(t, i, j) = hFil_forward(t, i, j);
 //	UFIL(t, i, j) = uFil_forward(t, i, j);
@@ -262,10 +347,12 @@ void forward(void) {
     uFil_vect=uFil_forward_vect(t,i,j);
     vFil_vect=vFil_forward_vect(t,i,j);
     hPhy_vect=hPhy_forward_vect(t,i,j);
+    uPhy_vect=uPhy_forward_vect(t,i,j);
     _mm256_store_pd(&HFIL(t, i, j*4),hFil_vect);
     _mm256_store_pd(&UFIL(t, i, j*4),uFil_vect);
     _mm256_store_pd(&VFIL(t, i, j*4),vFil_vect);
     _mm256_store_pd(&HPHY(t, i, j*4),hPhy_vect);
+    _mm256_store_pd(&UPHY(t, i, j*4),hPhy_vect);
 
       }
     }

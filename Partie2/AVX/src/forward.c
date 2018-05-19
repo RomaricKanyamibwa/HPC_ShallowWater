@@ -12,7 +12,7 @@
 //    alpha * (HFIL(t - 1, i, j) - 2 * HPHY(t - 1, i, j) + HPHY(t, i, j));
 //}
 
-__m256d hFil_forward_vect(int t, int i, int j) {
+void hFil_forward_vect(int t, int i, int j) {
   //Phase d'initialisation du filtre
   //HPHY(t - 1, i, j) est encore nul
 
@@ -21,7 +21,10 @@ __m256d hFil_forward_vect(int t, int i, int j) {
 
 
   if (t <= 2)
-    return hPhy_vect2;
+  {
+  	_mm256_store_pd(&HFIL(t, i, j*4),hPhy_vect2);
+  	return;
+  }
 
   __m256d hFil_vect = _mm256_load_pd(&HFIL(t - 1, i, j*4));
   __m256d hPhy_vect = _mm256_load_pd(&HPHY(t - 1, i, j*4));
@@ -30,12 +33,12 @@ __m256d hFil_forward_vect(int t, int i, int j) {
   //hPhy_vect = _mm256_mul_pd(_mm256_set1_pd(2),hPhy_vect);//2*HPHY(t - 1, i, j)
   res = _mm256_sub_pd(res,hPhy_vect);//HPHY(t - 1, i, j)+alpha * (HFIL(t - 1, i, j) - 2 * HPHY(t - 1, i, j)
   res = _mm256_add_pd(res,hPhy_vect2);//HPHY(t - 1, i, j)+alpha * (HFIL(t - 1, i, j) - 2 * HPHY(t - 1, i, j) + HPHY(t, i, j));
-  // printf("res:before return:%lf\n",HFIL(t, i, j));
+  //printf("Hfill(%d,%d,%d):before return:%lf\n",t, i, j,HFIL(t, 128, 128));
   // printf("res:before return:%lf\n",HFIL(t, i, j+1));
   // printf("res:before return:%lf\n",HFIL(t, i, j+2));
   // printf("res:before return:%lf\n",HFIL(t, i, j+3));
    _mm256_store_pd(&HFIL(t, i, j*4),res);
-  return res;
+  return;
 //  HPHY(t - 1, i, j) +
 //    alpha * (HFIL(t - 1, i, j) - 2 * HPHY(t - 1, i, j) + HPHY(t, i, j));
 }
@@ -50,13 +53,16 @@ __m256d hFil_forward_vect(int t, int i, int j) {
 //    alpha * (UFIL(t - 1, i, j) - 2 * UPHY(t - 1, i, j) + UPHY(t, i, j));
 //}
 
-__m256d uFil_forward_vect(int t, int i, int j) {
+void uFil_forward_vect(int t, int i, int j) {
   //Phase d'initialisation du filtre
   //UPHY(t - 1, i, j) est encore nul
   __m256d uPhy_vect = _mm256_load_pd(&UPHY(t, i, j*4));
 
   if (t <= 2)
-    return uPhy_vect;
+  {
+  	_mm256_store_pd(&UFIL(t, i, j*4),uPhy_vect);
+  	return;
+  }
 
   __m256d uPhy_vect2 = _mm256_load_pd(&UPHY(t-1, i, j*4));
   __m256d uFil_vect  = _mm256_load_pd(&UFIL(t-1, i, j*4));
@@ -65,7 +71,7 @@ __m256d uFil_forward_vect(int t, int i, int j) {
   res = _mm256_sub_pd(res,uPhy_vect2);//UPHY(t - 1, i, j)+alpha * (UFIL(t - 1, i, j) - 2 * UPHY(t - 1, i, j)
   res = _mm256_add_pd(res,uPhy_vect);//HPHY(t - 1, i, j)+alpha * (HFIL(t - 1, i, j) - 2 * HPHY(t - 1, i, j) + HPHY(t, i, j));
   _mm256_store_pd(&UFIL(t, i, j*4),res);
-  return res;
+  return;
 }
 
 //double vFil_forward(int t, int i, int j) {
@@ -77,13 +83,16 @@ __m256d uFil_forward_vect(int t, int i, int j) {
 //    alpha * (VFIL(t - 1, i, j) - 2 * VPHY(t - 1, i, j) + VPHY(t, i, j));
 //}
 
-__m256d vFil_forward_vect(int t, int i, int j) {
+void vFil_forward_vect(int t, int i, int j) {
   //Phase d'initialisation du filtre
   //VPHY(t - 1, i, j) est encore nul
   __m256d vPhy_vect = _mm256_load_pd(&VPHY(t, i, j*4));
 
   if (t <= 2)
-    return vPhy_vect;//VPHY(t, i, j);
+  {
+  	_mm256_store_pd(&VFIL(t, i, j*4),vPhy_vect);
+  	return;//VPHY(t, i, j);
+  }
 
   __m256d vPhy_vect2 = _mm256_load_pd(&VPHY(t-1, i, j*4));
   __m256d vFil_vect  = _mm256_load_pd(&VFIL(t-1, i, j*4));
@@ -92,7 +101,7 @@ __m256d vFil_forward_vect(int t, int i, int j) {
   res = _mm256_sub_pd(res,vPhy_vect2);//VPHY(t - 1, i, j)+alpha * (VFIL(t - 1, i, j) - 2 * VPHY(t - 1, i, j)
   res = _mm256_add_pd(res,vPhy_vect);//VPHY(t - 1, i, j)+alpha * (VFIL(t - 1, i, j) - 2 * VPHY(t - 1, i, j) + VPHY(t, i, j));
   _mm256_store_pd(&VFIL(t, i, j*4),res);
-  return res;
+  return;
 }
 
 //double hPhy_forward(int t, int i, int j) {
@@ -112,7 +121,7 @@ __m256d vFil_forward_vect(int t, int i, int j) {
 //}
 
 //inline
-__m256d hPhy_forward_vect(int t, int i, int j) {
+void hPhy_forward_vect(int t, int i, int j) {
   __m256d c, d;
 
   if (i > 0)
@@ -137,7 +146,7 @@ __m256d hPhy_forward_vect(int t, int i, int j) {
   //printf("dt*hmoy/ dx:%lf\n",dt*hmoy/ dx);
   res = _mm256_add_pd(hFil_vect,res);//HFIL(t - 1, i, j) -dt * hmoy * ((UPHY(t - 1, i, j) - c) / dx +(d - VPHY(t - 1, i, j)) / dy)
   _mm256_store_pd(&HPHY(t, i, j*4),res);
-  return res;
+  return;
 }
 
 //double uPhy_forward(int t, int i, int j) {
@@ -168,11 +177,14 @@ __m256d hPhy_forward_vect(int t, int i, int j) {
 //	  (dissip * UFIL(t - 1, i, j)));
 //}
 
-__m256d uPhy_forward_vect(int t, int i, int j) {
+void uPhy_forward_vect(int t, int i, int j) {
   __m256d b, e, f, g;
 
   if (i == size_x - 1)
-    return _mm256_setzero_pd();
+  {
+  	_mm256_store_pd(&UPHY(t, i, j*4),_mm256_setzero_pd());
+  	return;
+  }
 
   if (i < size_x - 1)
     b = _mm256_load_pd(&HPHY(t - 1, i + 1, j*4));
@@ -225,7 +237,7 @@ __m256d uPhy_forward_vect(int t, int i, int j) {
 //	  (dissip * UFIL(t - 1, i, j)))
   _mm256_store_pd(&UPHY(t, i, j*4),res);
 
-  return res;
+  return;
 }
 
 // double vPhy_forward(int t, int i, int j) {
@@ -255,11 +267,14 @@ __m256d uPhy_forward_vect(int t, int i, int j) {
 // 	  (pcor / 4.) * (d + e + f + UPHY(t - 1, i, j)) -
 // 	  (dissip * VFIL(t - 1, i, j)));
 // }
-__m256d vPhy_forward_vect(int t, int i, int j) {
+void vPhy_forward_vect(int t, int i, int j) {
   __m256d c, d, e, f;
 
   if (j == 0)
-    return _mm256_setzero_pd();
+  {
+  	_mm256_store_pd(&VPHY(t, i, j*4),_mm256_setzero_pd());
+  	return;
+  }
 
   if (j > 0)
     c = _mm256_loadu_pd(&HPHY(t - 1, i, j*4 - 1));
@@ -309,7 +324,7 @@ __m256d vPhy_forward_vect(int t, int i, int j) {
   // (pcor / 4.) * (d + e + f + UPHY(t - 1, i, j)) -
   // (dissip * VFIL(t - 1, i, j)));
   _mm256_store_pd(&VPHY(t, i, j*4),res);
-  return res;
+  return;
 }
 
 void forward(void) {
@@ -334,12 +349,12 @@ void forward(void) {
 
     for (int i = 0; i < size_x; i++) {
       for (int j = 0; j < size_y/4; j++) {
-	//HPHY(t, i, j) = hPhy_forward(t, i, j);
-	//UPHY(t, i, j) = uPhy_forward(t, i, j);
+	// UPHY(t, i, j) = uPhy_forward(t, i, j);
 	// VPHY(t, i, j) = vPhy_forward(t, i, j);
-//	HFIL(t, i, j) = hFil_forward(t, i, j);
-//	UFIL(t, i, j) = uFil_forward(t, i, j);
-//	VFIL(t, i, j) = vFil_forward(t, i, j);
+	// HFIL(t, i, j) = hFil_forward(t, i, j);
+	// HPHY(t, i, j) = hPhy_forward(t, i, j);
+	// UFIL(t, i, j) = uFil_forward(t, i, j);
+	// VFIL(t, i, j) = vFil_forward(t, i, j);
 
 //	vFil_vect = _mm256_load_pd(&VFIL(t, i, j*4));
 //	uFil_vect = _mm256_load_pd(&UFIL(t, i, j*4));
@@ -348,13 +363,13 @@ void forward(void) {
 //	uPhy_vect = _mm256_load_pd(&UPHY(t, i, j*4));
 //	hPhy_vect = _mm256_load_pd(&HPHY(t, i, j*4));
 //	//_mm256_store_ps(&VFIL(t, i, j*4),v3);
-    hFil_forward_vect(t,i,j);
     //printf("HFIl:after return:%lf\n",hFil_vect[0]);
-    uFil_forward_vect(t,i,j);
-    vFil_forward_vect(t,i,j);
-    hPhy_forward_vect(t,i,j);
     uPhy_forward_vect(t,i,j);
     vPhy_forward_vect(t,i,j);
+    hFil_forward_vect(t,i,j);
+    hPhy_forward_vect(t,i,j);
+    uFil_forward_vect(t,i,j);
+    vFil_forward_vect(t,i,j);
     // _mm256_store_pd(&HFIL(t, i, j*4),hFil_vect);
     // _mm256_store_pd(&UFIL(t, i, j*4),uFil_vect);
     // _mm256_store_pd(&VFIL(t, i, j*4),vFil_vect);

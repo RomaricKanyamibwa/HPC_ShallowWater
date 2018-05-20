@@ -1,0 +1,361 @@
+-----------------Test 1024*1024-----------------
+*************** NP:1 Bad memory access methode***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+Temps total de calcul : 8.97762 seconde(s)
+
+*************** NP:1 cache effective memory access methode***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+Temps total de calcul : 2.48479 seconde(s)
+
+****Decomposition par Bande****
+***************OpenMp+MPI NP:2 - Block-Mode***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 2.14004 seconde(s)
+
+***************OpenMp+MPI NP:4 - Block-Mode***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 2.44109 seconde(s)
+
+***************OpenMp+MPI NP:8 - Block-Mode***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 3.22397 seconde(s)
+
+****Decomposition par Block****
+***************OpenMp+MPI NP:2 - Decomp_Bloc Block-Mode***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 4.30149 seconde(s)
+
+***************OpenMp+MPI NP:4 - Decomp_Bloc Block-Mode***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 3.81758 seconde(s)
+
+***************OpenMp+MPI NP:8 - Decomp_Bloc Block-Mode***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 4.40012 seconde(s)
+
+***************OpenMp+MPI NP:2 - Non-block Mode***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 2.1255 seconde(s)
+
+***************OpenMp+MPI NP:4 - Non-block Mode***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 2.40477 seconde(s)
+
+***************OpenMp+MPI NP:8 - Non-block Mode***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 3.26917 seconde(s)
+
+****Decomposition par Block****
+***************OpenMp+MPI NP:2 - Decomp_Bloc Non-block Mode***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 4.12307 seconde(s)
+
+***************OpenMp+MPI NP:4 - Decomp_Bloc Non-block Mode***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 3.62062 seconde(s)
+
+***************OpenMp+MPI NP:8 - Decomp_Bloc Non-block Mode***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+#0-Temps total de calcul : 3.50789 seconde(s)
+
+-----------------Test 2048*2048-----------------
+****Decomposition par Bande****
+*************** NP:1 Bad memory access methode***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+Temps total de calcul : 40.7927 seconde(s)
+
+*************** NP:1 cache effective memory access methode***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+Temps total de calcul : 15.3795 seconde(s)
+
+***************OpenMp+MPI NP:2 - Block-Mode***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 8.41878 seconde(s)
+
+***************OpenMp+MPI NP:4 - Block-Mode***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 9.66756 seconde(s)
+
+***************OpenMp+MPI NP:8 - Block-Mode***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 10.5358 seconde(s)
+
+****Decomposition par Block****
+***************OpenMp+MPI NP:2 - Decomp_Bloc Block-Mode***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 16.2178 seconde(s)
+
+***************OpenMp+MPI NP:4 - Decomp_Bloc Block-Mode***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 13.8804 seconde(s)
+
+***************OpenMp+MPI NP:8 - Decomp_Bloc Block-Mode***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 12.7878 seconde(s)
+
+-----------------Non-Blocking Test-----------------
+****Decomposition par Bande****
+***************OpenMp+MPI NP:2 - Non-block Mode***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 8.51148 seconde(s)
+
+***************OpenMp+MPI NP:4 - Non-block Mode***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 9.72516 seconde(s)
+
+***************OpenMp+MPI NP:8 - Non-block Mode***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 10.4433 seconde(s)
+
+****Decomposition par Block****
+***************OpenMp+MPI NP:2 - Decomp_Bloc Non-block Mode***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 16.2538 seconde(s)
+
+***************OpenMp+MPI NP:4 - Decomp_Bloc Non-block Mode***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 13.7613 seconde(s)
+
+***************OpenMp+MPI NP:8 - Decomp_Bloc Non-block Mode***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+#0-Temps total de calcul : 12.4206 seconde(s)
+
+-----------------Test 4096*4096-----------------
+****Decomposition par Bande****
+*************** NP:1 Bad memory access methode***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+Temps total de calcul : 66.2057 seconde(s)
+
+*************** NP:1 cache effective memory access methode***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+Temps total de calcul : 24.9889 seconde(s)
+
+***************OpenMp+MPI NP:2 - Block-Mode***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 16.26 seconde(s)
+
+***************OpenMp+MPI NP:4 - Block-Mode***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 19.1019 seconde(s)
+
+***************OpenMp+MPI NP:8 - Block-Mode***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 20.1608 seconde(s)
+
+****Decomposition par Block****
+***************OpenMp+MPI NP:2 - Decomp_Bloc Block-Mode***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 31.1524 seconde(s)
+
+***************OpenMp+MPI NP:4 - Decomp_Bloc Block-Mode***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 26.9174 seconde(s)
+
+***************OpenMp+MPI NP:8 - Decomp_Bloc Block-Mode***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 25.4652 seconde(s)
+
+-----------------Non-Blocking Test-----------------
+****Decomposition par Bande****
+***************OpenMp+MPI NP:2 - Non-block Mode***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 16.1999 seconde(s)
+
+***************OpenMp+MPI NP:4 - Non-block Mode***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 19.0341 seconde(s)
+
+***************OpenMp+MPI NP:8 - Non-block Mode***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 20.0717 seconde(s)
+
+****Decomposition par Block****
+***************OpenMp+MPI NP:2 - Decomp_Bloc Non-block Mode***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 34.4838 seconde(s)
+
+***************OpenMp+MPI NP:4 - Decomp_Bloc Non-block Mode***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 27.4839 seconde(s)
+
+***************OpenMp+MPI NP:8 - Decomp_Bloc Non-block Mode***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+#0-Temps total de calcul : 25.059 seconde(s)
+
+-----------------Test 8192*8192-----------------
+****Decomposition par Bande****
+*************** NP:1 Bad memory access methode***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+Temps total de calcul : 308.82 seconde(s)
+
+*************** NP:1 cache effective memory access methode***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+Temps total de calcul : 86.3005 seconde(s)
+
+***************OpenMp+MPI NP:2 - Block-Mode***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 77.1119 seconde(s)
+
+***************OpenMp+MPI NP:4 - Block-Mode***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 79.9965 seconde(s)
+
+***************OpenMp+MPI NP:8 - Block-Mode***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 82.5966 seconde(s)
+
+****Decomposition par Block****
+***************OpenMp+MPI NP:2 - Decomp_Bloc Block-Mode***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 171.235 seconde(s)
+
+***************OpenMp+MPI NP:4 - Decomp_Bloc Block-Mode***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 126.734 seconde(s)
+
+***************OpenMp+MPI NP:8 - Decomp_Bloc Block-Mode***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 106.285 seconde(s)
+
+-----------------Non-Blocking Test-----------------
+****Decomposition par Bande****
+***************OpenMp+MPI NP:2 - Non-block Mode***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 74.8714 seconde(s)
+
+***************OpenMp+MPI NP:4 - Non-block Mode***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 81.2771 seconde(s)
+
+***************OpenMp+MPI NP:8 - Non-block Mode***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 83.0803 seconde(s)
+
+****Decomposition par Block****
+***************OpenMp+MPI NP:2 - Decomp_Bloc Non-block Mode***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 185.774 seconde(s)
+
+***************OpenMp+MPI NP:4 - Decomp_Bloc Non-block Mode***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 122.967 seconde(s)
+
+***************OpenMp+MPI NP:8 - Decomp_Bloc Non-block Mode***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+#0-Temps total de calcul : 101.999 seconde(s)
+
+-----------------MPI_IO Test-----------------
+-----------------t =40 -----------------
+*************** NP:1 Bad memory access methode***************
+size_x:512 , size_y:512 , nbsteps:40 
+Temps total de calcul : 4.09959 seconde(s)
+
+*************** NP:1 cache effective memory access methode***************
+size_x:512 , size_y:512 , nbsteps:40 
+Temps total de calcul : 1.47828 seconde(s)
+
+***************OpenMp+MPI NP:2 - Block-Mode***************
+size_x:512 , size_y:512 , nbsteps:40 
+#0-Temps total de calcul : 1.48084 seconde(s)
+
+***************OpenMp+MPI NP:2 - Non-block Mode***************
+size_x:512 , size_y:512 , nbsteps:40 
+#0-Temps total de calcul : 1.43194 seconde(s)
+
+***************OpenMp+MPI NP:2 - Block-Mode MP_IO***************
+size_x:512 , size_y:512 , nbsteps:40 
+#0-Temps total de calcul : 1.71776 seconde(s)
+
+***************OpenMp+MPI NP:2 - Block-Mode Non-Block-MP_IO***************
+size_x:512 , size_y:512 , nbsteps:40 
+#0-Temps total de calcul : 1.15156 seconde(s)
+
+***************OpenMp+MPI NP:2 - Non-block Mode MP_IO***************
+size_x:512 , size_y:512 , nbsteps:40 
+#0-Temps total de calcul : 1.12399 seconde(s)
+
+***************OpenMp+MPI NP:2 - Non-block Mode Non-Block-MP_IO***************
+size_x:512 , size_y:512 , nbsteps:40 
+#0-Temps total de calcul : 1.17405 seconde(s)
+
+***************OpenMp+MPI NP:4 - Block-Mode***************
+size_x:512 , size_y:512 , nbsteps:40 
+#0-Temps total de calcul : 1.63618 seconde(s)
+
+***************OpenMp+MPI NP:4 - Non-block Mode***************
+size_x:512 , size_y:512 , nbsteps:40 
+#0-Temps total de calcul : 1.43239 seconde(s)
+
+***************OpenMp+MPI NP:4 - Block-Mode MP_IO***************
+size_x:512 , size_y:512 , nbsteps:40 
+#0-Temps total de calcul : 1.1515 seconde(s)
+
+***************OpenMp+MPI NP:4 - Block-Mode Non-Block-MP_IO***************
+size_x:512 , size_y:512 , nbsteps:40 
+#0-Temps total de calcul : 1.15261 seconde(s)
+
+***************OpenMp+MPI NP:4 - Non-block Mode MP_IO***************
+size_x:512 , size_y:512 , nbsteps:40 
+#0-Temps total de calcul : 1.02947 seconde(s)
+
+***************OpenMp+MPI NP:4 - Non-block Mode Non-Block-MP_IO***************
+size_x:512 , size_y:512 , nbsteps:40 
+#0-Temps total de calcul : 0.988466 seconde(s)
+
+-----------------t =80 -----------------
+*************** NP:1 Bad memory access methode***************
+size_x:512 , size_y:512 , nbsteps:80 
+Temps total de calcul : 8.01432 seconde(s)
+
+*************** NP:1 cache effective memory access methode***************
+size_x:512 , size_y:512 , nbsteps:80 
+Temps total de calcul : 2.99725 seconde(s)
+
+***************OpenMp+MPI NP:2 - Block-Mode***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 2.87144 seconde(s)
+
+***************OpenMp+MPI NP:2 - Non-block Mode***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 2.94244 seconde(s)
+
+***************OpenMp+MPI NP:2 - Block-Mode MP_IO***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 2.30303 seconde(s)
+
+***************OpenMp+MPI NP:2 - Block-Mode Non-Block-MP_IO***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 2.29899 seconde(s)
+
+***************OpenMp+MPI NP:2 - Non-block Mode MP_IO***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 2.15179 seconde(s)
+
+***************OpenMp+MPI NP:2 - Non-block Mode Non-Block-MP_IO***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 2.19759 seconde(s)
+
+***************OpenMp+MPI NP:4 - Block-Mode***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 3.17561 seconde(s)
+
+***************OpenMp+MPI NP:4 - Non-block Mode***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 3.13636 seconde(s)
+
+***************OpenMp+MPI NP:4 - Block-Mode MP_IO***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 2.80438 seconde(s)
+
+***************OpenMp+MPI NP:4 - Block-Mode Non-Block-MP_IO***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 2.30578 seconde(s)
+
+***************OpenMp+MPI NP:4 - Non-block Mode MP_IO***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 2.04767 seconde(s)
+
+***************OpenMp+MPI NP:4 - Non-block Mode Non-Block-MP_IO***************
+size_x:512 , size_y:512 , nbsteps:80 
+#0-Temps total de calcul : 2.01543 seconde(s)
+

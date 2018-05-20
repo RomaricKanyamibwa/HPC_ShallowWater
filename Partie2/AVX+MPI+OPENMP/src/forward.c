@@ -52,75 +52,186 @@
 
 #endif /* #ifdef TAG_MESSAGE */
 
-double hFil_forward(int t, int i, int j) {
+
+
+void hFil_forward_vect(int t, int i, int j) {
   //Phase d'initialisation du filtre
-  //HPHY(t - 1, i, j) est encore nul
+  //HPHY_LOCAL(t - 1, i, j) est encore nul
+
+  __m256d hPhy_vect = _mm256_load_pd(&HPHY_LOCAL(t, i, j*4));
+
   if (t <= 2)
-    return HPHY_LOCAL(t, i, j);
-  return HPHY_LOCAL(t - 1, i, j) +
-    alpha * (HFIL_LOCAL(t - 1, i, j) - 2 * HPHY_LOCAL(t - 1, i, j) + HPHY_LOCAL(t, i, j));
+  {
+    _mm256_store_pd(&HFIL_LOCAL(t, i, j*4),hPhy_vect);//return HPHY_LOCAL(t, i, j);
+    return;
+  }
+
+  const __m256d alpha_vect = _mm256_set1_pd(alpha);
+  const __m256d s2 = _mm256_set1_pd(-2);
+
+  __m256d hFil_vect = _mm256_load_pd(&HFIL_LOCAL(t - 1, i, j*4));
+  __m256d hPhy_vect2 = _mm256_load_pd(&HPHY_LOCAL(t - 1, i, j*4));
+  __m256d res =  _mm256_mul_pd(hPhy_vect2, s2);
+
+  res = _mm256_add_pd(res, hFil_vect);
+  res = _mm256_add_pd(res, hPhy_vect);
+  res = _mm256_mul_pd(res, alpha_vect);
+  res = _mm256_add_pd(res, hPhy_vect2);
+  _mm256_store_pd(&HFIL_LOCAL(t, i, j*4),res);
+  return;
+//  HPHY_LOCAL(t - 1, i, j) +
+//    alpha * (HFIL_LOCAL(t - 1, i, j) - 2 * HPHY_LOCAL(t - 1, i, j) + HPHY_LOCAL(t, i, j));
 }
 
-double uFil_forward(int t, int i, int j) {
+void uFil_forward_vect(int t, int i, int j) {
   //Phase d'initialisation du filtre
-  //UPHY(t - 1, i, j) est encore nul
+  //UPHY_LOCAL(t - 1, i, j) est encore nul
+  __m256d uPhy_vect = _mm256_load_pd(&UPHY_LOCAL(t, i, j*4));
+
   if (t <= 2)
-    return UPHY_LOCAL(t, i, j);
-  return UPHY_LOCAL(t - 1, i, j) +
-    alpha * (UFIL_LOCAL(t - 1, i, j) - 2 * UPHY_LOCAL(t - 1, i, j) + UPHY_LOCAL(t, i, j));
+  {
+    _mm256_store_pd(&UFIL_LOCAL(t, i, j*4),uPhy_vect);
+  }
+  const __m256d alpha_vect = _mm256_set1_pd(alpha);
+  const __m256d s2 = _mm256_set1_pd(-2);
+
+  __m256d uPhy_vect2 = _mm256_load_pd(&UPHY_LOCAL(t-1, i, j*4));
+  __m256d uFil_vect  = _mm256_load_pd(&UFIL_LOCAL(t-1, i, j*4));
+
+  __m256d res = _mm256_mul_pd(uPhy_vect2, s2);
+  res = _mm256_add_pd(res, uFil_vect);
+  res = _mm256_add_pd(res, uPhy_vect);
+  res = _mm256_mul_pd(res, alpha_vect);
+  res = _mm256_add_pd(res, uPhy_vect2);
+
+  _mm256_store_pd(&UFIL_LOCAL(t, i, j*4),res);
+  //UPHY_LOCAL(t - 1, i, j) +alpha * (UFIL_LOCAL(t - 1, i, j) - 2 * UPHY_LOCAL(t - 1, i, j) + UPHY_LOCAL(t, i, j))
+  return;
 }
 
-double vFil_forward(int t, int i, int j) {
+
+void vFil_forward_vect(int t, int i, int j) {
   //Phase d'initialisation du filtre
-  //VPHY(t - 1, i, j) est encore nul
+  //VPHY_LOCAL(t - 1, i, j) est encore nul
+  __m256d vPhy_vect = _mm256_load_pd(&VPHY_LOCAL(t, i, j*4));
+
   if (t <= 2)
-    return VPHY_LOCAL(t, i, j);
-  return VPHY_LOCAL(t - 1, i, j) +
-    alpha * (VFIL_LOCAL(t - 1, i, j) - 2 * VPHY_LOCAL(t - 1, i, j) + VPHY_LOCAL(t, i, j));
+  {
+    _mm256_store_pd(&VFIL_LOCAL(t, i, j*4),vPhy_vect);
+    return;//VPHY_LOCAL(t, i, j);
+  }
+
+  const __m256d alpha_vect = _mm256_set1_pd(alpha);
+  const __m256d s2 = _mm256_set1_pd(-2);
+
+  __m256d vPhy_vect2 = _mm256_load_pd(&VPHY_LOCAL(t-1, i, j*4));
+  __m256d vFil_vect  = _mm256_load_pd(&VFIL_LOCAL(t-1, i, j*4));
+
+  __m256d res = _mm256_mul_pd(vPhy_vect2, s2);
+  res = _mm256_add_pd(res, vFil_vect);
+  res = _mm256_add_pd(res, vPhy_vect);
+  res = _mm256_mul_pd(res, alpha_vect);
+  res = _mm256_add_pd(res, vPhy_vect2);
+
+  _mm256_store_pd(&VFIL_LOCAL(t, i, j*4),res);
+  //VPHY_LOCAL(t - 1, i, j) + alpha * (VFIL_LOCAL(t - 1, i, j) - 2 * VPHY_LOCAL(t - 1, i, j) + VPHY_LOCAL(t, i, j))
+  return;
 }
 
-double hPhy_forward(int t, int i, int j) {
-  double c, d;
 
-  c = 0.;
+void hPhy_forward_vect(int t, int i, int j) {
+  __m256d c, d;
+
   if (i > 0)
-    c = UPHY_LOCAL(t - 1, i - 1, j);
+    c = _mm256_load_pd(&UPHY_LOCAL(t - 1, i - 1, j*4));
+  else
+    c=_mm256_setzero_pd();//_mm256_set1_pd(0.0);
 
-  d = 0.;
-  if (j < size_y - 1)
-    d = VPHY_LOCAL(t - 1, i, j + 1);
+  if (j < size_y/4 - 1)
+    d = _mm256_loadu_pd(&VPHY_LOCAL(t - 1, i, j*4 + 1));
+  else
+    d = _mm256_set_pd(VPHY_LOCAL(t - 1, i, j*4 + 1),VPHY_LOCAL(t - 1, i, j*4 + 2),VPHY_LOCAL(t - 1, i, j*4 + 3),0.0);
 
-  return HFIL_LOCAL(t - 1, i, j) -
-    dt * hmoy * ((UPHY_LOCAL(t - 1, i, j) - c) / dx +
-		 (d - VPHY_LOCAL(t - 1, i, j)) / dy);
+  __m256d hFil_vect = _mm256_load_pd(&HFIL_LOCAL(t-1, i, j*4));
+  __m256d uPhy_vect = _mm256_load_pd(&UPHY_LOCAL(t-1, i, j*4));
+  __m256d vPhy_vect = _mm256_load_pd(&VPHY_LOCAL(t-1, i, j*4));
+
+  __m256d res=_mm256_sub_pd(uPhy_vect,c);//(UPHY_LOCAL(t - 1, i, j) - c
+  __m256d res2=_mm256_sub_pd(d,vPhy_vect);//d - VPHY_LOCAL(t - 1, i, j)
+  res2 = _mm256_div_pd(res2,_mm256_set1_pd(dy*1.0));//(d - VPHY_LOCAL(t - 1, i, j)) / dy)
+  res = _mm256_div_pd(res,_mm256_set1_pd(dx*1.0));//(UPHY_LOCAL(t - 1, i, j) - c) / dx
+  res = _mm256_add_pd(res,res2);//(UPHY_LOCAL(t - 1, i, j) - c) / dx +(d - VPHY_LOCAL(t - 1, i, j)) / dy
+  res = _mm256_mul_pd(_mm256_set1_pd(-dt*hmoy*1.0),res);//-dt * hmoy * ((UPHY_LOCAL(t - 1, i, j) - c) / dx +(d - VPHY_LOCAL(t - 1, i, j)) / dy)
+  res = _mm256_add_pd(hFil_vect,res);//HFIL_LOCAL(t - 1, i, j) -dt * hmoy * ((UPHY_LOCAL(t - 1, i, j) - c) / dx +(d - VPHY_LOCAL(t - 1, i, j)) / dy)
+  _mm256_store_pd(&HPHY_LOCAL(t, i, j*4),res);
+
+  return;
 }
 
-double uPhy_forward(int t, int i, int j) {
-  double b, e, f, g;
 
-  if (i == local_size_x-1)
-    return 0.;
+void uPhy_forward_vect(int t, int i, int j) {
+  __m256d b, e, f, g;
 
-  b = 0.;
-  if (i < local_size_x - 1)
-    b = HPHY_LOCAL(t - 1, i + 1, j);
+  if (i == size_x - 1)
+  {
+    _mm256_store_pd(&UPHY_LOCAL(t, i, j*4),_mm256_setzero_pd());
 
-  e = 0.;
-  if (j < size_y - 1)
-    e = VPHY_LOCAL(t - 1, i, j + 1);
+    return;
+  }
 
-  f = 0.;
-  if (i < local_size_x - 1)
-    f = VPHY_LOCAL(t - 1, i + 1, j);
+  if (i < size_x - 1)
+    b = _mm256_load_pd(&HPHY_LOCAL(t - 1, i + 1, j*4));
+  else
+    b=_mm256_setzero_pd();
 
-  g = 0.;
-  if (i < local_size_x - 1 && j < size_y - 1)
-    g = VPHY_LOCAL(t - 1, i + 1, j + 1);
+  if (j < size_y/4 - 1)
+    e = _mm256_loadu_pd(&VPHY_LOCAL(t - 1, i, j*4 + 1));
+  else
+    e=_mm256_set_pd(VPHY_LOCAL(t - 1, i, j*4 + 1),VPHY_LOCAL(t - 1, i, j*4 + 2),VPHY_LOCAL(t - 1, i, j*4 + 3),0.0);
 
-  return UFIL_LOCAL(t - 1, i, j) +
-    dt * ((-grav / dx) * (b - HPHY_LOCAL(t - 1, i, j)) +
-	  (pcor / 4.) * (VPHY_LOCAL(t - 1, i, j) + e + f + g) -
-	  (dissip * UFIL_LOCAL(t - 1, i, j)));
+  if (i < size_x - 1)
+    f = _mm256_load_pd(&VPHY_LOCAL(t - 1, i + 1, j*4));
+  else
+    f = _mm256_setzero_pd();
+
+  if (i < size_x - 1 && j < size_y/4 - 1)
+    g = _mm256_loadu_pd(&VPHY_LOCAL(t - 1, i + 1, j*4 + 1));
+  else
+  {
+    if(i < size_x -1)
+        g = _mm256_set_pd(VPHY_LOCAL(t - 1, i + 1, j*4 + 1),
+        VPHY_LOCAL(t - 1, i + 1, j*4 + 2),
+        VPHY_LOCAL(t - 1, i + 1, j*4 + 3),0.0);
+    else
+        g = _mm256_setzero_pd();
+  }
+    //_mm256_set_pd(VPHY_LOCAL(t - 1, i + 1, j*4 + 1),VPHY_LOCAL(t - 1, i + 1, j*4 + 2),VPHY_LOCAL(t - 1, i + 1, j*4 + 3),0.0);
+
+  __m256d uFil_vect=_mm256_load_pd(&UFIL_LOCAL(t - 1, i, j*4));
+  __m256d hPhy_vect=_mm256_load_pd(&HPHY_LOCAL(t - 1, i, j*4));
+  __m256d vPhy_vect=_mm256_load_pd(&VPHY_LOCAL(t - 1, i, j*4));
+
+  __m256d res=_mm256_sub_pd(b,hPhy_vect);//b - HPHY_LOCAL(t - 1, i, j)
+  __m256d res2=_mm256_add_pd(e,_mm256_add_pd(f,g));//e + f + g
+  res2=_mm256_mul_pd(_mm256_set1_pd(pcor / 4. ),_mm256_add_pd(vPhy_vect,res2));
+  //(pcor / 4.) * (VPHY_LOCAL(t - 1, i, j) + e + f + g)
+  res=_mm256_fmadd_pd(_mm256_set1_pd(-grav / dx*1.0),res,res2);
+  //(-grav / dx) * (b - HPHY_LOCAL(t - 1, i, j)) + (pcor / 4.) * (VPHY_LOCAL(t - 1, i, j) + e + f + g)
+  res=_mm256_sub_pd(res,_mm256_mul_pd(_mm256_set1_pd(dissip),uFil_vect));
+  //(-grav / dx) * (b - HPHY_LOCAL(t - 1, i, j)) + (pcor / 4.) * (VPHY_LOCAL(t - 1, i, j) + e + f + g) -
+  //(dissip * UFIL_LOCAL(t - 1, i, j))
+  res=_mm256_mul_pd(_mm256_set1_pd(dt),res);//dt * ((-grav / dx) * (b - HPHY_LOCAL(t - 1, i, j)) +
+  //(pcor / 4.) * (VPHY_LOCAL(t - 1, i, j) + e + f + g) -
+  //(dissip * UFIL_LOCAL(t - 1, i, j)))
+  res=_mm256_add_pd(res,uFil_vect);
+//  UFIL_LOCAL(t - 1, i, j) +
+//    dt * ((-grav / dx) * (b - HPHY_LOCAL(t - 1, i, j)) +
+//    (pcor / 4.) * (VPHY_LOCAL(t - 1, i, j) + e + f + g) -
+//    (dissip * UFIL_LOCAL(t - 1, i, j)))
+  _mm256_store_pd(&UPHY_LOCAL(t, i, j*4),res);
+
+
+  return;
 }
 
 double vPhy_forward(int t, int i, int j) {
@@ -147,8 +258,74 @@ double vPhy_forward(int t, int i, int j) {
 
   return VFIL_LOCAL(t - 1, i, j) +
     dt * ((-grav / dy) * (HPHY_LOCAL(t - 1, i, j) - c) -
-	  (pcor / 4.) * (d + e + f + UPHY_LOCAL(t - 1, i, j)) -
-	  (dissip * VFIL_LOCAL(t - 1, i, j)));
+    (pcor / 4.) * (d + e + f + UPHY_LOCAL(t - 1, i, j)) -
+    (dissip * VFIL_LOCAL(t - 1, i, j)));
+}
+
+void vPhy_forward_vect(int t, int i, int j) {
+  __m256d c, d, e, f;
+
+  if (j == 0)
+  {
+
+    VPHY_LOCAL(t, i, 0)=0.0;
+    VPHY_LOCAL(t, i, 1)=vPhy_forward(t,i,1);
+    VPHY_LOCAL(t, i, 2)=vPhy_forward(t,i,2);
+    VPHY_LOCAL(t, i, 3)=vPhy_forward(t,i,3);
+
+    return;
+  }
+
+  if (j > 0)
+    c = _mm256_loadu_pd(&HPHY_LOCAL(t - 1, i, j*4 - 1));
+  else
+    c = _mm256_set_pd(0.0,HPHY_LOCAL(t - 1, i, 0),HPHY_LOCAL(t - 1, i , 1),HPHY_LOCAL(t - 1, i, 2));
+
+  if (i > 0 && j > 0)
+    d = _mm256_loadu_pd(&UPHY_LOCAL(t - 1, i - 1, j*4 -1));
+  else
+  {
+    if(i>0)
+        d = _mm256_set_pd(0.0,UPHY_LOCAL(t - 1, i - 1, 0),UPHY_LOCAL(t - 1, i - 1 , 1),UPHY_LOCAL(t - 1, i - 1, 2));
+    else
+        d = _mm256_setzero_pd();
+  }
+
+  if (i > 0)
+    e = _mm256_load_pd(&UPHY_LOCAL(t - 1, i - 1, j*4));
+  else
+    e = _mm256_setzero_pd();
+
+  if (j > 0)
+    f = _mm256_loadu_pd(&UPHY_LOCAL(t - 1, i, j*4 - 1));
+  else
+    f = _mm256_set_pd(0.0,UPHY_LOCAL(t - 1, i, 0),UPHY_LOCAL(t - 1, i , 1),UPHY_LOCAL(t - 1, i, 2));
+
+  __m256d vFil_vect=_mm256_load_pd(&VFIL_LOCAL(t - 1, i, j*4));
+  __m256d hPhy_vect=_mm256_load_pd(&HPHY_LOCAL(t - 1, i, j*4));
+  __m256d uPhy_vect=_mm256_load_pd(&UPHY_LOCAL(t - 1, i, j*4));
+
+  __m256d res=_mm256_sub_pd(hPhy_vect,c);//HPHY_LOCAL(t - 1, i, j) - c
+  __m256d res2=_mm256_add_pd(d,_mm256_add_pd(e,f));//d + e + f
+  res2=_mm256_mul_pd(_mm256_set1_pd(pcor / 4. ),_mm256_add_pd(uPhy_vect,res2));
+  //(pcor / 4.) * (d + e + f + UPHY_LOCAL(t - 1, i, j))
+  res=_mm256_fmsub_pd(_mm256_set1_pd(-grav / dy*1.0),res,res2);
+  //(-grav / dy) * (HPHY_LOCAL(t - 1, i, j) - c) - (pcor / 4.) * (d + e + f + UPHY_LOCAL(t - 1, i, j))
+  res=_mm256_sub_pd(res,_mm256_mul_pd(_mm256_set1_pd(dissip),vFil_vect));
+  //(-grav / dy) * (HPHY_LOCAL(t - 1, i, j) - c) - (pcor / 4.) * (d + e + f + UPHY_LOCAL(t - 1, i, j)) -
+  //(dissip * UFIL_LOCAL(t - 1, i, j))
+  res=_mm256_mul_pd(_mm256_set1_pd(dt),res);
+  // dt * ((-grav / dy) * (HPHY_LOCAL(t - 1, i, j) - c) -
+  // (pcor / 4.) * (d + e + f + UPHY_LOCAL(t - 1, i, j)) -
+  // (dissip * VFIL_LOCAL(t - 1, i, j)))
+  res=_mm256_add_pd(res,vFil_vect);
+  // VFIL_LOCAL(t - 1, i, j) +
+  // dt * ((-grav / dy) * (HPHY_LOCAL(t - 1, i, j) - c) -
+  // (pcor / 4.) * (d + e + f + UPHY_LOCAL(t - 1, i, j)) -
+  // (dissip * VFIL_LOCAL(t - 1, i, j)));
+  _mm256_store_pd(&VPHY_LOCAL(t, i, j*4),res);
+
+  return;
 }
 
 void forward_bloc(void) {
@@ -206,12 +383,12 @@ void forward_bloc(void) {
     #pragma omp parallel
     for (int i = (my_rank>=NbCol); i < local_size_x; i++) {
         for (int j = (my_rank%NbCol!=0); j < local_size_y; j++) {
-            HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
-            UPHY_LOCAL(t, i, j) = uPhy_forward(t, i, j);
-            VPHY_LOCAL(t, i, j) = vPhy_forward(t, i, j);
-            HFIL_LOCAL(t, i, j) = hFil_forward(t, i, j);
-            UFIL_LOCAL(t, i, j) = uFil_forward(t, i, j);
-            VFIL_LOCAL(t, i, j) = vFil_forward(t, i, j);
+            hPhy_forward_vect(t,i,j);  
+    uPhy_forward_vect(t,i,j);
+    vPhy_forward_vect(t,i,j);
+    hFil_forward_vect(t,i,j);
+    uFil_forward_vect(t,i,j);
+    vFil_forward_vect(t,i,j);
       }
     }
 
@@ -670,21 +847,23 @@ void forward(void) {
         for (int j = 0; j < size_y; j++) {
             if(my_rank==0)
             {
-                HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
-                UPHY_LOCAL(t, i, j) = uPhy_forward(t, i, j);
-                VPHY_LOCAL(t, i, j) = vPhy_forward(t, i, j);
-                HFIL_LOCAL(t, i, j) = hFil_forward(t, i, j);
-                UFIL_LOCAL(t, i, j) = uFil_forward(t, i, j);
-                VFIL_LOCAL(t, i, j) = vFil_forward(t, i, j);
+              hPhy_forward_vect(t,i,j);  
+              uPhy_forward_vect(t,i,j);
+              vPhy_forward_vect(t,i,j);
+              hFil_forward_vect(t,i,j);
+              uFil_forward_vect(t,i,j);
+              vFil_forward_vect(t,i,j);
             }
             else
             {
-                HPHY_LOCAL(t, i+1, j) = hPhy_forward(t, i+1, j);
-                UPHY_LOCAL(t, i+1, j) = uPhy_forward(t, i+1, j);
-                VPHY_LOCAL(t, i+1, j) = vPhy_forward(t, i+1, j);
-                HFIL_LOCAL(t, i+1, j) = hFil_forward(t, i+1, j);
-                UFIL_LOCAL(t, i+1, j) = uFil_forward(t, i+1, j);
-                VFIL_LOCAL(t, i+1, j) = vFil_forward(t, i+1, j);
+
+              hPhy_forward_vect(t,i+1,j);  
+              uPhy_forward_vect(t,i+1,j);
+              vPhy_forward_vect(t,i+1,j);
+              hFil_forward_vect(t,i+1,j);
+              uFil_forward_vect(t,i+1,j);
+              vFil_forward_vect(t,i+1,j);
+
             }
         }
     }
@@ -871,21 +1050,23 @@ void forward_parallel_io(void)
         for (int j = 0; j < size_y; j++) {
           if(my_rank==0)
           {
-            HPHY_LOCAL(t, i, j) = hPhy_forward(t, i, j);
-            UPHY_LOCAL(t, i, j) = uPhy_forward(t, i, j);
-            VPHY_LOCAL(t, i, j) = vPhy_forward(t, i, j);
-            HFIL_LOCAL(t, i, j) = hFil_forward(t, i, j);
-            UFIL_LOCAL(t, i, j) = uFil_forward(t, i, j);
-            VFIL_LOCAL(t, i, j) = vFil_forward(t, i, j);
+            hPhy_forward_vect(t,i,j);  
+            uPhy_forward_vect(t,i,j);
+            vPhy_forward_vect(t,i,j);
+            hFil_forward_vect(t,i,j);
+            uFil_forward_vect(t,i,j);
+            vFil_forward_vect(t,i,j);
           }
           else
           {
-            HPHY_LOCAL(t, i+1, j) = hPhy_forward(t, i+1, j);
-            UPHY_LOCAL(t, i+1, j) = uPhy_forward(t, i+1, j);
-            VPHY_LOCAL(t, i+1, j) = vPhy_forward(t, i+1, j);
-            HFIL_LOCAL(t, i+1, j) = hFil_forward(t, i+1, j);
-            UFIL_LOCAL(t, i+1, j) = uFil_forward(t, i+1, j);
-            VFIL_LOCAL(t, i+1, j) = vFil_forward(t, i+1, j);
+
+            hPhy_forward_vect(t,i+1,j);  
+            uPhy_forward_vect(t,i+1,j);
+            vPhy_forward_vect(t,i+1,j);
+            hFil_forward_vect(t,i+1,j);
+            uFil_forward_vect(t,i+1,j);
+            vFil_forward_vect(t,i+1,j);
+
           }
       }
     }

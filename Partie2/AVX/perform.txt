@@ -1,0 +1,82 @@
+-----------------Test 1024*1024-----------------
+*************** NP:1 Bad memory access methode***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+Temps total de calcul : 9.55052 seconde(s)
+
+*************** NP:1 cache effective memory access methode***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+Temps total de calcul : 2.16992 seconde(s)
+
+*************** AVX NP:1 ***************
+size_x:1024 , size_y:1024 , nbsteps:40 
+Temps total de calcul : 0.723754 seconde(s)
+
+-----------------Test 2048*2048-----------------
+****Decomposition par Bande****
+*************** NP:1 Bad memory access methode***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+Temps total de calcul : 37.9193 seconde(s)
+
+*************** NP:1 cache effective memory access methode***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+Temps total de calcul : 15.6316 seconde(s)
+
+*************** AVX NP:1 ***************
+size_x:2048 , size_y:2048 , nbsteps:40 
+Temps total de calcul : 2.95811 seconde(s)
+
+-----------------Test 4096*4096-----------------
+****Decomposition par Bande****
+*************** NP:1 Bad memory access methode***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+Temps total de calcul : 67.6261 seconde(s)
+
+*************** NP:1 cache effective memory access methode***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+Temps total de calcul : 25.2386 seconde(s)
+
+*************** AVX NP:1 ***************
+size_x:4096 , size_y:4096 , nbsteps:20 
+Temps total de calcul : 5.9329 seconde(s)
+
+-----------------Test 8192*8192-----------------
+****Decomposition par Bande****
+*************** NP:1 Bad memory access methode***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+Temps total de calcul : 303.883 seconde(s)
+
+*************** NP:1 cache effective memory access methode***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+Temps total de calcul : 80.8698 seconde(s)
+
+*************** AVX NP:1 ***************
+size_x:8192 , size_y:8192 , nbsteps:20 
+Temps total de calcul : 25.6119 seconde(s)
+
+-----------------IO Test-----------------
+-----------------t =40 -----------------
+*************** NP:1 Bad memory access methode***************
+size_x:512 , size_y:512 , nbsteps:40 
+Temps total de calcul : 4.09212 seconde(s)
+
+*************** NP:1 cache effective memory access methode***************
+size_x:512 , size_y:512 , nbsteps:40 
+Temps total de calcul : 1.48269 seconde(s)
+
+*************** AVX NP:1 ***************
+size_x:512 , size_y:512 , nbsteps:40 
+Temps total de calcul : 1.13193 seconde(s)
+
+-----------------t =80 -----------------
+*************** NP:1 Bad memory access methode***************
+size_x:512 , size_y:512 , nbsteps:80 
+Temps total de calcul : 7.29183 seconde(s)
+
+*************** NP:1 cache effective memory access methode***************
+size_x:512 , size_y:512 , nbsteps:80 
+Temps total de calcul : 2.94116 seconde(s)
+
+*************** AVX NP:1 ***************
+size_x:512 , size_y:512 , nbsteps:80 
+Temps total de calcul : 2.24327 seconde(s)
+

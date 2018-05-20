@@ -7,19 +7,19 @@ void alloc(void) {
         fprintf(stderr, "Error while allocating hfill.\n");
     }
   if ((uFil = (double *) aligned_alloc(32,2*size_x*size_y*sizeof(double))) == NULL){
-        fprintf(stderr, "Error while allocating hfill.\n");
+        fprintf(stderr, "Error while allocating ufill.\n");
     }
   if ((vFil = (double *) aligned_alloc(32,2*size_x*size_y*sizeof(double))) == NULL){
-        fprintf(stderr, "Error while allocating hfill.\n");
+        fprintf(stderr, "Error while allocating vfill.\n");
     }
   if ((hPhy = (double *) aligned_alloc(32,2*size_x*size_y*sizeof(double))) == NULL){
-        fprintf(stderr, "Error while allocating hfill.\n");
+        fprintf(stderr, "Error while allocating hphy.\n");
     }
   if ((vPhy = (double *) aligned_alloc(32,2*size_x*size_y*sizeof(double))) == NULL){
-        fprintf(stderr, "Error while allocating hfill.\n");
+        fprintf(stderr, "Error while allocating vphy.\n");
     }
   if ((uPhy = (double *) aligned_alloc(32,2*size_x*size_y*sizeof(double))) == NULL){
-        fprintf(stderr, "Error while allocating hfill.\n");
+        fprintf(stderr, "Error while allocating uphy.\n");
     }
 }
 

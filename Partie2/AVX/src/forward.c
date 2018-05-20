@@ -226,48 +226,44 @@ void uPhy_forward_vect(int t, int i, int j) {
   return;
 }
 
-// double vPhy_forward(int t, int i, int j) {
-//   double c, d, e, f;
+double vPhy_forward(int t, int i, int j) {
+  double c, d, e, f;
 
-//   if (j == 0)
-//     return 0.;
+  if (j == 0)
+    return 0.;
 
-//   c = 0.;
-//   if (j > 0)
-//     c = HPHY(t - 1, i, j - 1);
+  c = 0.;
+  if (j > 0)
+    c = HPHY(t - 1, i, j - 1);
 
-//   d = 0.;
-//   if (i > 0 && j > 0)
-//     d = UPHY(t - 1, i -1, j -1);
+  d = 0.;
+  if (i > 0 && j > 0)
+    d = UPHY(t - 1, i -1, j -1);
 
-//   e = 0.;
-//   if (i > 0)
-//     e = UPHY(t - 1, i - 1, j);
+  e = 0.;
+  if (i > 0)
+    e = UPHY(t - 1, i - 1, j);
 
-//   f = 0.;
-//   if (j > 0)
-//     f = UPHY(t - 1, i, j - 1);
+  f = 0.;
+  if (j > 0)
+    f = UPHY(t - 1, i, j - 1);
 
-//   return VFIL(t - 1, i, j) +
-//     dt * ((-grav / dy) * (HPHY(t - 1, i, j) - c) -
-// 	  (pcor / 4.) * (d + e + f + UPHY(t - 1, i, j)) -
-// 	  (dissip * VFIL(t - 1, i, j)));
-// }
+  return VFIL(t - 1, i, j) +
+    dt * ((-grav / dy) * (HPHY(t - 1, i, j) - c) -
+	  (pcor / 4.) * (d + e + f + UPHY(t - 1, i, j)) -
+	  (dissip * VFIL(t - 1, i, j)));
+}
 
 void vPhy_forward_vect(int t, int i, int j) {
   __m256d c, d, e, f;
 
   if (j == 0)
   {
-  	// _mm256_store_pd(&VPHY(t, i, j*4),_mm256_set_pd(0.0,vPhy_forward(t,i,1),vPhy_forward(t,i,2),vPhy_forward(t,i,3)));
-  	double tmp=VPHY(t,i,4);
-  	_mm256_store_pd(&VPHY(t, i, j*4),_mm256_setzero_pd());
-  	// VPHY(t, i, 0)=0.0;
-  	// VPHY(t, i, 1)=vPhy_forward(t,i,1);
-  	// VPHY(t, i, 2)=vPhy_forward(t,i,2);
-  	// VPHY(t, i, 3)=vPhy_forward(t,i,3);
-  	vPhy_forward_vect(t,i,j+1);
-  	VPHY(t,i,4)=tmp;
+  	
+  	VPHY(t, i, 0)=0.0;
+  	VPHY(t, i, 1)=vPhy_forward(t,i,1);
+  	VPHY(t, i, 2)=vPhy_forward(t,i,2);
+  	VPHY(t, i, 3)=vPhy_forward(t,i,3);
 
   	return;
   }
